@@ -1,0 +1,40 @@
+{# src/Surikat/BookingBundle/Resources/views/layout.html.twig #}
+
+{% extends "::layout.html.twig" %}
+
+{% block title %}Home Sweat Home{% endblock %}
+
+{% block body %}
+<!-- Nav => Top Menu : "Topo" -->
+<nav id="topMenu">
+  <div id="topo">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-ms-6 col-xs-6" id="logo-topo">
+          <a href="{{ path('surikat_booking_homepage')}}"><h2>RESA-LOUVRE</h2></a>
+        </div>
+        <div class="col-md-6 col-ms-6 col-xs-6" id="abre-menu-topo">
+          <a href="#" class="btn-collapse">
+            <div class="lista-collapse"></div>
+            <div class="lista-collapse"></div>
+            <div class="lista-collapse"></div>
+          </a>
+        </div>
+      </div>
+      <!-- End Of Row_1 -->
+      <div class="row">
+        <ul id="menu-topo">
+          <li><a href="{{ path('_new_booking')}}">RESERVER</a></li>
+          <li><a href="{{ path('_show')}}">MA RESERVATION</a></li>
+          <li><a target="_blank" href="http://www.louvre.fr/">LE MUSEE DU LOUVRE : LE SITE</a></li>
+          <li><a href="" class="dentro">CONNEXION</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- End Of Container -->
+  </div>
+  <!-- End of TopMenu "Topo"-->
+</nav>
+<!-- End of Nav -->
+
+{% endblock %}

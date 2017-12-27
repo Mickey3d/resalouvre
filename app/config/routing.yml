@@ -1,0 +1,3 @@
+surikat_booking:
+    resource: "@SurikatBookingBundle/Resources/config/routing.yml"
+    prefix:   /

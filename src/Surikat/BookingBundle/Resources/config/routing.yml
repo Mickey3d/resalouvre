@@ -1,0 +1,11 @@
+surikat_booking_homepage:
+    path:     /
+    defaults: { _controller: SurikatBookingBundle:Home:index }
+
+_new_booking:
+    path:     /NewBooking
+    defaults: { _controller: SurikatBookingBundle:Booking:NewBooking }
+
+_show:
+    path:     /Show
+    defaults: { _controller: SurikatBookingBundle:Booking:Show }
