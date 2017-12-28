@@ -57,6 +57,13 @@ class Booking
     private $bookingDate;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="bookedDate", type="datetime")
+     */
+    private $bookedDate;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255)
@@ -340,5 +347,42 @@ class Booking
     public function getType()
     {
         return $this->type;
+    }
+
+     /**
+     * Construct bookedDate
+     *
+     * @param \DateTime $bookedDate
+     *
+     * @return Booking
+     */
+
+    public function __construct()
+    {
+        $this->bookedDate = new \Datetime();
+    }
+
+    /**
+    * set bookedDate
+    *
+    * @param \DateTime $bookedDate
+    *
+    * @return Booking
+    */
+    public function setBookedDate(\Datetime $bookedDate)
+    {
+      $this->bookeDate = $bookedDate;
+
+      return $this;
+    }
+
+     /**
+     * Get bookedDate
+     *
+     * @return \DateTime
+     */
+    public function getBookedDate()
+    {
+      return $this->bookedDate;
     }
 }

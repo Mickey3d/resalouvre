@@ -77,13 +77,6 @@ class Ticket
      */
     private $info;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="bookedDate", type="datetime")
-     */
-    private $bookedDate;
-
 
     /**
      * Get id
@@ -237,30 +230,6 @@ class Ticket
     public function getInfo()
     {
         return $this->info;
-    }
-
-    /**
-     * Set bookedDate
-     *
-     * @param \DateTime $bookedDate
-     *
-     * @return Ticket
-     */
-    public function setBookedDate($bookedDate)
-    {
-        $this->bookedDate = $bookedDate;
-
-        return $this;
-    }
-
-    /**
-     * Get bookedDate
-     *
-     * @return \DateTime
-     */
-    public function getBookedDate()
-    {
-        return $this->bookedDate;
     }
 
     /**
