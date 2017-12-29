@@ -8,19 +8,7 @@
 <h1>Welcome to the Booking:Show page</h1>
 
   <ul>
-    {% for ticket in ticketsList %}
-      <li>{{ ticket.name }}</li>
-      <li>{{ ticket.surname }}</li>
-      <li>{{ ticket.birthdate }}</li>
-      <li>{{ ticket.code }}</li>
-      <li>{{ ticket.type }}</li>
-      <li>{{ ticket.price }}</li>
-      <li>{{ ticket.bookedDate }}</li>
-      <li>{{ ticket.info }}</li>
-      <li>{{ ticket.mail }}</li>
-    {% else %}
-      <li>Aucun code correspondant</li>
-    {% endfor %}
+      <li>Recherche de Réservation</li>
   </ul>
 
 {% endblock %}

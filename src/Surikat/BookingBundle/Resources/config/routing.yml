@@ -9,3 +9,7 @@ _new_booking:
 _show:
     path:     /Show
     defaults: { _controller: SurikatBookingBundle:Booking:Show }
+
+_show_booking:
+    path:     /Show/Booking/{code}
+    defaults: { _controller: SurikatBookingBundle:Booking:ShowBooking }

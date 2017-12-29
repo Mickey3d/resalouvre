@@ -1,0 +1,38 @@
+{# src/Surikat/BookingBundle/Resources/views/Booking/show.html.twig #}
+
+{% extends "SurikatBookingBundle::layout.html.twig" %}
+
+{% block title %}Ma Réservation{% endblock %}
+
+{% block body %}{{ parent() }}
+  <h1>Welcome to the Booking:Show page</h1>
+
+  {% if booking is defined and booking is not null %}
+    <ul>
+      <li>{{ booking.code }}</li>
+      <li>{{ booking.name }}</li>
+      <li>{{ booking.lastName }}</li>
+      <li>{{ booking.bookedDate }}</li>
+      <li>{{ booking.type }}</li>
+      <li>{{ booking.totalPrice }}</li>
+    </ul>
+    <ul>
+      {% for ticket in ticketsList %}
+        <li>{{ ticket.name }}</li>
+        <li>{{ ticket.surname }}</li>
+        <li>{{ ticket.birthdate }}</li>
+        <li>{{ ticket.code }}</li>
+        <li>{{ ticket.type }}</li>
+        <li>{{ ticket.price }}</li>
+        <li>{{ booking.bookedDate }}</li>
+        <li>{{ ticket.info }}</li>
+        <li>{{ ticket.mail }}</li>
+      {% endfor %}
+    </ul>
+
+{% else %}
+  <ul>
+    <li>Le code {{ code }} ne correspond à aucun code en base de donnée</li>
+  </ul>
+{% endif %}
+{% endblock %}

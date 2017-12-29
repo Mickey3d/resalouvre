@@ -14,7 +14,7 @@ class Ticket
 {
 
     /**
-    * @ORM\ManyToOne(targetEntity="Surikat\BookingBundle\Entity\Booking")
+    * @ORM\ManyToOne(targetEntity="Surikat\BookingBundle\Entity\Booking", inversedBy="tickets")
     * @ORM\JoinColumn(nullable=false)
     */
     private $booking;
@@ -76,6 +76,13 @@ class Ticket
      * @ORM\Column(name="info", type="string", length=255, nullable=true)
      */
     private $info;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="country", type="string", length=255)
+     */
+    private $country;
 
 
     /**
@@ -278,5 +285,29 @@ class Ticket
     public function getBooking()
     {
         return $this->booking;
+    }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     *
+     * @return Ticket
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
     }
 }

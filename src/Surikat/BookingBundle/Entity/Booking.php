@@ -3,6 +3,8 @@
 namespace Surikat\BookingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
 
 /**
  * Booking
@@ -12,6 +14,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Booking
 {
+
+     /**
+     * @ORM\OneToMany(targetEntity="Surikat\BookingBundle\Entity\Ticket", mappedBy="booking")
+     */
+    private $tickets;
+
     /**
      * @var int
      *
@@ -98,6 +106,21 @@ class Booking
      */
     private $paiementStatus;
 
+    /**
+    * Construct bookedDate and tickets
+    *
+    * @param \DateTime $bookedDate
+    *
+    * @return Booking
+    */
+
+   public function __construct()
+   {
+       $this->bookedDate = new \Datetime();
+       $this->bookingDate = new \Datetime();
+       $this->tickets = new ArrayCollection();
+
+   }
 
     /**
      * Get id
@@ -349,19 +372,6 @@ class Booking
         return $this->type;
     }
 
-     /**
-     * Construct bookedDate
-     *
-     * @param \DateTime $bookedDate
-     *
-     * @return Booking
-     */
-
-    public function __construct()
-    {
-        $this->bookedDate = new \Datetime();
-    }
-
     /**
     * set bookedDate
     *
@@ -384,5 +394,42 @@ class Booking
     public function getBookedDate()
     {
       return $this->bookedDate;
+    }
+
+    /**
+     * Add ticket
+     *
+     * @param \Surikat\BookingBundle\Entity\Ticket $ticket
+     *
+     * @return Booking
+     */
+    public function addTicket(\Surikat\BookingBundle\Entity\Ticket $ticket)
+    {
+        $this->tickets[] = $ticket;
+
+        // On lie la réservation au ticket
+        $ticket->setBooking($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove ticket
+     *
+     * @param \Surikat\BookingBundle\Entity\Ticket $ticket
+     */
+    public function removeTicket(\Surikat\BookingBundle\Entity\Ticket $ticket)
+    {
+        $this->tickets->removeElement($ticket);
+    }
+
+    /**
+     * Get tickets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTickets()
+    {
+        return $this->tickets;
     }
 }
