@@ -16,7 +16,7 @@ class Booking
 {
 
      /**
-     * @ORM\OneToMany(targetEntity="Surikat\BookingBundle\Entity\Ticket", mappedBy="booking")
+     * @ORM\OneToMany(targetEntity="Surikat\BookingBundle\Entity\Ticket", mappedBy="booking", cascade={"persist"})
      */
     private $tickets;
 

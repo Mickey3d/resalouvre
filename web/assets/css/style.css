@@ -69,10 +69,197 @@ top: 5px;
 top: 5px;
 }
 
+
+/*
+*********  _Ticket Design
+*/
+
+@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
+
+
+.box {
+    border-radius: 3px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    padding: 10px 25px;
+    :* text-align: right;*/
+    display: block;
+    margin-top: 5px;
+    min-height: 180px;
+}
+.box-icon {
+    background-color: black;
+    border-radius: 10%;
+    display: table;
+    height: 50px;
+    margin: 0 auto;
+    width: 50px;
+    margin-top: 0px;
+}
+.box-icon span {
+    color: #fff;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+.info h4 {
+    font-size: 26px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.info > p {
+    color: #717171;
+    font-size: 16px;
+    padding-top: 10px;
+    text-align: justify;
+}
+.info > a {
+    background-color: #03a9f4;
+    float: right;
+    position: relative;
+    border-radius: 2px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    margin: -30px -15px 5px 0;
+    color: #fff;
+    transition: all 0.5s ease 0s;
+}
+.info > a:hover {
+    background-color: #0288d1;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.12);
+    color: #fff;
+    transition: all 0.5s ease 0s;
+}
+
+/*
+*********  _ button circle
+*/
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+}
+.btn-circle.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  font-size: 24px;
+  line-height: 1.33;
+  border-radius: 35px;
+}
+
+.btn {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  color: #fff;
+  transition: all 0.5s ease 0s;
+}
+.btn-delete {
+  background-color: #9a101d;
+  border-color: #d43f3a;
+  color: #fff;
+}
+
+.btn-delete:hover {
+  background-color: #f10500;
+  border-color: #d43f3a;
+  color: #fff;
+}
+
+/*
+*********  _ TICKETS
+*/
+#surikat_bookingbundle_booking_tickets {
+
+}
+
+
+/*
+*********  _ INPUT FORM
+*/
+
+
+.md-input {
+    position: relative;
+    margin-bottom: 30px;
+}
+    .md-input .md-form-control {
+        font-size: 16px;
+        padding: 10px 10px 10px 5px;
+        display: block;
+        border: none;
+        border-bottom: 2px solid #CACACA;
+        box-shadow: none;
+        width: 100%;
+    }
+
+    .md-input label {
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 16px;
+        font-weight: bolder;
+        position: absolute;
+        pointer-events: none;
+        left: 5px;
+        top: 10px;
+        transition: 0.2s ease all;
+        -moz-transition: 0.2s ease all;
+        -webkit-transition: 0.2s ease all;
+    }
+
+    .md-input .bar:before {
+        left: 50%;
+    }
+
+    .md-input .bar:after {
+        right: 50%;
+    }
+
+    .md-input .highlight {
+        position: absolute;
+        height: 60%;
+        width: 100px;
+        top: 25%;
+        left: 0;
+        pointer-events: none;
+        opacity: 0.5;
+    }
+    .md-input .md-form-control:focus ~ label, .md-input .md-form-control:valid ~ label {
+    top: -20px;
+    font-weight: bold;
+    font-size: 14px;
+    color: black;
+}
+.md-input .bar:before, .md-input .bar:after {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 0px;
+    position: absolute;
+    background: red;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+}
+
+.md-input .md-form-control:focus ~ .bar:before, .md-input .md-form-control:focus ~ .bar:after {
+    width: 50%;
+}
+
 /*
 *********  _ Checkbox and Radio Button
 */
 
+/*
 .checkbox label:after,
 .radio label:after {
     content: '';
@@ -109,7 +296,12 @@ top: 5px;
     margin-left: 0.04em;
 }
 
+
+*/
+
 /*.checkbox label input[type="checkbox"],*/
+
+/*
 .radio label input[type="radio"] {
   display: none;
 }
@@ -131,9 +323,6 @@ top: 5px;
 .radio label input[type="radio"]:disabled + .cr {
     opacity: .5;
 }
-
-/*
-*********  _
 */
 
 

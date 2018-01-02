@@ -24,12 +24,43 @@ class TicketType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name',  TextType::class)
-        ->add('surname',  TextType::class)
-        ->add('birthdate',  DateType::class)
-        ->add('country',  CountryType::class)
-        ->add('email',  EmailType::class)
-        ->add('info',  TextAreaType::class);
+        $builder
+        ->add('name',  TextType::class, array(
+          'label'       => 'Prénom: ',
+          'label_attr'  => array(
+            'class'     => 'md-form-control'
+        )))
+        ->add('surname',  TextType::class, array(
+          'label'       => 'Nom: '
+        ))
+        ->add('birthdate',  DateType::class, array(
+          'label'       => 'Date de Naissance: ',
+          'widget'      => 'single_text',
+          'format' => 'mm-dd-yyyy',
+          // do not render as type="date", to avoid HTML5 date pickers
+          'html5'       => false,
+          // add a class that can be selected in JavaScript
+          'attr' => ['class' => 'js-datepicker', 'placeholder'=>'Choisissez une date'],
+          'required'=>false,
+
+        ))
+        ->add('country',  CountryType::class, array(
+          'label'       => 'Nationalité: ',
+          'placeholder' => 'Selectionnez votre pays',
+          'multiple'    => false,
+          'required'    => true,
+          'preferred_choices' => array('FR','DE','GB','IT','ES','PT','RU','CN','JP','CA','US','BR','AU')
+        ))
+        ->add('specialPrice',  CheckboxType::class, array(
+          'required'    => false,
+          'label'       => '-**Tarif réduit - '
+        ))
+        ->add('email',  EmailType::class, array(
+          'required'    => false
+        ))
+        ->add('info',  TextAreaType::class, array(
+          'required'    => false
+        ));
     }
 
     /**

@@ -13,12 +13,60 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BookingController extends Controller
 {
+
+
+
+  public function BookingAction()
+  {
+      return $this->render('SurikatBookingBundle:Booking:index.html.twig', array(
+          // ... Affichage du moteur de recherche la réservation et des tickets
+      ));
+
+      /* TODO -> Affiche l'application SurikatBookingBundle-API
+        */
+  }
+
     public function NewBookingAction(Request $request)
     {
         // On crée l'objet Booking
         $booking = new Booking();
         // On crée l'objet form
         $form   = $this->createForm(BookingType::class, $booking);
+        $random = random_int(1, 9999999999999);
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
+          $tickets =  $booking->getTickets();
+
+          $em = $this->getDoctrine()->getManager();
+
+          $booking->setCode("codigo".$random);
+          $booking->setName('Paul');
+          $booking->setLastName('Watson');
+          $booking->setEmail('pololepolo@aul.zoc');
+          $booking->setPaiementStatus('En Cours');
+          $booking->setTotalPrice('20');
+
+          $em->persist($booking);
+
+          foreach ($tickets as $ticket => $value) {
+            $ticket = new Ticket;
+            $name= 'john';
+            $ticket->setName($name);
+            $ticket->setSurname('Lennon');
+            $ticket->setCountry('GB');
+            $ticket->setSpecialPrice(true);
+            $ticket->setCode('TICK'.$random);
+            $booking->addTicket($ticket);
+
+            $em->persist($ticket);
+          }
+
+          $em->flush();
+
+          $request->getSession()->getFlashBag()->add('notice', 'Réservation bien enregistrée.');
+
+          return $this->redirectToRoute('_new_booking');
+        }
         // On passe la méthode createView() du formulaire à la vue afin qu'elle puisse afficher le formulaire toute seule
         return $this->render('SurikatBookingBundle:Booking:new_booking.html.twig', array(
           'form' => $form->createView(),
@@ -91,6 +139,44 @@ class BookingController extends Controller
       ));
     }
 
+    public function ValidateBooking()
+    {
+        return $this->render('SurikatBookingBundle:Booking:show.html.twig', array('ticketsList'=>array()
+            // ... Validation de la reservation et des ticket
+        ));
 
+        /* TODO ->
+          */
+    }
+
+    public function SaveBooking()
+    {
+        return $this->render('SurikatBookingBundle:Booking:show.html.twig', array('ticketsList'=>array()
+            // Enregistre la réservation et les tickets
+        ));
+
+        /* TODO -> Affiche le formulaire de recherche de réservation ou de ticket (Option selectionnable)
+          */
+    }
+
+    public function CheckForAvailabiliy()
+    {
+        return $this->render('SurikatBookingBundle:Booking:show.html.twig', array('ticketsList'=>array()
+            // ... Vérifie la disponibilité des tickets pour un jour donnée
+        ));
+
+        /* TODO -> Affiche le formulaire de recherche de réservation ou de ticket (Option selectionnable)
+          */
+    }
+
+    public function DeleteBooking()
+    {
+        return $this->render('SurikatBookingBundle:Booking:show.html.twig', array('ticketsList'=>array()
+            // ... Supprime une reservation de la base de donnée
+        ));
+
+        /* TODO -> Affiche le formulaire de recherche de réservation ou de ticket (Option selectionnable)
+          */
+    }
 
 }

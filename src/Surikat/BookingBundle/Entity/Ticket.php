@@ -45,7 +45,7 @@ class Ticket
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="birthdate", type="datetime")
+     * @ORM\Column(name="birthdate", type="datetime", nullable=true)
      */
     private $birthdate;
 
@@ -59,14 +59,14 @@ class Ticket
     /**
      * @var string
      *
-     * @ORM\Column(name="code", type="string", length=255)
+     * @ORM\Column(name="code", type="string", length=255, nullable=true)
      */
     private $code;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="price", type="integer")
+     * @ORM\Column(name="price", type="integer", nullable=true)
      */
     private $price;
 
@@ -83,6 +83,13 @@ class Ticket
      * @ORM\Column(name="country", type="string", length=255)
      */
     private $country;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="specialPrice", type="boolean", options={"default":false})
+     */
+    private $specialPrice;
 
 
     /**
@@ -309,5 +316,29 @@ class Ticket
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * Set specialPrice.
+     *
+     * @param bool $specialPrice
+     *
+     * @return Ticket
+     */
+    public function setSpecialPrice($specialPrice)
+    {
+        $this->specialPrice = $specialPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get specialPrice.
+     *
+     * @return bool
+     */
+    public function getSpecialPrice()
+    {
+        return $this->specialPrice;
     }
 }

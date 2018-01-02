@@ -26,13 +26,20 @@ class BookingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('bookedDate', DateType::class)
+                ->add('type', ChoiceType::class, array(
+                  'choices' => array('Demi-Journée' => 'halfDay', 'Journée' => 'day'),
+                               'expanded' => true,
+                               'multiple' => false
+
+                ))
+
                 ->add('tickets', CollectionType::class, array (
                   'entry_type'    => TicketType::class,
                   'allow_add'     => true,
                   'allow_delete'  => true
                   ))
 
-                ->add('valider',    SubmitType::class);
+                ->add('valider',    SubmitType::class, array('label' => '.'));
 
     }
     /**

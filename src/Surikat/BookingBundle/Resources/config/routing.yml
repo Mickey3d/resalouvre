@@ -2,14 +2,35 @@ surikat_booking_homepage:
     path:     /
     defaults: { _controller: SurikatBookingBundle:Home:index }
 
+_booking:
+    path:     /booking
+    defaults: { _controller: SurikatBookingBundle:Booking:Booking }
+
 _new_booking:
-    path:     /NewBooking
+    path:     /booking/new
     defaults: { _controller: SurikatBookingBundle:Booking:NewBooking }
 
+_new_booking_validate:
+    path:     /booking/new/validate
+    defaults: { _controller: SurikatBookingBundle:Booking:ValidateBooking }
+
+_new_booking_save:
+    path:     /booking/new/save
+    defaults: { _controller: SurikatBookingBundle:Booking:SaveBooking }
+
 _show:
-    path:     /Show
+    path:     /booking/show
     defaults: { _controller: SurikatBookingBundle:Booking:Show }
 
 _show_booking:
-    path:     /Show/Booking/{code}
+    path:     /booking/show/{code}
     defaults: { _controller: SurikatBookingBundle:Booking:ShowBooking }
+
+_booking_availability_on:
+    path:     /booking/check-availability/{code}
+    defaults: { _controller: SurikatBookingBundle:Booking:ShowBooking }
+
+
+admin_booking_delete:
+    path:     /admin/booking/{code}
+    defaults: { _controller: SurikatBookingBundle:Booking:DeleteBooking }
