@@ -27,10 +27,14 @@ _show_booking:
     defaults: { _controller: SurikatBookingBundle:Booking:ShowBooking }
 
 _booking_availability_on:
-    path:     /booking/check-availability/{code}
-    defaults: { _controller: SurikatBookingBundle:Booking:ShowBooking }
+    path:     /booking/check-availability/{date}
+    defaults: { _controller: SurikatBookingBundle:Booking:CheckForAvailabiliy }
 
 
 admin_booking_delete:
     path:     /admin/booking/{code}
     defaults: { _controller: SurikatBookingBundle:Booking:DeleteBooking }
+
+admin_booking_setting:
+    path:     /booking/setting
+    defaults: { _controller: SurikatBookingBundle:Booking:ConfigBooking }

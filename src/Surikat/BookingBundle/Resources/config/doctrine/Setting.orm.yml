@@ -1,0 +1,51 @@
+Surikat\BookingBundle\Entity\Setting:
+    type: entity
+    table: null
+    repositoryClass: Surikat\BookingBundle\Repository\SettingRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        configName:
+            type:string
+        dailyTicketLimit:
+            type: integer
+        dayTicketHourLimit:
+            type: integer
+        freePrice:
+            type: integer
+        freePriceCondition:
+            type: integer
+        childPrice:
+            type: integer
+        childPriceCondition:
+            type: integer
+        normalPrice:
+            type: integer
+        normalPriceCondition:
+            type: integer
+        seniorPrice:
+            type: integer
+        seniorPriceCondition:
+            type: integer
+        specialPrice:
+            type: integer
+        closedDays:
+            type: array
+            nullable: true
+        closedWeekDays:
+            type: array
+            nullable: true
+        availability:
+            type: integer
+            nullable: true
+        messages:
+            type: array
+            nullable: true
+        errors:
+            type: array
+            nullable: true
+    lifecycleCallbacks: {  }

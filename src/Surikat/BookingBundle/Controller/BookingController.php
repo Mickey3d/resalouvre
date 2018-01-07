@@ -4,6 +4,8 @@ namespace Surikat\BookingBundle\Controller;
 
 use Surikat\BookingBundle\Entity\Booking;
 use Surikat\BookingBundle\Form\BookingType;
+use Surikat\BookingBundle\Entity\Setting;
+use Surikat\BookingBundle\Form\SettingType;
 use Surikat\BookingBundle\Entity\Ticket;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -16,73 +18,57 @@ class BookingController extends Controller
 
 
 
-  public function BookingAction()
-  {
+    public function BookingAction()
+    {
+
       return $this->render('SurikatBookingBundle:Booking:index.html.twig', array(
           // ... Affichage du moteur de recherche la réservation et des tickets
       ));
-
-      /* TODO -> Affiche l'application SurikatBookingBundle-API
+/*
+       TODO -> Affiche l'application SurikatBookingBundle-API
         */
-  }
+    }
 
     public function NewBookingAction(Request $request)
     {
-        // On crée l'objet Booking
-        $booking = new Booking();
-        // On crée l'objet form
-        $form   = $this->createForm(BookingType::class, $booking);
-        $random = random_int(1, 9999999999999);
-        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+      // On crée les objets Booking et tickets
+      $booking = new Booking();
+      $ticket = new Ticket();
+      // On crée l'objet form
+      $form   = $this->createForm(BookingType::class, $booking);
+      $random = random_int(1, 9999999999999);
 
-          $tickets =  $booking->getTickets();
+      if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
+      {
+        //    dump($form);die;
+        $tickets =  $booking->getTickets();
+        $em = $this->getDoctrine()->getManager();
+        $booking->setCode("codigo".$random);
+        $booking->setName('Paul');
+        $booking->setLastName('Watson');
+        $booking->setEmail('pololepolo@aul.zoc');
+        $booking->setPaiementStatus('En Cours');
+        $booking->setTotalPrice('20');
+        $em->persist($booking);
 
-          $em = $this->getDoctrine()->getManager();
+        foreach ($tickets as $ticket) {
 
-          $booking->setCode("codigo".$random);
-          $booking->setName('Paul');
-          $booking->setLastName('Watson');
-          $booking->setEmail('pololepolo@aul.zoc');
-          $booking->setPaiementStatus('En Cours');
-          $booking->setTotalPrice('20');
-
-          $em->persist($booking);
-
-          foreach ($tickets as $ticket => $value) {
-            $ticket = new Ticket;
-            $name= 'john';
-            $ticket->setName($name);
-            $ticket->setSurname('Lennon');
-            $ticket->setCountry('GB');
-            $ticket->setSpecialPrice(true);
-            $ticket->setCode('TICK'.$random);
-            $booking->addTicket($ticket);
-
-            $em->persist($ticket);
-          }
-
-          $em->flush();
-
-          $request->getSession()->getFlashBag()->add('notice', 'Réservation bien enregistrée.');
-
-          return $this->redirectToRoute('_new_booking');
+          $ticket->setCode('TICK'.$random);
+          $booking->addTicket($ticket);
+          $em->persist($ticket);
         }
-        // On passe la méthode createView() du formulaire à la vue afin qu'elle puisse afficher le formulaire toute seule
-        return $this->render('SurikatBookingBundle:Booking:new_booking.html.twig', array(
-          'form' => $form->createView(),
-        ));
 
-        /* TODO -> Contrôle de la disponibilité des Tickets de la date choisie
-              $ticketAvailableQuantity = (int) Quantité de tickets disponible pour le jour sélectionnée
-              $content = Contenu de la page
-                      - Si disponibilité > 0  -> $content formulaire de réservation de ticket
-                      - Si disponibilité < 20 places -> Affiche un flash message (Variable de SESSION)
-                      signalant le nombre de place restante en plus du formulaire de réservation
-                      d'un ticket
-                      - Si disponibilité des tickets = O -> $content = message
-                      invitant à saisir une autre date
-          */
-    }
+        $em->flush();
+        $request->getSession()->getFlashBag()->add('success', 'Réservation bien enregistrée.');
+        return $this->redirectToRoute('_new_booking');
+      }
+      // On passe la méthode createView() du formulaire à la vue afin qu'elle puisse afficher le formulaire toute seule
+      return $this->render('SurikatBookingBundle:Booking:new_booking.html.twig', array(
+        'form' => $form->createView(),
+      ));
+      /* TODO
+        */
+  }
 
     public function ShowAction()
     {
@@ -119,27 +105,31 @@ class BookingController extends Controller
 
     public function showBookingAction($code)
     {
+      $booking = new Booking;
       $em = $this->getDoctrine()->getManager();
-
-      // On récupère la Reservation $code
-      $booking = $em->getRepository('SurikatBookingBundle:Booking')->find($code);
-
-
-
-      // On récupère la liste des tickets de cette réservation
-      $ticketsList = $em
-        ->getRepository('SurikatBookingBundle:Ticket')
-        ->findBy(array('booking' => $booking))
+      // On récupère la réservation correspondant au code
+      $booking = $em
+        ->getRepository('SurikatBookingBundle:Booking')
+        ->findByCode($code);
       ;
+      // dump($booking);die;
+      /*
+      $booking = new Booking();
+      $booking
+      ->setName($code)
+      ->setLastName('Doe')
+      ;
+      */
+      $data = $this->get('jms_serializer')->serialize($booking, 'json');
 
-      return $this->render('SurikatBookingBundle:Booking:show_booking.html.twig', array(
-        'code'           => $code,
-        'booking'           => $booking,
-        'ticketsList' => $ticketsList
-      ));
+      $response = new Response($data);
+      $response->headers->set('Content-Type', 'application/json');
+
+      return $response;
+
     }
 
-    public function ValidateBooking()
+    public function ValidateBookingAction()
     {
         return $this->render('SurikatBookingBundle:Booking:show.html.twig', array('ticketsList'=>array()
             // ... Validation de la reservation et des ticket
@@ -149,27 +139,100 @@ class BookingController extends Controller
           */
     }
 
-    public function SaveBooking()
+    public function SaveBookingAction(Request $request)
     {
-        return $this->render('SurikatBookingBundle:Booking:show.html.twig', array('ticketsList'=>array()
-            // Enregistre la réservation et les tickets
-        ));
+      $data = $request->getContent();
+      $booking = $this->get('jms_serializer')->deserialize($data, 'Surikat\BookingBundle\Entity\Booking', 'json');
 
-        /* TODO -> Affiche le formulaire de recherche de réservation ou de ticket (Option selectionnable)
+
+      return new Response('OK for Test', Response::HTTP_CREATED);
+        /* TODO ->
           */
     }
 
-    public function CheckForAvailabiliy()
+    public function CheckForAvailabiliyAction($date)
     {
-        return $this->render('SurikatBookingBundle:Booking:show.html.twig', array('ticketsList'=>array()
-            // ... Vérifie la disponibilité des tickets pour un jour donnée
-        ));
 
-        /* TODO -> Affiche le formulaire de recherche de réservation ou de ticket (Option selectionnable)
-          */
+        // On crée les Class Booking et ticket et availabilityTest
+        $booking = new Booking();
+        $ticket = new Ticket();
+        $maDate = new \Datetime($date);
+        $maDate->setDate('2013' , '01', '01');
+        $em = $this->getDoctrine()->getManager();
+        // On récupère la réservation correspondant à la date
+        $bookings = $em
+          ->getRepository('SurikatBookingBundle:Booking')
+          ->findByBookingFor($maDate);
+        ;
+        // On récupère la Configuration via Setting
+        $config = $em
+          ->getRepository('SurikatBookingBundle:Setting')
+          ->findOneByConfigName('config-louvre');
+        ;
+
+        // On définie TicketCount, le nombre de tickets déjà reservé pour ce jour
+        $ticketCount = 0;
+
+        foreach ($bookings as $booking) {
+          $tickets = $booking->getTickets();
+          $count = count($tickets);
+          $ticketCount = $ticketCount + $count;
+        }
+
+        $dailyTicketsLimit = $config->getDailyTicketLimit();
+// dump($dailyTicketsLimit);die;
+        $availability =  $dailyTicketsLimit - $ticketCount;
+// dump($availability);die;
+        $config->setAvailability($availability);
+
+        if ($availability < 50)
+        {
+          $config->setTicketsLimit(5);
+          $config->setMessages('Code: LI02',
+          'Information: Limitation du nombre de tickets réservables à 5 par réservation',
+          'Cause : Disponibilité réduite pour  ce jour : moins de 50 tickets encore disponible');
+        }
+        elseif ($availability < 20)
+        {
+          $config->setTicketsLimit(2);
+          $config->setMessages('Code: LI03',
+          'Information: Limitation du nombre de tickets réservables à 2 par réservation',
+          'Cause : Disponibilité réduite pour  ce jour : moins de 20 tickets encore disponible');
+        }
+        elseif ($availability < 10)
+        {
+          $config->setTicketsLimit(1);
+          $config->setMessages(array('Code: LI04',
+          'Information: Limitation du nombre de tickets réservables à 1 par réservation',
+          'Cause : Disponibilité réduite pour  ce jour : moins de 10 tickets encore disponible'));
+        }
+        elseif ($availability <= 0)
+        {
+          $config->setTicketsLimit(0);
+          $config->setErrors(array('Code erreur: error_LI02',
+          'Information: Date non disponible à la réservation',
+          'Cause : Aucune disponibilité pour ce jour'));
+        }
+        else
+        {
+          $config->setTicketsLimit(30);
+          $config->setMessages(array('Code: LI04
+          Information: Limitation du nombre de tickets réservables à 1 par réservation
+          Cause : Disponibilité réduite pour  ce jour : moins de 10 tickets encore disponible'));
+          $config->setMessages(array('Code: LI04',
+          'Information: Limitation du nombre de tickets réservables à 1 par réservation',
+          'Cause : Disponibilité réduite pour  ce jour : moins de 10 tickets encore disponible'));
+        }
+
+        $data = $this->get('jms_serializer')->serialize($config, 'json');
+
+        $response = new Response($data);
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 
-    public function DeleteBooking()
+    public function DeleteBooking($code)
     {
         return $this->render('SurikatBookingBundle:Booking:show.html.twig', array('ticketsList'=>array()
             // ... Supprime une reservation de la base de donnée
@@ -178,5 +241,34 @@ class BookingController extends Controller
         /* TODO -> Affiche le formulaire de recherche de réservation ou de ticket (Option selectionnable)
           */
     }
+
+    public function ConfigBookingAction(Request $request)
+    {
+      // On se connecte à l'entity manager
+      $em = $this->getDoctrine()->getManager();
+      // On récupère l'objet Setting correspondant a configName
+      $setting = $em
+        ->getRepository('SurikatBookingBundle:Setting')
+        ->findOneByConfigName('config-louvre');
+      ;
+      // On crée l'objet form
+      $form   = $this->createForm(SettingType::class, $setting);
+
+      if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
+      {
+        //  dump($form);die;
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($setting);
+        $em->flush();
+        $request->getSession()->getFlashBag()->add('success', 'Configuration bien enregistrée.');
+        return $this->redirectToRoute('admin_booking_setting');
+      }
+      // On passe la méthode createView() du formulaire à la vue afin qu'elle puisse afficher le formulaire toute seule
+      return $this->render('SurikatBookingBundle:Booking:setting.html.twig', array(
+        'form' => $form->createView(),
+      ));
+      /* TODO ->
+        */
+  }
 
 }

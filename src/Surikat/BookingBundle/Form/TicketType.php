@@ -1,7 +1,5 @@
 <?php
-
 namespace Surikat\BookingBundle\Form;
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -42,7 +40,6 @@ class TicketType extends AbstractType
           // add a class that can be selected in JavaScript
           'attr' => ['class' => 'js-datepicker', 'placeholder'=>'Choisissez une date'],
           'required'=>false,
-
         ))
         ->add('country',  CountryType::class, array(
           'label'       => 'Nationalité: ',
@@ -62,7 +59,6 @@ class TicketType extends AbstractType
           'required'    => false
         ));
     }
-
     /**
      * {@inheritdoc}
      */
@@ -72,7 +68,6 @@ class TicketType extends AbstractType
             'data_class' => 'Surikat\BookingBundle\Entity\Ticket'
         ));
     }
-
     /**
      * {@inheritdoc}
      */
@@ -80,6 +75,4 @@ class TicketType extends AbstractType
     {
         return 'surikat_bookingbundle_ticket';
     }
-
-
 }

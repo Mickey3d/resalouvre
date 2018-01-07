@@ -1,0 +1,131 @@
+{# src/Surikat/BookingBundle/Resources/views/Booking/new_booking.html.twig #}
+{% extends "SurikatBookingBundle::layout.html.twig" %}
+{% block title %}Nouvelle Réservation{% endblock %}
+{% block body %}{{ parent() }}
+  <div class="container ">
+    <h3>Formulaire de Configuration</h3>
+  </div>
+  {{ form_start(form) }}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="box-icon col-lg-2">
+              <span class="fa fa-4x fa-cogs"></span>
+            </div>
+            <div class="pull-right col-lg-5">
+              <img src="{{ asset('assets/img/Louvre-LOGO.png') }}" class="img-responsive" alt="logo-louvre">
+            </div>
+          </div>
+          <hr>
+          <br>
+          <div class="info">
+            <div class="col-sm-4">
+              {{ form_row(form.configName) }}
+              {{ form_row(form.dailyTicketLimit) }}
+              {{ form_row(form.dayTicketHourLimit) }}
+              {{ form_row(form.specialPrice) }}
+            </div>
+            <div class="col-sm-4">
+              {{ form_row(form.freePrice) }}
+              {{ form_row(form.freePriceCondition) }}
+              {{ form_row(form.childPrice) }}
+              {{ form_row(form.childPriceCondition) }}
+            </div>
+            <div class="col-sm-4">
+              {{ form_row(form.normalPrice) }}
+              {{ form_row(form.normalPriceCondition) }}
+              {{ form_row(form.seniorPrice) }}
+              {{ form_row(form.seniorPriceCondition) }}
+            </div>
+            <div class="col-md-12">
+              {{ form_widget(form.closedDays) }}
+              <hr/>
+              <a href="#" id="add-another-date">Ajouter une date</a>
+            </div>
+            <div class="col-md-12">
+              {{ form_row(form.closedWeekDays) }}
+            </div>
+
+            {{ form_row(form.valider) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# Génération automatique des champs pas encore écrits. Champ CSRF (géré automatiquement par Symfony !) et tous les champs cachés (type « hidden »). #}
+  {{ form_rest(form) }}
+  {# Fermeture de la balise
+<form> du formulaire HTML #}
+  {{ form_end(form) }}
+  <hr>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    // AJOUTER DATE POUR PARMAETRE On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+    var $container = $('div#surikat_bookingbundle_setting_closedDays');
+
+    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+    var index = $container.find(':input').length;
+
+    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+    $('#add-another-date').click(function(e) {
+      addDate($container);
+
+      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+      return false;
+    });
+
+    // On ajoute un premier champ automatiquement
+    if (index == 0) {
+      addDate($container);
+    } else {
+      // On ajoute un lien de suppression pour chacun des dates
+      $container.children('div').each(function() {
+        addDeleteLink($(this));
+      });
+    }
+
+    // La fonction qui ajoute un formulaire DateType
+    function addDate($container) {
+      // Dans le contenu de l'attribut « data-prototype », on remplace :
+      // - le texte "__name__label__" qu'il contient par le label du champ
+      // - le texte "__name__" qu'il contient par le numéro du champ
+      var template = $container.attr('data-prototype').replace(/__name__label__/g, 'Date n°' + (
+        index + 1
+      )).replace(/__name__/g, index);
+
+      // On crée un objet jquery qui contient ce template
+      var $prototype = $(template);
+
+      // On ajoute au prototype un lien pour pouvoir supprimer la date
+      addDeleteLink($prototype);
+
+      // On ajoute le prototype modifié à la fin de la balise <div>
+      $container.append($prototype);
+
+      // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+      index++;
+    }
+
+    // La fonction qui ajoute un lien de suppression d'une date
+    function addDeleteLink($prototype) {
+      // Création du lien
+      var $deleteLink = $('<a href="#" class="btn btn-delete"><i class="fa fa-trash-o" aria-hidden="true"></i><strong> Supprimer</strong></a></br><hr height="none" size="3" width="50%" color="blue">');
+
+      // Ajout du lien
+      $prototype.append($deleteLink);
+
+      // Ajout du listener sur le clic du lien pour effectivement supprimer la date
+      $deleteLink.click(function(e) {
+        $prototype.remove();
+
+        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+        return false;
+      });
+    }
+  </script>
+
+{% endblock %}

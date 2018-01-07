@@ -1,7 +1,5 @@
 <?php
-
 namespace Surikat\BookingBundle\Form;
-
 use Surikat\BookingBundle\Repository\TicketRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -16,31 +14,25 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-
 class BookingType extends AbstractType
 {
-
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('bookedDate', DateType::class)
+        $builder->add('bookingFor', DateType::class)
                 ->add('type', ChoiceType::class, array(
                   'choices' => array('Demi-Journée' => 'halfDay', 'Journée' => 'day'),
                                'expanded' => true,
                                'multiple' => false
-
                 ))
-
                 ->add('tickets', CollectionType::class, array (
                   'entry_type'    => TicketType::class,
                   'allow_add'     => true,
                   'allow_delete'  => true
                   ))
-
                 ->add('valider',    SubmitType::class, array('label' => '.'));
-
     }
     /**
      * {@inheritdoc}
@@ -51,7 +43,6 @@ class BookingType extends AbstractType
             'data_class' => 'Surikat\BookingBundle\Entity\Booking'
         ));
     }
-
     /**
      * {@inheritdoc}
      */
@@ -59,6 +50,4 @@ class BookingType extends AbstractType
     {
         return 'surikat_bookingbundle_booking';
     }
-
-
 }

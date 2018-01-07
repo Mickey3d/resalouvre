@@ -1,9 +1,6 @@
 {# src/Surikat/BookingBundle/Resources/views/Booking/new_booking.html.twig #}
-
 {% extends "SurikatBookingBundle::layout.html.twig" %}
-
 {% block title %}Nouvelle Réservation{% endblock %}
-
 {% block body %}{{ parent() }}
 
   <h3>Formulaire de Réservation</h3>
@@ -13,9 +10,10 @@
     {{ form_errors(form) }}
     <div class="col-lg-offset-4">
       {# Génération label + error + widget pour un champ. #}
-      {{ form_row(form.bookedDate, {'label': 'Choisissez une date'}) }}
+      {{ form_row(form.bookingFor, {'label': 'Choisissez une date'}) }}
       {{ form_row(form.type, {'label': 'Choisissez un type'}) }}
-      {{ form_widget(form.valider, {'attr': {'class': 'btn btn-default btn-circle btn-xl glyphicon glyphicon-ok'}}) }}
+      {{ form_widget(form.valider, {'attr': {'class': 'btn btn-success
+    glyphicon glyphicon-ok'}}) }}
     </div>
   </div>
   <div class="container">
@@ -25,14 +23,14 @@
           <div class="box-icon col-lg-2">
             <span class="fa fa-4x fa-ticket"></span>
           </div>
-          <div class="pull-right">
+          <div class="pull-right col-lg-5">
             <img src="{{ asset('assets/img/Louvre-LOGO.png') }}" class="img-responsive" alt="logo-louvre">
           </div>
           <hr>
           <div class="info">
             <h4 class="text-center">Un Ticket pour le Louvre!</h4>
             {{ form_row(form.tickets) }}
-            <hr>
+            <hr />
             <a href="#" id="add_ticket" class="btn btn-default">Ajouter un Ticket</a>
           </div>
         </div>
@@ -40,94 +38,11 @@
     </div>
   </div>
 
-  {# Génération automatique des champs pas encore écrits.
-       Champ CSRF (géré automatiquement par Symfony !)
-       et tous les champs cachés (type « hidden »). #}
+  {# Génération automatique des champs pas encore écrits. Champ CSRF (géré automatiquement par Symfony !) et tous les champs cachés (type « hidden »). #}
   {{ form_rest(form) }}
-
-  {# Fermeture de la balise <form> du formulaire HTML #}
+  {# Fermeture de la balise
+<form> du formulaire HTML #}
   {{ form_end(form) }}
   <hr>
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function() {
-      // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
-      var $container = $('div#surikat_bookingbundle_booking_tickets');
-
-      // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
-      var index = $container.find(':input').length;
-
-      // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
-      $('#add_ticket').click(function(e) {
-        addTicket($container);
-
-        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
-        return false;
-      });
-
-      // On ajoute un premier champ automatiquement
-      if (index == 0) {
-        addTicket($container);
-      } else {
-        // On ajoute un lien de suppression pour chacun des tickets
-        $container.children('div').each(function() {
-          addDeleteLink($(this));
-        });
-      }
-
-      // La fonction qui ajoute un formulaire TicketType
-      function addTicket($container) {
-        // Dans le contenu de l'attribut « data-prototype », on remplace :
-        // - le texte "__name__label__" qu'il contient par le label du champ
-        // - le texte "__name__" qu'il contient par le numéro du champ
-        var template = $container.attr('data-prototype').replace(/__name__label__/g, 'Ticket n°' + (
-          index + 1
-        )).replace(/__name__/g, index);
-
-        // On crée un objet jquery qui contient ce template
-        var $prototype = $(template);
-
-        // On ajoute au prototype un lien pour pouvoir supprimer le ticket
-        addDeleteLink($prototype);
-
-        // On ajoute le prototype modifié à la fin de la balise <div>
-        $container.append($prototype);
-
-        // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
-        index++;
-      }
-
-      // La fonction qui ajoute un lien de suppression d'un ticket
-      function addDeleteLink($prototype) {
-        // Création du lien
-        var $deleteLink = $('<a href="#" class="btn btn-delete"><i class="fa fa-trash-o" aria-hidden="true"></i><strong> Supprimer</strong></a></br><hr height="none" size="3" width="50%" color="blue">');
-
-        // Ajout du lien
-        $prototype.append($deleteLink);
-
-        // Ajout du listener sur le clic du lien pour effectivement supprimer le ticket
-        $deleteLink.click(function(e) {
-          $prototype.remove();
-
-          e.preventDefault(); // évite qu'un # apparaisse dans l'URL
-          return false;
-        });
-      }
-    });
-  </script>
-
-  <script type="text/javascript">
-    $(document).ready(function() {
-      // configure the bootstrap datepicker
-      $('.js-datepicker').datepicker({
-      startView: 2,
-      format: 'dd/mm/yyyy',
-      autoclose: true,
-      todayHighlight: true,
-      clearBtn: true,
-      language: "fr"
-      })
-    });
-  </script>
 {% endblock %}

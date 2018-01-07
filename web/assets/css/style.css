@@ -130,34 +130,73 @@ top: 5px;
 }
 
 /*
+*********  _ TICKETS
+*/
+#surikat_bookingbundle_booking_tickets {
+
+}
+
+
+/*
+*********  _ Alert
+*/
+
+.alert{
+    position: absolute;
+    padding-right: 55px;
+    width: 300px;
+    margin-top: 40px;
+    border-radius: 15px;
+    background-color: #FFF;
+    color: #283896;
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    display: none;
+}
+/*alert-success*/
+.alert-success button{
+    background-color: #008ECF;
+    color:#FFF;
+}
+
+.alert-success hr{
+        border-color: #008ECF;
+}
+/**/
+/*alert-warning*/
+.alert-warning button{
+    background-color: #E5A218;
+    color:#FFF;
+}
+
+.alert-warning hr{
+        border-color: #E5A218;
+}
+/**/
+/*alert-error*/
+.alert-error button{
+    background-color: #FF0000;
+    color:#FFF;
+}
+
+.alert-error hr{
+    border-color: #FF0000;
+}
+/**/
+
+.hr-alert {
+    margin-top: 0px;
+    margin-bottom: 10px;
+    border: 0;
+    border-top: 4px solid #eee;
+}
+
+
+/*
 *********  _ button circle
 */
 
-.btn-circle {
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  padding: 6px 0;
-  font-size: 12px;
-  line-height: 1.428571429;
-  border-radius: 15px;
-}
-.btn-circle.btn-lg {
-  width: 50px;
-  height: 50px;
-  padding: 10px 16px;
-  font-size: 18px;
-  line-height: 1.33;
-  border-radius: 25px;
-}
-.btn-circle.btn-xl {
-  width: 70px;
-  height: 70px;
-  padding: 10px 16px;
-  font-size: 24px;
-  line-height: 1.33;
-  border-radius: 35px;
-}
 
 .btn {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
@@ -176,12 +215,45 @@ top: 5px;
   color: #fff;
 }
 
-/*
-*********  _ TICKETS
-*/
-#surikat_bookingbundle_booking_tickets {
-
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
 }
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+}
+.btn-circle.btn-xl-alert  {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  font-size: 24px;
+  line-height: 1.33;
+  border-radius: 35px;
+  cursor:default;
+  transition: background-color 1s, color 1s;
+}
+
+.btn-float-alert{
+    position: absolute;
+    right:-20px;
+    top:-20px;
+}
+
+.pull-right {
+    position: absolute;
+    right: 5%;
+}
+
 
 
 /*

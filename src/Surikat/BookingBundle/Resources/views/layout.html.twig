@@ -5,36 +5,60 @@
 {% block title %}Home Sweat Home{% endblock %}
 
 {% block body %}
-<!-- Nav => Top Menu : "Topo" -->
-<nav id="topMenu">
-  <div id="topo">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 col-ms-6 col-xs-6" id="logo-topo">
-          <a href="{{ path('_booking')}}"><h2>RESA-LOUVRE</h2></a>
+  <!-- Nav => Top Menu : "Topo" -->
+  <nav id="topMenu">
+    <div id="topo">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-ms-6 col-xs-6" id="logo-topo">
+            <a href="{{ path('_booking')}}">
+              <h2>RESA-LOUVRE</h2>
+            </a>
+          </div>
+          <div class="col-md-6 col-ms-6 col-xs-6" id="abre-menu-topo">
+            <a href="#" class="btn-collapse">
+              <div class="lista-collapse"></div>
+              <div class="lista-collapse"></div>
+              <div class="lista-collapse"></div>
+            </a>
+          </div>
         </div>
-        <div class="col-md-6 col-ms-6 col-xs-6" id="abre-menu-topo">
-          <a href="#" class="btn-collapse">
-            <div class="lista-collapse"></div>
-            <div class="lista-collapse"></div>
-            <div class="lista-collapse"></div>
-          </a>
+        <!-- End Of Row_1 -->
+        <div class="row">
+          <ul id="menu-topo">
+            <li>
+              <a href="{{ path('_new_booking')}}">RESERVER</a>
+            </li>
+            <li>
+              <a href="{{ path('_show')}}">MA RESERVATION</a>
+            </li>
+            <li>
+              <a target="_blank" href="http://www.louvre.fr/">LE MUSEE DU LOUVRE : LE SITE</a>
+            </li>
+            <li>
+              <a href="{{ path('admin_booking_setting')}}" class="dentro">CONNEXION</a>
+            </li>
+          </ul>
         </div>
       </div>
-      <!-- End Of Row_1 -->
-      <div class="row">
-        <ul id="menu-topo">
-          <li><a href="{{ path('_new_booking')}}">RESERVER</a></li>
-          <li><a href="{{ path('_show')}}">MA RESERVATION</a></li>
-          <li><a target="_blank" href="http://www.louvre.fr/">LE MUSEE DU LOUVRE : LE SITE</a></li>
-          <li><a href="" class="dentro">CONNEXION</a></li>
-        </ul>
-      </div>
+      <!-- End Of Container -->
     </div>
-    <!-- End Of Container -->
-  </div>
-  <!-- End of TopMenu "Topo"-->
-</nav>
-<!-- End of Nav -->
+    <!-- End of TopMenu "Topo"-->
+  </nav>
+  <!-- End of Nav -->
 
+  {% for type, messages in app.session.flashbag.all() %}
+    {% for message in messages %}
+      <div class="pull-alert">
+        <div class="alert alert-{{type}} pull-right">
+          <button type="button" class="btn btn-default btn-circle btn-xl-alert btn-lateral btn-float-alert">
+            <i class="fa fa-info-circle fa-4"></i>
+          </button>
+          <hr class="hr-alert">
+          <strong>{{message}}</strong>
+        </div>
+      </div>
+      <div class="flash-{{type}}">{{message}}</div>
+    {% endfor %}
+  {% endfor %}
 {% endblock %}

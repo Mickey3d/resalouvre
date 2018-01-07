@@ -15,11 +15,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Booking
 {
 
-     /**
-     * @ORM\OneToMany(targetEntity="Surikat\BookingBundle\Entity\Ticket", mappedBy="booking", cascade={"persist"})
-     */
-    private $tickets;
-
     /**
      * @var int
      *
@@ -60,16 +55,16 @@ class Booking
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="bookingDate", type="datetime")
+     * @ORM\Column(name="$bookedAt", type="datetime")
      */
-    private $bookingDate;
+    private $bookedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="bookedDate", type="datetime")
+     * @ORM\Column(name="bookingFor", type="datetime")
      */
-    private $bookedDate;
+    private $bookingFor;
 
     /**
      * @var string
@@ -79,11 +74,9 @@ class Booking
     private $type;
 
     /**
-     * @var array
-     *
-     * @ORM\Column(name="ticketsList", type="array")
-     */
-    private $ticketsList;
+    * @ORM\OneToMany(targetEntity="Surikat\BookingBundle\Entity\Ticket", mappedBy="booking", cascade={"persist", "remove"})
+    */
+   private $tickets;
 
     /**
      * @var int
@@ -102,22 +95,42 @@ class Booking
     /**
      * @var string
      *
-     * @ORM\Column(name="paiementStatus", type="string", length=255)
+     * @ORM\Column(name="paiementStatus", type="string", length=255, nullable=true)
      */
     private $paiementStatus;
 
     /**
-    * Construct bookedDate and tickets
+     * @var string
+     *
+     * @ORM\Column(name="validate", type="boolean", length=255, nullable=true)
+     */
+    private $validate;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="messages", type="array", nullable=true)
+     */
+    private $messages;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="errors", type="array", nullable=true)
+     */
+    private $errors;
+
+    /**
+    * Construct bookedAt and tickets
     *
-    * @param \DateTime $bookedDate
+    * @param \DateTime $bookedAt
     *
     * @return Booking
     */
 
    public function __construct()
    {
-       $this->bookedDate = new \Datetime();
-       $this->bookingDate = new \Datetime();
+       $this->bookedAt = new \Datetime();
        $this->tickets = new ArrayCollection();
 
    }
@@ -229,51 +242,28 @@ class Booking
     }
 
     /**
-     * Set bookingDate
+     * Set bookedAt
      *
-     * @param \DateTime $bookingDate
+     * @param \DateTime $bookedAt
      *
      * @return Booking
      */
-    public function setBookingDate($bookingDate)
+    public function setBookedAt($bookedAt)
     {
-        $this->bookingDate = $bookingDate;
+        $this->bookedAt = $bookedAt;
 
         return $this;
     }
 
     /**
-     * Get bookingDate
+     * Get bookedAt
      *
      * @return \DateTime
      */
-    public function getBookingDate()
-    {
-        return $this->bookingDate;
-    }
 
-    /**
-     * Set ticketsList
-     *
-     * @param array $ticketsList
-     *
-     * @return Booking
-     */
-    public function setTicketsList($ticketsList)
+    public function getBookedAt()
     {
-        $this->ticketsList = $ticketsList;
-
-        return $this;
-    }
-
-    /**
-     * Get ticketsList
-     *
-     * @return array
-     */
-    public function getTicketsList()
-    {
-        return $this->ticketsList;
+        return $this->bookedAt;
     }
 
     /**
@@ -373,27 +363,27 @@ class Booking
     }
 
     /**
-    * set bookedDate
+    * set bookingFor
     *
-    * @param \DateTime $bookedDate
+    * @param \DateTime $bookingFor
     *
     * @return Booking
     */
-    public function setBookedDate(\Datetime $bookedDate)
+    public function setBookingFor(\Datetime $bookingFor)
     {
-      $this->bookeDate = $bookedDate;
+      $this->bookingFor = $bookingFor;
 
       return $this;
     }
 
      /**
-     * Get bookedDate
+     * Get bookingFor
      *
      * @return \DateTime
      */
-    public function getBookedDate()
+    public function getBookingFor()
     {
-      return $this->bookedDate;
+      return $this->bookingFor;
     }
 
     /**
@@ -406,10 +396,8 @@ class Booking
     public function addTicket(\Surikat\BookingBundle\Entity\Ticket $ticket)
     {
         $this->tickets[] = $ticket;
-
         // On lie la réservation au ticket
         $ticket->setBooking($this);
-
         return $this;
     }
 
@@ -431,5 +419,90 @@ class Booking
     public function getTickets()
     {
         return $this->tickets;
+    }
+
+    /**
+     * Set validate.
+     *
+     * @param string|null $validate
+     *
+     * @return Booking
+     */
+    public function setValidate($validate = null)
+    {
+        $this->validate = $validate;
+
+        return $this;
+    }
+
+    /**
+     * Get validate.
+     *
+     * @return string|null
+     */
+    public function getValidate()
+    {
+        return $this->validate;
+    }
+
+    /**
+     * Add message
+     *
+     * @return Booking
+     */
+    public function addMessage($message)
+    {
+        $this->messages[] = $message;
+
+        return $this;
+    }
+
+    /**
+     * Remove message
+     *
+     */
+    public function removeMessage($message)
+    {
+        $this->messages->removeElement($message);
+    }
+
+    /**
+     * Get messages.
+     *
+     * @return array|null
+     */
+    public function getMessages()
+    {
+        return $this->messages;
+    }
+
+     /**
+     * Add error
+     *
+     */
+    public function addError($error)
+    {
+        $this->errors[] = $error;
+
+        return $this;
+    }
+
+    /**
+     * Remove error
+     *
+     */
+    public function removeError($error)
+    {
+        $this->errors->removeElement($error);
+    }
+
+    /**
+     * Get errors.
+     *
+     * @return array|null
+     */
+    public function getErrors()
+    {
+        return $this->errors;
     }
 }

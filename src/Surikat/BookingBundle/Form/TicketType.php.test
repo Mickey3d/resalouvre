@@ -1,0 +1,39 @@
+->add('dailyTicketLimit',  TextType::class, array(
+  'label' => 'Limite Journalière: '
+))
+->add('dayTicketHourLimit', TextType::class, array(
+  'label'       => 'Heure de Passage en Mode demi-journée: '
+))
+->add('freePrice', TextType::class, array(
+  'label'       => 'Prix Gratuit: '
+))
+->add('freePriceCondition', TextType::class, array(
+  'label'       => 'Condition pour Prix Gratuit: '
+))
+->add('childPrice', TextType::class, array(
+  'label'       => 'Prix Enfant: '
+))
+->add('childPriceCondition', TextType::class, array(
+  'label'       => 'Condition pour Prix Enfant: '
+))
+->add('normalPrice', TextType::class, array(
+  'label'       => 'Prix Normal: '
+))
+->add('normalPriceCondition', TextType::class, array(
+  'label'       => 'Condition pour Prix Normal: '
+))
+->add('seniorPrice', TextType::class, array(
+  'label'       => 'Prix Senio: '
+))
+->add('seniorPriceCondition', TextType::class, array(
+  'label'       => 'Condition pour Prix Senior: '
+))
+->add('specialPrice',  TextType::class, array(
+  'label'       => 'Tarif Réduit: '
+))
+->add('closedDays', TextType::class, array(
+  'label'       => 'Journées Fermées (fournir une date): '
+))
+->add('closedWeekDays', TextType::class, array(
+  'label'       => 'Jour de Fermeture dans la Semaine: '
+))

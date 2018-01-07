@@ -14,12 +14,6 @@ class Ticket
 {
 
     /**
-    * @ORM\ManyToOne(targetEntity="Surikat\BookingBundle\Entity\Booking", inversedBy="tickets")
-    * @ORM\JoinColumn(nullable=false)
-    */
-    private $booking;
-
-    /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -27,6 +21,12 @@ class Ticket
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="Surikat\BookingBundle\Entity\Booking", inversedBy="tickets")
+    * @ORM\JoinColumn(nullable=false)
+    */
+    private $booking;
 
     /**
      * @var string
@@ -90,6 +90,20 @@ class Ticket
      * @ORM\Column(name="specialPrice", type="boolean", options={"default":false})
      */
     private $specialPrice;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="messages", type="array", nullable=true)
+     */
+    private $messages;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="errors", type="array", nullable=true)
+     */
+    private $errors;
 
 
     /**
@@ -340,5 +354,67 @@ class Ticket
     public function getSpecialPrice()
     {
         return $this->specialPrice;
+    }
+
+    /**
+     * Add message
+     *
+     * @return Ticket
+     */
+    public function addMessage($message)
+    {
+        $this->messages[] = $message;
+
+        return $this;
+    }
+
+    /**
+     * Remove message
+     *
+     */
+    public function removeMessage($message)
+    {
+        $this->messages->removeElement($message);
+    }
+
+    /**
+     * Get messages.
+     *
+     * @return array|null
+     */
+    public function getMessages()
+    {
+        return $this->messages;
+    }
+
+     /**
+     * Add error
+     *
+     * @return Ticket
+     */
+    public function addError($error)
+    {
+        $this->errors[] = $error;
+
+        return $this;
+    }
+
+    /**
+     * Remove error
+     *
+     */
+    public function removeError($error)
+    {
+        $this->errors->removeElement($error);
+    }
+
+    /**
+     * Get errors.
+     *
+     * @return array|null
+     */
+    public function getErrors()
+    {
+        return $this->errors;
     }
 }
