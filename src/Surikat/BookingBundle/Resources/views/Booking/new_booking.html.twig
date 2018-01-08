@@ -1,48 +1,58 @@
-{# src/Surikat/BookingBundle/Resources/views/Booking/new_booking.html.twig #}
+{# src/Surikat/BookingBundle/Resources/views/Booking/index.html.twig #}
+
 {% extends "SurikatBookingBundle::layout.html.twig" %}
-{% block title %}Nouvelle Réservation{% endblock %}
-{% block body %}{{ parent() }}
 
-  <h3>Formulaire de Réservation</h3>
-  {{ form_start(form, {'attr': {'class': 'form-inline'}}) }}
-  <div class='well'>
-    {# Les erreurs générales du formulaire. #}
-    {{ form_errors(form) }}
-    <div class="col-lg-offset-4">
-      {# Génération label + error + widget pour un champ. #}
-      {{ form_row(form.bookingFor, {'label': 'Choisissez une date'}) }}
-      {{ form_row(form.type, {'label': 'Choisissez un type'}) }}
-      {{ form_widget(form.valider, {'attr': {'class': 'btn btn-success
-    glyphicon glyphicon-ok'}}) }}
-    </div>
-  </div>
+{% block title %}Index Booking Engine{% endblock %}
+
+{% block body %}{{ parent( )}}
   <div class="container">
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="box">
-          <div class="box-icon col-lg-2">
-            <span class="fa fa-4x fa-ticket"></span>
-          </div>
-          <div class="pull-right col-lg-5">
-            <img src="{{ asset('assets/img/Louvre-LOGO.png') }}" class="img-responsive" alt="logo-louvre">
-          </div>
-          <hr>
-          <div class="info">
-            <h4 class="text-center">Un Ticket pour le Louvre!</h4>
-            {{ form_row(form.tickets) }}
-            <hr />
-            <a href="#" id="add_ticket" class="btn btn-default">Ajouter un Ticket</a>
-          </div>
-        </div>
-      </div>
-    </div>
+    <p>
+      Contenu</p>
+<table>
+    <tr>
+      <th>{{ booking.email}}</th>
+      <th>{{ booking.totalPrice }}</th>
+    </tr>
+</table>
+
+    <table>
+                <caption></caption>
+                <thead>
+                <tr>
+                    <th>{{ "Name"|trans }}</th>
+                    <th>{{ "Surname"|trans }}</th>
+                    <th>{{ "Country"|trans }}</th>
+                    <th>{{ "Pricing"|trans }}</th>
+                    <th>{{ "Price"|trans }}</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th colspan="4">{{ "Total"|trans }}</th>
+                    <th>
+
+                        {{ booking.totalPrice }}
+                    </th>
+                </tr>
+                </tfoot>
+                <tbody>
+
+                {% for ticket in booking.tickets %}
+                    {#{{ ticket.id }}#}
+                    <tr>
+                        <td>{{ ticket.name }}</td>
+                        <td>{{ ticket.surname }}</td>
+                        <td>{{ ticket.country }}</td>
+                        <td>
+                            {{ ticket.price }}
+                        </td>
+
+                        <td> </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
   </div>
 
-  {# Génération automatique des champs pas encore écrits. Champ CSRF (géré automatiquement par Symfony !) et tous les champs cachés (type « hidden »). #}
-  {{ form_rest(form) }}
-  {# Fermeture de la balise
-<form> du formulaire HTML #}
-  {{ form_end(form) }}
-  <hr>
-
-{% endblock %}
+{% endblock%}

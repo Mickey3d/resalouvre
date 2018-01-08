@@ -7,7 +7,7 @@ _booking:
     defaults: { _controller: SurikatBookingBundle:Booking:Booking }
 
 _new_booking:
-    path:     /booking/new
+    path:     /booking/new/{code}
     defaults: { _controller: SurikatBookingBundle:Booking:NewBooking }
 
 _new_booking_validate:

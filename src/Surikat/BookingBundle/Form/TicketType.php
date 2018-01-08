@@ -6,6 +6,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DatetimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -34,7 +35,7 @@ class TicketType extends AbstractType
         ->add('birthdate',  DateType::class, array(
           'label'       => 'Date de Naissance: ',
           'widget'      => 'single_text',
-          'format' => 'mm-dd-yyyy',
+          'format' => 'dd-mm-yyyy',
           // do not render as type="date", to avoid HTML5 date pickers
           'html5'       => false,
           // add a class that can be selected in JavaScript

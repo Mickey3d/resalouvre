@@ -32,11 +32,11 @@ class SettingType extends AbstractType
          ->add('dayTicketHourLimit', TimeType::class, array(
            'label'       => 'Demi-journée: A partir de '
          ))
-         ->add('freePrice', MoneyType::class, array(
-           'label'       => 'Prix Gratuit: '
+         ->add('discount', MoneyType::class, array(
+           'label'       => 'Prix Discount: '
          ))
-         ->add('freePriceCondition', NumberType::class, array(
-           'label'       => 'Condition pour Prix Gratuit: '
+         ->add('discountCondition', NumberType::class, array(
+           'label'       => 'Condition pour Prix Discount: '
          ))
          ->add('childPrice', MoneyType::class, array(
            'label'       => 'Prix Enfant: '

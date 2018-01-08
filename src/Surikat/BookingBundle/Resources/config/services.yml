@@ -1,6 +1,18 @@
 # src/Surikat/BookingBundle/Resources/config/services.yml
 
+#    surikat_booking.example:
+#        class: Surikat\BookingBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]
+
 services:
     surikat_booking.availability:
-       class: Surikat\BookingBundle\Service\Availability
-#       arguments: ["@service_id", "plain_value", "%parameter%"]
+        class: Surikat\BookingBundle\Services\Availability
+
+    surikat_booking.bookingengine:
+        class: Surikat\BookingBundle\Services\BookingEngine
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    surikat_booking.configmanager:
+        class: Surikat\BookingBundle\Services\ConfigManager
+        arguments:
+          - "@doctrine.orm.entity_manager"

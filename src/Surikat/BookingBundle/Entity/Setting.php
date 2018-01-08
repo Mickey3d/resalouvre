@@ -33,22 +33,22 @@ class Setting
     private $dailyTicketLimit;
 
     /**
-     * @var datetime
-     * @ORM\Column(name="dayTicketHourLimit", type="datetime", nullable=true)
+     * @var time
+     * @ORM\Column(name="dayTicketHourLimit", type="time", nullable=true)
      */
     private $dayTicketHourLimit;
 
     /**
      * @var int
-     * @ORM\Column(name="freePrice", type="integer")
+     * @ORM\Column(name="discount", type="integer")
      */
-    private $freePrice;
+    private $discount;
 
     /**
      * @var int
-     * @ORM\Column(name="freePriceCondition", type="integer")
+     * @ORM\Column(name="discountCondition", type="integer")
      */
-    private $freePriceCondition;
+    private $discountCondition;
 
     /**
      * @var int
@@ -188,51 +188,51 @@ class Setting
     }
 
     /**
-     * Set freePrice.
+     * Set discount.
      *
-     * @param int $freePrice
+     * @param int $discount
      *
      * @return Setting
      */
-    public function setFreePrice($freePrice)
+    public function setDiscount($discount)
     {
-        $this->freePrice = $freePrice;
+        $this->discount = $discount;
 
         return $this;
     }
 
     /**
-     * Get freePrice.
+     * Get discount.
      *
      * @return int
      */
-    public function getFreePrice()
+    public function getDiscount()
     {
-        return $this->freePrice;
+        return $this->discount;
     }
 
     /**
-     * Set freePriceCondition.
+     * Set discountCondition.
      *
-     * @param int $freePriceCondition
+     * @param int $discountCondition
      *
      * @return Setting
      */
-    public function setFreePriceCondition($freePriceCondition)
+    public function setDiscountCondition($discountCondition)
     {
-        $this->freePriceCondition = $freePriceCondition;
+        $this->discountCondition = $discountCondition;
 
         return $this;
     }
 
     /**
-     * Get freePriceCondition.
+     * Get discountCondition.
      *
      * @return int
      */
-    public function getFreePriceCondition()
+    public function getDiscountCondition()
     {
-        return $this->freePriceCondition;
+        return $this->discountCondition;
     }
 
     /**

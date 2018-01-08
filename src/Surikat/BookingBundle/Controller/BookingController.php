@@ -2,74 +2,133 @@
 
 namespace Surikat\BookingBundle\Controller;
 
-use Surikat\BookingBundle\Entity\Booking;
+use Surikat\BookingBundle\Entity\Booking as Booking;
 use Surikat\BookingBundle\Form\BookingType;
 use Surikat\BookingBundle\Entity\Setting;
 use Surikat\BookingBundle\Form\SettingType;
 use Surikat\BookingBundle\Entity\Ticket;
+use Surikat\BookingBundle\Services\BookingEngine;
+use Surikat\BookingBundle\Services\ConfigManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response as Response;
 
 
 class BookingController extends Controller
 {
-
-
-
-    public function BookingAction()
+    // Configuration de l'application
+    public function ConfigBookingAction(Request $request)
     {
-
-      return $this->render('SurikatBookingBundle:Booking:index.html.twig', array(
-          // ... Affichage du moteur de recherche la réservation et des tickets
-      ));
-/*
-       TODO -> Affiche l'application SurikatBookingBundle-API
-        */
-    }
-
-    public function NewBookingAction(Request $request)
-    {
-      // On crée les objets Booking et tickets
-      $booking = new Booking();
-      $ticket = new Ticket();
+      $configManager = $this->container->get('surikat_booking.configmanager');
+      // On récupère l'objet Setting correspondant a configName
+      $configName = 'config-louvre';
+      $setting = $configManager->loadConfigByName($configName);
       // On crée l'objet form
-      $form   = $this->createForm(BookingType::class, $booking);
-      $random = random_int(1, 9999999999999);
+      $form   = $this->createForm(SettingType::class, $setting);
 
       if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
-      {
-        //    dump($form);die;
-        $tickets =  $booking->getTickets();
-        $em = $this->getDoctrine()->getManager();
-        $booking->setCode("codigo".$random);
-        $booking->setName('Paul');
-        $booking->setLastName('Watson');
-        $booking->setEmail('pololepolo@aul.zoc');
-        $booking->setPaiementStatus('En Cours');
-        $booking->setTotalPrice('20');
-        $em->persist($booking);
+        {
+          //  dump($form);die;
+          $configManager->saveConfig($setting);
+          $request->getSession()->getFlashBag()->add('success', 'Configuration bien enregistrée.');
+          return $this->redirectToRoute('admin_booking_setting');
+        }
+        // On passe la méthode createView() du formulaire à la vue afin qu'elle puisse afficher le formulaire toute seule
+        return $this->render('SurikatBookingBundle:Booking:setting.html.twig', array(
+          'form' => $form->createView(),
+        ));
+      /* TODO ->
+      */
+    }
 
-        foreach ($tickets as $ticket) {
 
-          $ticket->setCode('TICK'.$random);
-          $booking->addTicket($ticket);
-          $em->persist($ticket);
+
+    // @var DateTime $date return $config
+    // Vérification de la disponibiité pour une date donnée
+    public function CheckForAvailabiliyAction($date)
+    {
+
+        $configManager = $this->container->get('surikat_booking.configmanager');
+        $config = $configManager->loadConfigByDate($date);
+
+        $data = $this->get('jms_serializer')->serialize($config, 'json');
+
+        $response = new Response($data);
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    // @param BookingManager $bookingManager
+    public function BookingAction(Request $request)
+    {
+        // On crée les objets Booking et tickets via bookingEngine
+        $bookingEngine = $this->container->get('surikat_booking.bookingengine');
+        $booking =  $bookingEngine->createBooking();
+        $ticket = $bookingEngine->createTicket();
+        // On crée l'objet form
+        $form   = $this->createForm(BookingType::class, $booking);
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
+          {
+            //    dump($form);die;
+            $em = $this->getDoctrine()->getManager();
+            //    $booking->setEmail('pololepolo@aul.zoc');
+            $booking->setPaiementStatus('En Cours');
+            $booking =  $bookingEngine->loadPrices($booking);
+            $booking =  $bookingEngine->saveBooking($booking);
+            $request->getSession()->getFlashBag()->add('success', 'Réservation bien enregistrée.');
+          //   $booking = $this->get('jms_serializer')->serialize($booking, 'json');
+
+            return $this->redirectToRoute('_new_booking', array('code' => $booking->getCode()));
+          }
+
+          // On passe la méthode createView() du formulaire à la vue afin qu'elle puisse afficher le formulaire toute seule
+        return $this->render('SurikatBookingBundle:Booking:booking.html.twig', array(
+            'form' => $form->createView(),
+        ));
+          /* TODO
+          */
+    }
+
+    /**
+     * @param Request $request
+     * @param Booking $booking
+     * @return Response
+     * @param BookingManager $bookingManager
+     */
+    public function NewBookingAction(Request $request, Booking $booking)
+    {
+          if ($request->isMethod('POST'))
+            {
+              //    dump($form);die;
+              $booking = $booking;
+              // dump($booking);die;
+              $data = $this->get('jms_serializer')->serialize($booking, 'json');
+
+              $response = new Response($data);
+              $response->headers->set('Content-Type', 'application/json');
+
+              return $response;
+
         }
 
-        $em->flush();
-        $request->getSession()->getFlashBag()->add('success', 'Réservation bien enregistrée.');
-        return $this->redirectToRoute('_new_booking');
-      }
-      // On passe la méthode createView() du formulaire à la vue afin qu'elle puisse afficher le formulaire toute seule
-      return $this->render('SurikatBookingBundle:Booking:new_booking.html.twig', array(
-        'form' => $form->createView(),
-      ));
-      /* TODO
-        */
-  }
+        return $this->render('SurikatBookingBundle:Booking:new_booking.html.twig', array(
+            // ...
+            'booking' => $booking
+          ));
 
+
+
+
+
+          /*
+          TODO -> Affiche l'application SurikatBookingBundle-API
+          */
+    }
+
+    // @var string $code return $booking   => page test to find  a booking
     public function ShowAction()
     {
         return $this->render('SurikatBookingBundle:Booking:show.html.twig', array('ticketsList'=>array()
@@ -103,9 +162,9 @@ class BookingController extends Controller
           */
     }
 
+    // @var string $code return $booking
     public function showBookingAction($code)
     {
-      $booking = new Booking;
       $em = $this->getDoctrine()->getManager();
       // On récupère la réservation correspondant au code
       $booking = $em
@@ -113,13 +172,6 @@ class BookingController extends Controller
         ->findByCode($code);
       ;
       // dump($booking);die;
-      /*
-      $booking = new Booking();
-      $booking
-      ->setName($code)
-      ->setLastName('Doe')
-      ;
-      */
       $data = $this->get('jms_serializer')->serialize($booking, 'json');
 
       $response = new Response($data);
@@ -150,87 +202,6 @@ class BookingController extends Controller
           */
     }
 
-    public function CheckForAvailabiliyAction($date)
-    {
-
-        // On crée les Class Booking et ticket et availabilityTest
-        $booking = new Booking();
-        $ticket = new Ticket();
-        $maDate = new \Datetime($date);
-        $maDate->setDate('2013' , '01', '01');
-        $em = $this->getDoctrine()->getManager();
-        // On récupère la réservation correspondant à la date
-        $bookings = $em
-          ->getRepository('SurikatBookingBundle:Booking')
-          ->findByBookingFor($maDate);
-        ;
-        // On récupère la Configuration via Setting
-        $config = $em
-          ->getRepository('SurikatBookingBundle:Setting')
-          ->findOneByConfigName('config-louvre');
-        ;
-
-        // On définie TicketCount, le nombre de tickets déjà reservé pour ce jour
-        $ticketCount = 0;
-
-        foreach ($bookings as $booking) {
-          $tickets = $booking->getTickets();
-          $count = count($tickets);
-          $ticketCount = $ticketCount + $count;
-        }
-
-        $dailyTicketsLimit = $config->getDailyTicketLimit();
-// dump($dailyTicketsLimit);die;
-        $availability =  $dailyTicketsLimit - $ticketCount;
-// dump($availability);die;
-        $config->setAvailability($availability);
-
-        if ($availability < 50)
-        {
-          $config->setTicketsLimit(5);
-          $config->setMessages('Code: LI02',
-          'Information: Limitation du nombre de tickets réservables à 5 par réservation',
-          'Cause : Disponibilité réduite pour  ce jour : moins de 50 tickets encore disponible');
-        }
-        elseif ($availability < 20)
-        {
-          $config->setTicketsLimit(2);
-          $config->setMessages('Code: LI03',
-          'Information: Limitation du nombre de tickets réservables à 2 par réservation',
-          'Cause : Disponibilité réduite pour  ce jour : moins de 20 tickets encore disponible');
-        }
-        elseif ($availability < 10)
-        {
-          $config->setTicketsLimit(1);
-          $config->setMessages(array('Code: LI04',
-          'Information: Limitation du nombre de tickets réservables à 1 par réservation',
-          'Cause : Disponibilité réduite pour  ce jour : moins de 10 tickets encore disponible'));
-        }
-        elseif ($availability <= 0)
-        {
-          $config->setTicketsLimit(0);
-          $config->setErrors(array('Code erreur: error_LI02',
-          'Information: Date non disponible à la réservation',
-          'Cause : Aucune disponibilité pour ce jour'));
-        }
-        else
-        {
-          $config->setTicketsLimit(30);
-          $config->setMessages(array('Code: LI04
-          Information: Limitation du nombre de tickets réservables à 1 par réservation
-          Cause : Disponibilité réduite pour  ce jour : moins de 10 tickets encore disponible'));
-          $config->setMessages(array('Code: LI04',
-          'Information: Limitation du nombre de tickets réservables à 1 par réservation',
-          'Cause : Disponibilité réduite pour  ce jour : moins de 10 tickets encore disponible'));
-        }
-
-        $data = $this->get('jms_serializer')->serialize($config, 'json');
-
-        $response = new Response($data);
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
-    }
 
     public function DeleteBooking($code)
     {
@@ -242,33 +213,6 @@ class BookingController extends Controller
           */
     }
 
-    public function ConfigBookingAction(Request $request)
-    {
-      // On se connecte à l'entity manager
-      $em = $this->getDoctrine()->getManager();
-      // On récupère l'objet Setting correspondant a configName
-      $setting = $em
-        ->getRepository('SurikatBookingBundle:Setting')
-        ->findOneByConfigName('config-louvre');
-      ;
-      // On crée l'objet form
-      $form   = $this->createForm(SettingType::class, $setting);
 
-      if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
-      {
-        //  dump($form);die;
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($setting);
-        $em->flush();
-        $request->getSession()->getFlashBag()->add('success', 'Configuration bien enregistrée.');
-        return $this->redirectToRoute('admin_booking_setting');
-      }
-      // On passe la méthode createView() du formulaire à la vue afin qu'elle puisse afficher le formulaire toute seule
-      return $this->render('SurikatBookingBundle:Booking:setting.html.twig', array(
-        'form' => $form->createView(),
-      ));
-      /* TODO ->
-        */
-  }
 
 }

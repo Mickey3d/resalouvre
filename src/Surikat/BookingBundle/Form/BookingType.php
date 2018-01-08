@@ -9,11 +9,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+
+
 class BookingType extends AbstractType
 {
     /**
@@ -21,11 +24,25 @@ class BookingType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('bookingFor', DateType::class)
+        $builder->add('bookingFor',  DateType::class, array(
+    //              'input' => 'datetime',
+                  'label'       => 'Date de Naissance: ',
+                  'widget'      => 'choice',
+                  'data'        => new \DateTime("tomorrow"),
+    //              'format' => 'mm-dd-yyyy',
+                  // do not render as type="date", to avoid HTML5 date pickers
+    //              'html5'       => true,
+                  // add a class that can be selected in JavaScript
+              //    'attr' => ['class' => 'js-datepicker', 'placeholder'=>'Choisissez une date'],
+                  'required'=>true,
+                ))
                 ->add('type', ChoiceType::class, array(
                   'choices' => array('Demi-Journée' => 'halfDay', 'Journée' => 'day'),
                                'expanded' => true,
                                'multiple' => false
+                ))
+                ->add('email',  EmailType::class, array(
+                  'required'    => true
                 ))
                 ->add('tickets', CollectionType::class, array (
                   'entry_type'    => TicketType::class,

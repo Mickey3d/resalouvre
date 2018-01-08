@@ -89,7 +89,7 @@ $(document).ready(function() {
   // configure the bootstrap datepicker
   $('.js-datepicker').datepicker({
     startView: 2,
-    format: 'yyyy/MM/dd',
+    format: 'dd-mm-yyyy',
     autoclose: true,
     todayHighlight: true,
     clearBtn: true,

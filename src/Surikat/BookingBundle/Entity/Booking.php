@@ -34,20 +34,6 @@ class Booking
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="lastName", type="string", length=255)
-     */
-    private $lastName;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;
@@ -60,7 +46,7 @@ class Booking
     private $bookedAt;
 
     /**
-     * @var \DateTime
+     * @var \Datetime
      *
      * @ORM\Column(name="bookingFor", type="datetime")
      */
@@ -170,54 +156,6 @@ class Booking
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Booking
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set lastName
-     *
-     * @param string $lastName
-     *
-     * @return Booking
-     */
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    /**
-     * Get lastName
-     *
-     * @return string
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-    /**
      * Set email
      *
      * @param string $email
@@ -287,7 +225,7 @@ class Booking
      */
     public function getTotalPrice()
     {
-        return $this->totalPrice;
+      return $this->totalPrice;
     }
 
     /**
@@ -365,7 +303,7 @@ class Booking
     /**
     * set bookingFor
     *
-    * @param \DateTime $bookingFor
+    * @param \Datetime $bookingFor
     *
     * @return Booking
     */
@@ -379,7 +317,7 @@ class Booking
      /**
      * Get bookingFor
      *
-     * @return \DateTime
+     * @return \Datetime
      */
     public function getBookingFor()
     {

@@ -43,7 +43,7 @@ class Ticket
     private $surname;
 
     /**
-     * @var \DateTime
+     * @var \Datetime
      *
      * @ORM\Column(name="birthdate", type="datetime", nullable=true)
      */
@@ -167,7 +167,7 @@ class Ticket
     /**
      * Set birthdate
      *
-     * @param \DateTime $birthdate
+     * @param \Datetime $birthdate
      *
      * @return Ticket
      */
@@ -181,7 +181,7 @@ class Ticket
     /**
      * Get birthdate
      *
-     * @return \DateTime
+     * @return \Datetime
      */
     public function getBirthdate()
     {
