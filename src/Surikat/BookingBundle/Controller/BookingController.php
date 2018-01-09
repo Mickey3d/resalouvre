@@ -75,9 +75,9 @@ class BookingController extends Controller
             //    dump($form);die;
             $em = $this->getDoctrine()->getManager();
             //    $booking->setEmail('pololepolo@aul.zoc');
-            $booking->setPaiementStatus('En Cours');
+            $booking->setPaiementStatus('en Cours');
             $booking =  $bookingEngine->loadPrices($booking);
-            $booking =  $bookingEngine->saveBooking($booking);
+            $booking =   $bookingEngine->saveBooking($booking);
             $request->getSession()->getFlashBag()->add('success', 'Réservation bien enregistrée.');
           //   $booking = $this->get('jms_serializer')->serialize($booking, 'json');
 
@@ -100,17 +100,34 @@ class BookingController extends Controller
      */
     public function NewBookingAction(Request $request, Booking $booking)
     {
-          if ($request->isMethod('POST'))
-            {
-              //    dump($form);die;
-              $booking = $booking;
-              // dump($booking);die;
-              $data = $this->get('jms_serializer')->serialize($booking, 'json');
 
-              $response = new Response($data);
-              $response->headers->set('Content-Type', 'application/json');
+      $bookingEngine = $this->container->get('surikat_booking.bookingengine');
 
-              return $response;
+      if($request->isMethod('POST')) {
+
+        $token = $request->get('stripeToken');
+        \Stripe\Stripe::setApiKey("sk_test_XueAARsUA60HUaofMtPQxkW8");
+
+        // Create a charge: this will charge the user's card
+          try {
+              $charge = \Stripe\Charge::create(array(
+                  "amount" => $booking->getTotalPrice() * 100, // Amount in cents
+                  "currency" => "eur",
+                  "source" => $token,
+                  "description" => "Paiement Stripe - Resaloure Reservation"
+              ));
+              $booking->setPaiementStatus('confirmé');
+              $booking =   $bookingEngine->saveBooking($booking);
+              $this->addFlash("success","Paiement validé, Réservation confirmé !");
+              return $this->redirectToRoute('_new_booking', array('code' => $booking->getCode()));
+              }
+              catch(\Stripe\Error\Card $e) {
+              $this->addFlash("warning","Erreur lors de la transaction :(");
+              $booking->setPaiementStatus('erreur');
+              $booking =   $bookingEngine->saveBooking($booking);
+              return $this->redirectToRoute("order_prepare");
+              // The card has been declined
+            }
 
         }
 
@@ -201,7 +218,6 @@ class BookingController extends Controller
         /* TODO ->
           */
     }
-
 
     public function DeleteBooking($code)
     {

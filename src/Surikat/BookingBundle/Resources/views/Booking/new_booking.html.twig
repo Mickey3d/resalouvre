@@ -5,54 +5,152 @@
 {% block title %}Index Booking Engine{% endblock %}
 
 {% block body %}{{ parent( )}}
+
   <div class="container">
-    <p>
-      Contenu</p>
-<table>
-    <tr>
-      <th>{{ booking.email}}</th>
-      <th>{{ booking.totalPrice }}</th>
-    </tr>
-</table>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="box">
+          <div class="box-icon col-lg-2">
+            <span class="fa fa-4x fa-ticket"></span>
+          </div>
+          <div class="pull-right col-lg-5">
+            <img src="{{ asset('assets/img/Louvre-LOGO.png') }}" class="img-responsive" alt="logo-louvre">
+          </div>
+          <hr>
+          <div class="info">
+            <h4 class="text-center">Un Ticket pour le Louvre!</h4>
+            <div class="container">
+              <div class="container col-sm-11">
+                <div class="row">
+                  <div class="panel panel-default clearfix">
+                    <div class="panel-heading">
+                      <h2 class="panel-title">Votre Réservation</h2>
+                      <br/>
+                      <div class="container">
+                        <div class="col-sm-6">
+                          <p class="small">
+                            <strong>Code Reservation :</strong>
+                            {{ booking.code }}</p>
+                          <p class="small">
+                            <strong>Email de contact :</strong>
+                            {{ booking.email }}</p>
+                          <p>
+                            <strong>Date de la visite :
+                              {{ booking.bookingFor|date('d-m-Y')}}</strong>
+                          </p>
+                          <hr/>
+                        </div>
+                        <div class="col-sm-6">
+                          <p>
+                            <strong>Prix Total :
+                              {{ booking.totalPrice }}
+                              €</strong>
+                          </p>
+                          <p>
+                            <strong>Réglement :
+                              {{ booking.paiementStatus }}</strong>
+                          </p>
+                          {% if booking.paiementStatus == 'confirmé' %}
+                            <p>
+                              Paiement confirmé
+                            </p>
+                          {% else %}
+                            <div>
+                              <form action="#" method="POST" id="stripeForm">
+                                <script
+                                  src="https://checkout.stripe.com/checkout.js"
+                                  class="stripe-button"
+                                  data-key="pk_test_TLITJEevTtzb7MyMlb7g6pP2"
+                                  data-amount="{{ booking.totalPrice * 100 }}"
+                                  data-name="Billetterie - Musée du Louvre"
+                                  data-email="mickey.welensky@gmail.com"
+                                  data-image="https://cdn.pariscityvision.com/media/wysiwyg/5-joconde-mona-lisa.jpg"
+                                  data-locale="auto"
+                                  data-zip-code="true"
+                                  data-label="Payer"
+                                  data-currency="eur">
+                                  $(function() {
+                                    $('#stripeForm').submit(function(e) {
+                                      console.log('submit')
+                                      e.preventDefault()
+                                    })
+                                  })
+                                </script>
+                              </form>
+                            </div>
+                          {% endif %}
+                        </div>
+                      </div>
 
-    <table>
-                <caption></caption>
-                <thead>
-                <tr>
-                    <th>{{ "Name"|trans }}</th>
-                    <th>{{ "Surname"|trans }}</th>
-                    <th>{{ "Country"|trans }}</th>
-                    <th>{{ "Pricing"|trans }}</th>
-                    <th>{{ "Price"|trans }}</th>
-                </tr>
-                </thead>
-                <tfoot>
-                <tr>
-                    <th colspan="4">{{ "Total"|trans }}</th>
-                    <th>
+                    </div>
 
-                        {{ booking.totalPrice }}
-                    </th>
-                </tr>
-                </tfoot>
-                <tbody>
-
-                {% for ticket in booking.tickets %}
-                    {#{{ ticket.id }}#}
-                    <tr>
-                        <td>{{ ticket.name }}</td>
-                        <td>{{ ticket.surname }}</td>
-                        <td>{{ ticket.country }}</td>
-                        <td>
-                            {{ ticket.price }}
-                        </td>
-
-                        <td> </td>
-                    </tr>
-                {% endfor %}
-
-                </tbody>
-            </table>
+                    <div class="col-xs-12 toggle-header">
+                      <div class="col-xs-4">
+                        <button type="button" class="btn btn-primary btn-sm hidden-xs" data-toggle="collapse" data-target="#feature-1">
+                          <i class="glyphicon glyphicon-resize-vertical"></i>Tickets
+                        </button>
+                        <button type="button" class="btn btn-primary btn-xs visible-xs" data-toggle="collapse" data-target="#feature-1">
+                          <i class="glyphicon glyphicon-resize-vertical"></i>Tickets
+                        </button>
+                      </div>
+                      <div class="col-xs-2 text-center">
+                        <span class="hidden-xs">{{ "Nom"|trans }}</span>
+                        <span class="visible-xs">{{ "Nom"|trans }}</span>
+                      </div>
+                      <div class="col-xs-2 text-center">
+                        <span class="hidden-xs">{{ "Prénom"|trans }}</span>
+                        <span class="visible-xs">{{ "Prénom"|trans }}</span>
+                      </div>
+                      <div class="col-xs-2 text-center">
+                        <span class="hidden-xs">{{ "Pays"|trans }}</span>
+                        <span class="visible-xs">{{ "Pays"|trans }}</span>
+                      </div>
+                      <div class="col-xs-2 text-center">
+                        <span class="hidden-xs">{{ "Tarif"|trans }}</span>
+                        <span class="visible-xs">{{ "Tarif"|trans }}</span>
+                      </div>
+                    </div>
+                    <div id="feature-1" class="collapse in">
+                      {% if booking.tickets == null %}
+                        <p>Aucun ticket, veuillez retourner à la
+                          <a href="{{ path('_booking') }}"></a>Billetterie</p>
+                      {% else %}
+                        {% for ticket in booking.tickets %}
+                          {#{{ ticket.id }}#}
+                          <div class="panel-body">
+                            <div class="row">
+                              <div class="col-xs-4">
+                                <strong>Code Ticket :
+                                </strong>
+                              </div>
+                              <div class="col-xs-2 text-center">
+                                {{ ticket.name }}
+                              </div>
+                              <div class="col-xs-2 text-center">
+                                {{ ticket.surname }}
+                              </div>
+                              <div class="col-xs-2 text-center">
+                                {{ ticket.country }}
+                              </div>
+                              <div class="col-xs-2 text-center">
+                                {{ ticket.price }}
+                                €
+                              </div>
+                              <div class="col-xs-2 text-center">
+                                {{ ticket.code }}
+                              </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
-{% endblock%}
+  {% endblock%}
