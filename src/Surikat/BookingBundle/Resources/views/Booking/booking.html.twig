@@ -2,48 +2,54 @@
 {% extends "SurikatBookingBundle::layout.html.twig" %}
 {% block title %}Nouvelle Réservation{% endblock %}
 {% block body %}{{ parent() }}
+  <div class="well">
+    {% if booking is defined and booking.validate == false %}
+      {% for error in booking.errors %}
 
-  <h3>Formulaire de Réservation</h3>
-  {{ form_start(form, {'attr': {'class': 'form-inline'}}) }}
-  <div class='well'>
-    {# Les erreurs générales du formulaire. #}
-    {{ form_errors(form) }}
-    <div class="col-lg-offset-4">
-      {# Génération label + error + widget pour un champ. #}
-      {{ form_row(form.bookingFor, {'label': 'Choisissez une date'}) }}
-      {{ form_row(form.type, {'label': 'Choisissez un type'}) }}
-      {{ form_row(form.email, {'label': 'Email :'}) }}
-      {{ form_widget(form.valider, {'attr': {'class': 'btn btn-success
-    glyphicon glyphicon-ok'}}) }}
+      {% endfor %}
+      {% endif%}
     </div>
-  </div>
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="box">
-          <div class="box-icon col-lg-2">
-            <span class="fa fa-4x fa-ticket"></span>
-          </div>
-          <div class="pull-right col-lg-5">
-            <img src="{{ asset('assets/img/Louvre-LOGO.png') }}" class="img-responsive" alt="logo-louvre">
-          </div>
-          <hr>
-          <div class="info">
-            <h4 class="text-center">Un Ticket pour le Louvre!</h4>
-            {{ form_row(form.tickets) }}
-            <hr />
-            <a href="#" id="add_ticket" class="btn btn-default">Ajouter un Ticket</a>
+    <h3 class="center">PLATEFORME D'ACHAT POUR VOS TICKETS</h3>
+    {{ form_start(form, {'attr': {'class': 'form-inline'}}) }}
+    <div class='well center'>
+      {# Les erreurs générales du formulaire. #}
+      {{ form_errors(form) }}
+      <div class="col-lg-offset-4">
+        {# Génération label + error + widget pour un champ. #}
+        {{ form_row(form.bookingFor, {'label': 'Choisissez une date'}) }}
+        {{ form_row(form.type, {'label': 'Choisissez un type'}) }}
+        {{ form_row(form.email, {'label': 'Email :'}) }}
+        {{ form_widget(form.valider, {'attr': {'class': 'btn btn-success
+    glyphicon glyphicon-ok'}}) }}
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="box">
+            <div class="box-icon col-lg-2">
+              <span class="fa fa-4x fa-ticket"></span>
+            </div>
+            <div class="pull-right col-lg-5">
+              <img src="{{ asset('assets/img/Louvre-LOGO.png') }}" class="img-responsive" alt="logo-louvre">
+            </div>
+            <hr>
+            <div class="info">
+              <h4 class="text-center">Un Ticket pour le Louvre!</h4>
+              {{ form_row(form.tickets) }}
+              <hr/>
+              <a href="#" id="add_ticket" class="btn btn-default">Ajouter un Ticket</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  {# Génération automatique des champs pas encore écrits. Champ CSRF (géré automatiquement par Symfony !) et tous les champs cachés (type « hidden »). #}
-  {{ form_rest(form) }}
-  {# Fermeture de la balise
+    {# Génération automatique des champs pas encore écrits. Champ CSRF (géré automatiquement par Symfony !) et tous les champs cachés (type « hidden »). #}
+    {{ form_rest(form) }}
+    {# Fermeture de la balise
 <form> du formulaire HTML #}
-  {{ form_end(form) }}
-  <hr>
+    {{ form_end(form) }}
+    <hr>
 
-{% endblock %}
+  {% endblock %}

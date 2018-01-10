@@ -45,36 +45,122 @@ class ConfigManager
         $em->flush();
     }
 
-    public function loadConfigByDate($date)
+    /**
+     * Vérifie la disponibilité du jour donnée pour la commande des tickets
+     *
+     * @param date $date
+     * @return $availability
+     */
+    public function checkAvailability($date)
+    {
+      $em = $this->em;
+      // On crée les Class Booking et ticket et la variable $date
+      $booking = new Booking();
+      $ticket = new Ticket();
+      $date = new \Datetime($date);
+      //  date->setFormat('yyyy-mm-dd');
+      // On récupère la réservation correspondant à la date
+      $bookings = $em
+        ->getRepository('SurikatBookingBundle:Booking')
+        ->findByBookingFor($date);
+      ;
+      // On récupère la Configuration via Setting
+      $config = $em
+        ->getRepository('SurikatBookingBundle:Setting')
+        ->findOneByConfigName('config-louvre');
+        ;
+        // On définie TicketCount, le nombre de tickets déjà reservé pour ce jour
+        $ticketCount = 0;
+
+      foreach ($bookings as $booking) {
+          $tickets = $booking->getTickets();
+          $count = count($tickets);
+          $ticketCount = $ticketCount + $count;
+      }
+
+      $dailyTicketsLimit = $config->getDailyTicketLimit();
+        // dump($dailyTicketsLimit);die;
+      $availability =  $dailyTicketsLimit - $ticketCount;
+
+      return $availability;
+
+    }
+
+    /**
+     * Vérifie si la date ne correspond pas à un jour fermé
+     *
+     * @param date $date
+     * @return bool
+     */
+    public function checkIfClosedDay($date)
     {
         $em = $this->em;
-        // On crée les Class Booking et ticket et la variable $date
-        $booking = new Booking();
-        $ticket = new Ticket();
-        $date = new \Datetime($date);
-        //  date->setFormat('yyyy-mm-dd');
-        // On récupère la réservation correspondant à la date
-        $bookings = $em
-          ->getRepository('SurikatBookingBundle:Booking')
-          ->findByBookingFor($date);
-        ;
         // On récupère la Configuration via Setting
         $config = $em
           ->getRepository('SurikatBookingBundle:Setting')
           ->findOneByConfigName('config-louvre');
           ;
-          // On définie TicketCount, le nombre de tickets déjà reservé pour ce jour
-          $ticketCount = 0;
+        $closedDays = $config->getClosedDays();
+        $dateToCompare = new \Datetime($date);
+        // On compare les dates, si égale retourne true, sinon retourne null
+        foreach ($closedDays as $closedDay) {
+          $closedDay = new \Datetime($closedDay);
+      //    dump($closedDay);die;
+          if ($closedDay  == $dateToCompare) {
+            return true;
+          }
+        }
+    }
 
-        foreach ($bookings as $booking) {
-            $tickets = $booking->getTickets();
-            $count = count($tickets);
-            $ticketCount = $ticketCount + $count;
+    /**
+     * Vérifie si la date ne correspond pas à un jour de fermeure hebdomadaire
+     *
+     * @param date $date
+     * @return bool
+     */
+    public function checkIfClosedWeekDay($date)
+    {
+        $em = $this->em;
+        // On récupère la Configuration via Setting
+        $config = $em
+          ->getRepository('SurikatBookingBundle:Setting')
+          ->findOneByConfigName('config-louvre');
+          ;
+        $closedWeekDays = $config->getClosedWeekDays();
+        $dateToCompare = date('N', strtotime($date));
+        // On compare les dates, si égale retourne true, sinon retourne null
+        foreach ($closedWeekDays as $closedWeekDay) {
+          if ($closedWeekDay  == $dateToCompare) {
+            return true;
+          }
         }
 
-        $dailyTicketsLimit = $config->getDailyTicketLimit();
-          // dump($dailyTicketsLimit);die;
-        $availability =  $dailyTicketsLimit - $ticketCount;
+    }
+
+    public function loadConfigByDate($date)
+    {
+        $em = $this->em;
+        // On récupère la Configuration via Setting
+        $config = $em
+          ->getRepository('SurikatBookingBundle:Setting')
+          ->findOneByConfigName('config-louvre');
+          ;
+          // On vérifie si $date n'est pas dans la liste des jours de fermeture
+        // Si le jour demandé est un jour fermé on renvois une erreur et une disponibilité 0
+        if ($closedDays = $this->checkIfClosedDay($date) || $closedWeekDays = $this->checkIfClosedWeekDay($date) ) {
+          $config->setTicketsLimit(0);
+          $config->setAvailability(0);
+          $config->setDailyTicketLimit(0);
+          $error = array('Code' => 'error_LI01',
+          'Information' => ' Date non disponible à la réservation',
+          'Cause' => 'Jour de fermeture');
+          $config->setErrors($error);
+          return $config;
+        }
+
+
+        // On récupère les paramètres de disponibilité via Setting checkAvailability()
+        $availability =  $this->checkAvailability($date);
         // dump($availability);die;
         $config->setAvailability($availability);
 

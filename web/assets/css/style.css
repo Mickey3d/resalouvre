@@ -2,6 +2,10 @@
 *********  _ Top Menu Navigation
 */
 
+.center {
+  text-align: center;
+}
+
 #topo {
   z-index: 15;
   background-color: #FFF;

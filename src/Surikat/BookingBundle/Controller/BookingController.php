@@ -42,8 +42,6 @@ class BookingController extends Controller
       */
     }
 
-
-
     // @var DateTime $date return $config
     // Vérification de la disponibiité pour une date donnée
     public function CheckForAvailabiliyAction($date)
@@ -74,14 +72,20 @@ class BookingController extends Controller
           {
             //    dump($form);die;
             $em = $this->getDoctrine()->getManager();
-            //    $booking->setEmail('pololepolo@aul.zoc');
-            $booking->setPaiementStatus('en Cours');
             $booking =  $bookingEngine->loadPrices($booking);
-            $booking =   $bookingEngine->saveBooking($booking);
-            $request->getSession()->getFlashBag()->add('success', 'Réservation bien enregistrée.');
-          //   $booking = $this->get('jms_serializer')->serialize($booking, 'json');
+            $booking =  $bookingEngine->validateBooking($booking);
+            // dump($booking);die;
+            if ($booking->getValidate() == true) {
+              $booking->setPaiementStatus('en Cours');
+              $booking =   $bookingEngine->saveBooking($booking);
+              $request->getSession()->getFlashBag()->add('success', 'Réservation bien enregistrée.');
+            //   $booking = $this->get('jms_serializer')->serialize($booking, 'json');
+              return $this->redirectToRoute('_new_booking', array('code' => $booking->getCode()));
+            }
+            else {
+              $request->getSession()->getFlashBag()->add('warning', 'Erreur dans la réservation');
+            }
 
-            return $this->redirectToRoute('_new_booking', array('code' => $booking->getCode()));
           }
 
           // On passe la méthode createView() du formulaire à la vue afin qu'elle puisse afficher le formulaire toute seule
@@ -125,7 +129,7 @@ class BookingController extends Controller
               $this->addFlash("warning","Erreur lors de la transaction :(");
               $booking->setPaiementStatus('erreur');
               $booking =   $bookingEngine->saveBooking($booking);
-              return $this->redirectToRoute("order_prepare");
+              return $this->redirectToRoute('_new_booking', array('code' => $booking->getCode()));
               // The card has been declined
             }
 

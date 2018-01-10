@@ -5,7 +5,6 @@
 {% block title %}Index Booking Engine{% endblock %}
 
 {% block body %}{{ parent( )}}
-
   <div class="container">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -55,7 +54,7 @@
                               Paiement confirmé
                             </p>
                           {% else %}
-                            <div>
+                            <div class="center">
                               <form action="#" method="POST" id="stripeForm">
                                 <script
                                   src="https://checkout.stripe.com/checkout.js"
