@@ -1,55 +1,161 @@
 {# src/Surikat/BookingBundle/Resources/views/Booking/new_booking.html.twig #}
 {% extends "SurikatBookingBundle::layout.html.twig" %}
-{% block title %}Nouvelle Réservation{% endblock %}
-{% block body %}{{ parent() }}
-  <div class="well">
-    {% if booking is defined and booking.validate == false %}
-      {% for error in booking.errors %}
 
-      {% endfor %}
-      {% endif%}
+{% block title %}Nouvelle Réservation{% endblock %}
+
+{% form_theme form _self %}
+
+{% block checkbox_widget %}
+    <input type="checkbox" 
+    {{ block('widget_attributes') }}
+    {% if value is defined %}
+    value="{{ value }}"
+    {% endif %}
+    {% if checked %}
+    checked="checked"
+    {% endif %}
+    />
+{% endblock %}
+
+{% block radio_widget %}
+	<div class="radio">
+        <label style="font-size: 1.5em"> 
+        {% if value is defined and value == 'halfDay' %}
+				Demi-Journée
+		{% else %}
+				Journée
+		{% endif %}
+            <input type="radio" 
+            {{ block('widget_attributes') }}
+            {% if value is defined %} 
+            value="{{ value }}"{% endif %}
+            {% if checked %} 
+            checked="checked"
+            {% endif %} />
+            <span class="cr"><i class="cr-icon fa fa-circle"></i></span>
+        </label>
     </div>
-    <h3 class="center">PLATEFORME D'ACHAT POUR VOS TICKETS</h3>
-    {{ form_start(form, {'attr': {'class': 'form-inline'}}) }}
-    <div class='well center'>
-      {# Les erreurs générales du formulaire. #}
-      {{ form_errors(form) }}
-      <div class="col-lg-offset-4">
-        {# Génération label + error + widget pour un champ. #}
-        {{ form_row(form.bookingFor, {'label': 'Choisissez une date'}) }}
-        {{ form_row(form.type, {'label': 'Choisissez un type'}) }}
-        {{ form_row(form.email, {'label': 'Email :'}) }}
-        {{ form_widget(form.valider, {'attr': {'class': 'btn btn-success
-    glyphicon glyphicon-ok'}}) }}
-      </div>
+{% endblock %}
+
+{% block _surikat_bookingbundle_booking_tickets_entry_widget %}
+
+  <div id="prototype_ticket" class="col-sm-12">
+    <div class="col-sm-3 md-input">
+      {{ form_widget(form.name, {'attr': {'class': 'md-form-control'}}) }}
+      <span class="highlight"></span>
+      <span class="bar"></span>
+      <label>Nom</label>
     </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <div class="box">
-            <div class="box-icon col-lg-2">
-              <span class="fa fa-4x fa-ticket"></span>
-            </div>
-            <div class="pull-right col-lg-5">
-              <img src="{{ asset('assets/img/Louvre-LOGO.png') }}" class="img-responsive" alt="logo-louvre">
-            </div>
-            <hr>
-            <div class="info">
-              <h4 class="text-center">Un Ticket pour le Louvre!</h4>
-              {{ form_row(form.tickets) }}
-              <hr/>
-              <a href="#" id="add_ticket" class="btn btn-default">Ajouter un Ticket</a>
-            </div>
+    <div class="col-sm-3 md-input">
+      {{ form_widget(form.surname, {'attr': {'class': 'md-form-control'}}) }}
+      <span class="highlight"></span>
+      <span class="bar"></span>
+      <label>Prénom</label>
+    </div>
+    <div class="col-sm-3 md-input">
+      {{ form_widget(form.birthdate, {'attr': {'class': 'md-form-control js-datepicker'}}) }}
+      <span class="highlight"></span>
+      <span class="bar"></span>
+      <label>Date de naissance</label>
+    </div>
+    <div class="col-sm-2 md-input">
+      {{ form_widget(form.country, {'attr': {'class': 'md-form-control country-input'}}) }}
+      <span class="highlight"></span>
+      <span class="bar"></span>
+      <label>Nationalité</label>
+    </div>
+    <div class="col-sm-3 ">
+    <div class="checkbox">
+        <label style="font-size: 1em">
+      		{{ form_widget(form.specialPrice) }}
+      		<span class="cr"><i class="cr-icon fa fa-check"></i></span>
+      	TARIF REDUIT 
+      	</label>
+    </div>
+    </div>
+    <hr/>
+  </div>
+
+{% endblock %}
+
+{% block body %}{{ parent() }}
+
+    <div>
+      {{ form_start(form, {'attr': {'class': 'form-inline'}}) }}
+
+      <div class='jumbotron center'>
+        {# Les erreurs générales du formulaire. #}
+        {{ form_errors(form) }}
+        <div class="col-sm-12">
+          {# Génération label + error + widget pour un champ. #}
+          <div class="col-sm-3">
+          {{ form_row(form.bookingFor, {'label': 'Choisissez une date'}) }}
+          </div>
+          <div class="col-sm-3">
+          {{ form_row(form.type, {'label': 'Choisissez un type'}) }}
+          </div>
+          <div class="col-sm-3">
+          {{ form_row(form.email, {'label': 'Email :'}) }}
+          </div>
+          <div class="col-sm-3">
+          {{ form_widget(form.valider, {'attr': {'class': 'btn btn-success glyphicon glyphicon-ok'}}) }}
           </div>
         </div>
       </div>
-    </div>
 
-    {# Génération automatique des champs pas encore écrits. Champ CSRF (géré automatiquement par Symfony !) et tous les champs cachés (type « hidden »). #}
-    {{ form_rest(form) }}
-    {# Fermeture de la balise
-<form> du formulaire HTML #}
-    {{ form_end(form) }}
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <div class="box">
+              <div>
+                <div class="box-icon col-lg-2">
+                  <span class="fa fa-4x fa-ticket"></span>
+                </div>
+                <div class="pull-right col-lg-4 responsive">
+                  <img src="{{ asset('assets/img/Louvre-LOGO.png') }}" class="img-responsive" alt="logo-louvre">
+                </div>
+                <div>
+                  <h2 class="text-center">Un Ticket pour le Louvre!</h2>
+                  <hr>
+                </div>
+              </div>
+				
+              <div id="container-ticket">
+ 				{{ form_widget(form.tickets) }}
+              	{{ form_label(form.tickets, 'TICKETS', {
+       				'label_attr': {'class': 'll'}
+					}) 
+				}}  
+                {# Fin container-ticket #}
+              </div>
+              <div class="col-lg-12 center">
+                <hr/>
+                <a href="#" id="add_ticket" class="btn btn-default">Ajouter un Ticket</a>
+              </div>
+              {# Fin box #}
+            </div>
+            {# Fin col #}
+          </div>
+          {# Fin row #}
+        </div>
+        {# Fin container #}
+      </div>
+
+      {#  #}
+
+      {# Génération automatique des champs pas encore écrits. Champ CSRF (géré automatiquement par Symfony !) et tous les champs cachés (type « hidden »). #}
+
+      {# Fermeture de la balise
+	<form> du formulaire HTML #}
+      {{ form_end(form) }}
+    </div>
     <hr>
 
   {% endblock %}
+
+  {% block javascripts %}{{ parent() }}
+  	
+  {% endblock %}
+
+

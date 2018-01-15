@@ -1,4 +1,6 @@
 $(document).ready(function() {
+  
+
   $('#menu-topo').hide();
   var menuaberto = false;
   $('.btn-collapse').click(function(event) {
@@ -23,6 +25,8 @@ $(document).ready(function() {
     $('.alert').fadeOut()
   }, 7000);
 
+
+
   // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
   var $container = $('div#surikat_bookingbundle_booking_tickets');
 
@@ -32,7 +36,6 @@ $(document).ready(function() {
   // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
   $('#add_ticket').click(function(e) {
     addTicket($container);
-
     e.preventDefault(); // évite qu'un # apparaisse dans l'URL
     return false;
   });
@@ -44,6 +47,8 @@ $(document).ready(function() {
     // On ajoute un lien de suppression pour chacun des tickets
     $container.children('div').each(function() {
       addDeleteLink($(this));
+      
+ //     addDatePicker();
     });
   }
 
@@ -52,9 +57,11 @@ $(document).ready(function() {
     // Dans le contenu de l'attribut « data-prototype », on remplace :
     // - le texte "__name__label__" qu'il contient par le label du champ
     // - le texte "__name__" qu'il contient par le numéro du champ
-    var template = $container.attr('data-prototype').replace(/__name__label__/g, 'Ticket n°' + (
+    var template = $container.attr('data-prototype')
+    .replace(/__name__label__/g, 'Ticket n°' + (
       index + 1
-    )).replace(/__name__/g, index);
+    ))
+    .replace(/__name__/g, index);
 
     // On crée un objet jquery qui contient ce template
     var $prototype = $(template);
@@ -64,7 +71,21 @@ $(document).ready(function() {
 
     // On ajoute le prototype modifié à la fin de la balise <div>
     $container.append($prototype);
-
+    //  console.log($('div#surikat_bookingbundle_booking_tickets > div').length)
+    //    addDatePicker();
+    /*
+    $('.js-datepicker').datepicker({
+              startView: 2,
+              clearBtn: true,
+              language: "fr",
+              format: "dd/mm/yyyy",
+              startDate: '01/01/1900',
+              endDate: '-1d',            
+              startView: 3,
+              defaultViewDate: { year: 1980, month: 06, day: 15 },
+              autoclose: true,
+      });
+      */
     // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
     index++;
   }
@@ -72,29 +93,39 @@ $(document).ready(function() {
   // La fonction qui ajoute un lien de suppression d'un ticket
   function addDeleteLink($prototype) {
     // Création du lien
-    var $deleteLink = $('<a href="#" class="btn btn-delete"><i class="fa fa-trash-o" aria-hidden="true"></i><strong> Supprimer</strong></a></br><hr height="none" size="3" width="50%" color="blue">');
-
+    var $deleteLink = $('<div><a href="#" title="Supprimer de la Commande" class="pull-right btn btn-delete"><i class="fa fa-trash-o" aria-hidden="true"></i><strong> </strong></a></br><hr height="none" size="3" width="50%" color="blue"></div>');
+    
+    if (($('div#surikat_bookingbundle_booking_tickets > div').length) >= 1) {
     // Ajout du lien
     $prototype.append($deleteLink);
-
+    }
     // Ajout du listener sur le clic du lien pour effectivement supprimer le ticket
     $deleteLink.click(function(e) {
-      $prototype.remove();
-
+      if (($('div#surikat_bookingbundle_booking_tickets > div').length) > 1) {
+                $prototype.remove();          
+      }
+    // console.log($('div#surikat_bookingbundle_booking_tickets > div').length)
       e.preventDefault(); // évite qu'un # apparaisse dans l'URL
       return false;
     });
   }
 
-  // configure the bootstrap datepicker
-  $('.js-datepicker').datepicker({
-    startView: 2,
-    format: 'dd-mm-yyyy',
-    autoclose: true,
-    todayHighlight: true,
-    clearBtn: true,
-    language: "fr"
-  })
-
 
 });
+/*
+  // configure the bootstrap datepicker
+ $(document).on('focus', ".js-datepicker", function() {
+  $(this).datepicker({
+    startView: 2,
+          clearBtn: true,
+          language: "fr",
+          format: "dd/mm/yyyy",
+          startDate: '01/01/1900',
+          endDate: '-1d',            startView: 3,
+          defaultViewDate: { year: 1980, month: 06, day: 15 },
+          autoclose: true,
+  });
+});
+*/
+
+

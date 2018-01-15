@@ -95,14 +95,14 @@ class Booking
     /**
      * @var array
      *
-     * @ORM\Column(name="messages", type="array", nullable=true)
+     * @ORM\Column(name="messages", type="string", nullable=true)
      */
     private $messages;
 
     /**
      * @var array
      *
-     * @ORM\Column(name="errors", type="array", nullable=true)
+     * @ORM\Column(name="errors", type="string", nullable=true)
      */
     private $errors;
 
@@ -384,60 +384,47 @@ class Booking
     }
 
     /**
-     * Add message
+     * Set messages
+     *
+     * @param string $messages
      *
      * @return Booking
      */
-    public function addMessage($message)
+    public function setMessages($messages)
     {
-        $this->messages[] = $message;
+        $this->messages = $messages;
 
         return $this;
     }
 
     /**
-     * Remove message
+     * Get messages
      *
-     */
-    public function removeMessage($message)
-    {
-        $this->messages->removeElement($message);
-    }
-
-    /**
-     * Get messages.
-     *
-     * @return array|null
+     * @return string
      */
     public function getMessages()
     {
         return $this->messages;
     }
 
-     /**
-     * Add error
+    /**
+     * Set errors
      *
+     * @param string $type
+     *
+     * @return Booking
      */
-    public function addError($error)
+    public function setErrors($errors)
     {
-        $this->errors[] = $error;
+        $this->errors = $errors;
 
         return $this;
     }
 
     /**
-     * Remove error
+     * Get errors
      *
-     */
-    public function removeError($error)
-    {
-        $this->errors->removeElement($error);
-    }
-
-    /**
-     * Get errors.
-     *
-     * @return array|null
+     * @return string
      */
     public function getErrors()
     {

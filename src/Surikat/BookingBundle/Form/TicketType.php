@@ -27,38 +27,47 @@ class TicketType extends AbstractType
         ->add('name',  TextType::class, array(
           'label'       => 'Prénom: ',
           'label_attr'  => array(
-            'class'     => 'md-form-control'
+            'class'     => 'md-form-control col-sm-3'
         )))
         ->add('surname',  TextType::class, array(
-          'label'       => 'Nom: '
-        ))
+          'label'       => 'Nom: ',
+          'label_attr'  => array(
+            'class'     => 'md-form-control col-sm-3'
+        )))
         ->add('birthdate',  DateType::class, array(
           'label'       => 'Date de Naissance: ',
+          'label_attr'  => array(
+            'class'     => 'col-sm-3'),
           'widget'      => 'single_text',
           'format' => 'dd-mm-yyyy',
           // do not render as type="date", to avoid HTML5 date pickers
           'html5'       => false,
           // add a class that can be selected in JavaScript
-          'attr' => ['class' => 'js-datepicker', 'placeholder'=>'Choisissez une date'],
-          'required'=>false,
+          'attr' => ['class' => 'js-datepicker'],
+          'required'=>true,
         ))
         ->add('country',  CountryType::class, array(
           'label'       => 'Nationalité: ',
-          'placeholder' => 'Selectionnez votre pays',
+          'label_attr'  => array(
+            'class'     => 'col-sm-3'),
+          'placeholder' => '',
           'multiple'    => false,
           'required'    => true,
           'preferred_choices' => array('FR','DE','GB','IT','ES','PT','RU','CN','JP','CA','US','BR','AU')
         ))
-        ->add('specialPrice',  CheckboxType::class, array(
-          'required'    => false,
-          'label'       => '-**Tarif réduit - '
-        ))
+        /*
         ->add('email',  EmailType::class, array(
           'required'    => false
         ))
         ->add('info',  TextAreaType::class, array(
           'required'    => false
+        ))
+        */
+        ->add('specialPrice',  CheckboxType::class, array(
+          'required'    => false,
+           'label'       => false
         ));
+
     }
     /**
      * {@inheritdoc}

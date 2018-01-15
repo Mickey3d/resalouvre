@@ -151,9 +151,9 @@ class ConfigManager
           $config->setTicketsLimit(0);
           $config->setAvailability(0);
           $config->setDailyTicketLimit(0);
-          $error = array('Code' => 'error_LI01',
-          'Information' => ' Date non disponible à la réservation',
-          'Cause' => 'Jour de fermeture');
+          $error = '- Code error_LI01
+          - Date non disponible à la réservation
+          - Jour de fermeture';
           $config->setErrors($error);
           return $config;
         }
@@ -167,41 +167,41 @@ class ConfigManager
         if ($availability <= 0)
           {
               $config->setTicketsLimit(0);
-              $error = array('Code' => 'error_LI02',
-              'Information' => 'Date non disponible à la réservation',
-              'Cause' => 'Aucune disponibilité pour ce jour');
+              $error = 'Code error_LI02
+              - Date non disponible à la réservation
+              - Aucune disponibilité pour ce jour';
               $config->setErrors($error);
           }
           elseif ($availability < 10)
           {
             $config->setTicketsLimit(1);
-            $message = array('Code' => 'LI04',
-            'Information' => 'Limitation du nombre de tickets réservables à 1 par réservation',
-            'Cause' => 'Disponibilité réduite pour  ce jour : moins de 10 tickets encore disponible');
+            $message = 'Code LI04
+            - Limitation du nombre de tickets réservables à 1 par réservation
+            - Disponibilité réduite pour  ce jour : moins de 10 tickets encore disponible';
             $config->setMessages($message);
           }
           elseif ($availability < 20)
           {
             $config->setTicketsLimit(2);
-            $message = array('Code' => 'LI03',
-            'Information' => 'Limitation du nombre de tickets réservables à 2 par réservation',
-            'Cause' => 'Disponibilité réduite pour  ce jour : moins de 20 tickets encore disponible');
+            $message = 'Code LI03
+            - Limitation du nombre de tickets réservables à 2 par réservation
+            - Disponibilité réduite pour  ce jour : moins de 20 tickets encore disponible';
             $config->setMessages($message);
           }
           elseif ($availability < 50)
           {
             $config->setTicketsLimit(5);
-            $message = array('Code' => 'LI02',
-            'Information' => 'Limitation du nombre de tickets réservables à 5 par réservation',
-            'Cause' => 'Disponibilité réduite pour  ce jour : moins de 50 tickets encore disponible');
+            $message = 'Code LI02
+            - Limitation du nombre de tickets réservables à 5 par réservation
+            - Disponibilité réduite pour  ce jour : moins de 50 tickets encore disponible';
             $config->setMessages($message);
           }
           else
           {
             $config->setTicketsLimit(30);
-            $message = array('Code' => 'LI01',
-            'Information' => 'Limitation du nombre de tickets réservables à 30 par réservation',
-            'Cause' => 'Disponibilité maximal pour une réservation');
+            $message = 'Code LI01
+            - Limitation du nombre de tickets réservables à 30 par réservation
+            - Disponibilité maximal pour une réservation';
             $config->setMessages($message);
           }
 

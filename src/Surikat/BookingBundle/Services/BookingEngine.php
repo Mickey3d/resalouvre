@@ -98,10 +98,9 @@ class BookingEngine
 
         if ($closedDays = $configManager->checkIfClosedDay($date) || $closedWeekDays = $configManager->checkIfClosedWeekDay($date) ) {
           $booking->setValidate(false);
-          $error = array('Code' => 'error_LI01',
-          'Information' => ' Date non disponible à la réservation',
-          'Cause' => 'Jour de fermeture');
-          $booking->addError($error);
+          $error = '- Code error_LI01 - Date non disponible à la réservation - Jour de fermeture';
+          $booking->setErrors($error);
+        //  dump($booking);
           return $booking;
         }
         else {
@@ -110,24 +109,24 @@ class BookingEngine
 
           if ($booking != $bookingToValidate) {
             $booking->setValidate(false);
-            $error = array('Code' => 'error_PRI01',
-            'Information' => ' Erreur dans la Validation des Prix',
-            'Cause' => 'Les prix fournis par la réservation sont erroné. Ceci peut provenir d\'une mise à jour ou d\'une erreur de traitement');
-            $booking->addError($error);
+            $error = '- Code error_PRI01 - Erreur dans la Validation des Prix
+            - Les prix fournis par la réservation sont erroné
+            - Ceci peut provenir d\'une mise à jour ou d\'une erreur de traitement';
+            $booking->setErrors($error);
             return $booking;
           }
           else {
             // On récupère les paramètres de disponibilité via Setting checkAvailability()
             $availability =  $configManager->checkAvailability($date);
             $ticketsCount= count($booking->getTickets());
-    
+
             if ($availability - $ticketsCount < 0) {
 
               $booking->setValidate(false);
-              $error = array('Code' => 'error_DISPO01',
-              'Information' => ' Erreur dans la Disponibilité des Tickets',
-              'Cause' => 'La disponibilité actuelle est inférieure à votre demande. Il reste '.$availability.' tickets disponibles à la vente et vous en souhaitez '.$ticketsCount);
-              $booking->addError($error);
+              $error = '- Code error_DISPO01
+              - Erreur dans la Disponibilité des Tickets
+              - La disponibilité actuelle est inférieure à votre demande. Il reste '.$availability.' tickets disponibles à la vente et vous en souhaitez '.$ticketsCount;
+              $booking->setErrors($error);
               return $booking;
             }
             else {
@@ -146,14 +145,21 @@ class BookingEngine
         $em = $this->em;
         $booking->setBookedAt(new \DateTime());
         // Génération code de réservation
-        $booking->setCode("codigo".$random);
+        if ($booking->getCode() == null)
+        {
+          $booking->setCode("codigo".$random);
         // $booking->setCode(md5(uniqid(rand(), true)));
+        }
+        // $booking->setPaiementStatus("en cours");
         $em->persist($booking);
         // Enregistrement des Tickets liés à la réservation
         $tickets =  $booking->getTickets();
         foreach ($tickets as $ticket)
         {
+          if ($ticket->getCode() == null)
+          {
           $ticket->setCode('TICK'.$random);
+          }
           $booking->addTicket($ticket);
           $em->persist($ticket);
         }

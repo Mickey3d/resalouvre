@@ -115,7 +115,7 @@
   : * text-align: right;
   */ display: block;
   margin-top: 5px;
-  min-height: 180px;
+  min-height: 300px;
 }
 
 .box-icon {
@@ -172,6 +172,36 @@
 
 #surikat_bookingbundle_booking_tickets {}
 
+#prototype_ticket{
+
+  border-bottom: 1px solid black;
+  margin-top: 20px;
+
+}
+/*
+.dlk-radio input[type="radio"],
+.dlk-radio input[type="checkbox"] 
+{
+  margin-left:-99999px;
+  display:none;
+}
+.dlk-radio input[type="radio"] + .fa ,
+.dlk-radio input[type="checkbox"] + .fa {
+     opacity:0.15
+}
+.dlk-radio input[type="radio"]:checked + .fa,
+.dlk-radio input[type="checkbox"]:checked + .fa{
+    opacity:1
+}
+*/
+
+@media screen and (min-width: 768px) {
+    
+    .country-input {
+      max-width: 150px;
+    }
+
+}
 /*
 *********  _ Alert
 */
@@ -310,7 +340,7 @@
 
 .md-input .md-form-control {
   font-size: 16px;
-  padding: 10px 10px 10px 5px;
+  padding: 10px 10px 5px 5px;
   display: block;
   border: none;
   border-bottom: 2px solid #CACACA;
@@ -362,7 +392,7 @@
   width: 0;
   bottom: 0px;
   position: absolute;
-  background: red;
+  background: #40A497;
   transition: 0.2s ease all;
   -moz-transition: 0.2s ease all;
   -webkit-transition: 0.2s ease all;
@@ -408,7 +438,7 @@
 *********  _ Checkbox and Radio Button
 */
 
-/*
+
 .checkbox label:after,
 .radio label:after {
     content: '';
@@ -446,11 +476,9 @@
 }
 
 
-*/
+.checkbox label input[type="checkbox"],
 
-/*.checkbox label input[type="checkbox"],*/
 
-/*
 .radio label input[type="radio"] {
   display: none;
 }
@@ -472,7 +500,7 @@
 .radio label input[type="radio"]:disabled + .cr {
     opacity: .5;
 }
-*/
+
 
 /*
 *********  _

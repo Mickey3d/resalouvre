@@ -46,10 +46,11 @@ class BookingType extends AbstractType
                 ))
                 ->add('tickets', CollectionType::class, array (
                   'entry_type'    => TicketType::class,
+                  'prototype'     => true,
                   'allow_add'     => true,
                   'allow_delete'  => true
                   ))
-                ->add('valider',    SubmitType::class, array('label' => '.'));
+                ->add('valider',    SubmitType::class, array('label' => 'Valider la Commande'));
     }
     /**
      * {@inheritdoc}

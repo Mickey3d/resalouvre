@@ -67,28 +67,28 @@ class BookingController extends Controller
         $ticket = $bookingEngine->createTicket();
         // On crée l'objet form
         $form   = $this->createForm(BookingType::class, $booking);
-
+    //dump($form);die;
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
           {
-            //    dump($form);die;
+            
             $em = $this->getDoctrine()->getManager();
             $booking =  $bookingEngine->loadPrices($booking);
             $booking =  $bookingEngine->validateBooking($booking);
             // dump($booking);die;
             if ($booking->getValidate() == true) {
+              $request->getSession()->getFlashBag()->add('success', 'Validation de la Réservation.');
               $booking->setPaiementStatus('en Cours');
+              $request->getSession()->getFlashBag()->add('success', 'Enregistrement en cours.');
               $booking =   $bookingEngine->saveBooking($booking);
-              $request->getSession()->getFlashBag()->add('success', 'Réservation bien enregistrée.');
+              $request->getSession()->getFlashBag()->add('success', 'Réservation bien enregistrée redirection vers la plateforme de paiement.');
             //   $booking = $this->get('jms_serializer')->serialize($booking, 'json');
               return $this->redirectToRoute('_new_booking', array('code' => $booking->getCode()));
             }
             else {
-              $request->getSession()->getFlashBag()->add('warning', 'Erreur dans la réservation');
+              $request->getSession()->getFlashBag()->add('warning', $booking->getErrors());
             }
-
           }
-
-          // On passe la méthode createView() du formulaire à la vue afin qu'elle puisse afficher le formulaire toute seule
+        // On passe la méthode createView() du formulaire à la vue afin qu'elle puisse afficher le formulaire toute seule
         return $this->render('SurikatBookingBundle:Booking:booking.html.twig', array(
             'form' => $form->createView(),
         ));
@@ -122,6 +122,8 @@ class BookingController extends Controller
               ));
               $booking->setPaiementStatus('confirmé');
               $booking =   $bookingEngine->saveBooking($booking);
+              $totalPrice = $booking->getTotalPrice();
+              $this->get('surikat_booking.mailsenderengine')->sendMail($booking, $totalPrice);
               $this->addFlash("success","Paiement validé, Réservation confirmé !");
               return $this->redirectToRoute('_new_booking', array('code' => $booking->getCode()));
               }

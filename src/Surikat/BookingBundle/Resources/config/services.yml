@@ -15,3 +15,9 @@ services:
         class: Surikat\BookingBundle\Services\ConfigManager
         arguments:
           - "@doctrine.orm.entity_manager"
+
+    surikat_booking.mailsenderengine:
+        class: Surikat\BookingBundle\Services\MailSenderService
+        arguments:
+          - "@mailer"
+          - "@templating"

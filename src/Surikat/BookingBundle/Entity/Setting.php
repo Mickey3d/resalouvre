@@ -117,14 +117,14 @@ class Setting
     private $ticketsLimit;
 
     /**
-     * @var array|null
-     * @ORM\Column(name="messages", type="array", nullable=true)
+     * @var string|null
+     * @ORM\Column(name="messages", type="string", nullable=true)
      */
     private $messages;
 
     /**
-     * @var array|null
-     * @ORM\Column(name="errors", type="array", nullable=true)
+     * @var string|null
+     * @ORM\Column(name="errors", type="string", nullable=true)
      */
     private $errors;
 
@@ -502,7 +502,7 @@ class Setting
     /**
      * Set messages.
      *
-     * @param array|null $messages
+     * @param string|null $messages
      *
      * @return Setting
      */
@@ -526,7 +526,7 @@ class Setting
     /**
      * Set errors.
      *
-     * @param array|null $errors
+     * @param string|null $errors
      *
      * @return Setting
      */
@@ -540,7 +540,7 @@ class Setting
     /**
      * Get errors.
      *
-     * @return array|null
+     * @return string|null
      */
     public function getErrors()
     {
