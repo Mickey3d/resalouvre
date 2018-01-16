@@ -127,7 +127,7 @@ class ConfigManager
           ->findOneByConfigName('config-louvre');
           ;
         $closedWeekDays = $config->getClosedWeekDays();
-        $dateToCompare = date('N', strtotime($date));
+        $dateToCompare = date('w', strtotime($date));
         // On compare les dates, si égale retourne true, sinon retourne null
         foreach ($closedWeekDays as $closedWeekDay) {
           if ($closedWeekDay  == $dateToCompare) {

@@ -25,15 +25,12 @@ class BookingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('bookingFor',  DateType::class, array(
-    //              'input' => 'datetime',
-                  'label'       => 'Date de Naissance: ',
-                  'widget'      => 'choice',
-                  'data'        => new \DateTime("tomorrow"),
-    //              'format' => 'mm-dd-yyyy',
+                  'widget'      => 'single_text',
+                  'format' => 'mm-dd-yyyy',
                   // do not render as type="date", to avoid HTML5 date pickers
-    //              'html5'       => true,
+                  'html5'       => false,
                   // add a class that can be selected in JavaScript
-              //    'attr' => ['class' => 'js-datepicker', 'placeholder'=>'Choisissez une date'],
+                  'attr' => ['class' => 'booking-datepicker'],
                   'required'=>true,
                 ))
                 ->add('type', ChoiceType::class, array(

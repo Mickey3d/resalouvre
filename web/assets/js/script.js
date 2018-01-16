@@ -26,6 +26,129 @@ $(document).ready(function() {
   }, 7000);
 
 
+
+// STEP ONE CONFIG
+
+
+  // configure the bootstrap datepicker
+  $('.booking-datepicker').datepicker({
+    startView: 2,
+    format: 'dd-mm-yyyy',
+    clearBtn: true,
+    language: "fr",
+    startDate: 'today',
+   // endDate: '',
+    startView: 1,
+    defaultViewDate: { year: 1980, month: 06, day: 15 },
+    autoclose: true,
+  })
+
+  // Var Access for Step One to Step Two
+  var stepOne = document.getElementById("stepOne");
+  var stepTwo = document.getElementById("stepTwo");
+  var dateBookingForElement = document.getElementById("surikat_bookingbundle_booking_bookingFor");
+  var errorInfoDateElt = document.getElementById("errorInfoDate");
+  var bookingTypeHalfDayElt = document.getElementById("surikat_bookingbundle_booking_type_0");
+  var bookingTypeDayElt = document.getElementById("surikat_bookingbundle_booking_type_1");
+  var errorInfoTypeElt = document.getElementById("errorInfoType");
+
+  stepTwo.style.display = 'none';
+
+  $('#checkAvailability').click(function(e) {
+    
+    var dateToCheck = dateBookingForElement.value;
+    var url = 'booking/check-availability/' + dateToCheck;
+    var typeToCheck0 = bookingTypeHalfDayElt.checked;
+    var typeToCheck1 = bookingTypeDayElt.checked;
+
+    if (dateToCheck != "" & (typeToCheck0 === true | typeToCheck1 === true))
+    {
+
+      console.log(url);
+      console.log('Date OK')
+      $.get(url) 
+        .done(function( data ) {
+
+          if(errorInfoDateElt.textContent != "" | errorInfoTypeElt.textContent != "")
+          {
+            errorInfoDateElt.textContent = "";
+            errorInfoTypeElt.textContent = "";
+          }
+
+          if(data.availability > 0)
+          {
+            console.log('Disponibilité OK : ' + data.availability)
+            stepTwo.style.display = '';
+          }
+          else
+          {
+            console.log('Date indisponible : ' + data.errors)
+          }
+
+        alert( "Data Loaded: " + ' CONFIG: ' + data.config_name + ' DISPO: ' + data.availability + ' LIMITE TICKETS ' + data.tickets_limit + ' ERREUR: ' + data.errors + ' MESSAGE: ' + data.messages );
+      });
+
+    }
+    else
+    {
+      if(dateToCheck == "")
+      {
+        //console.log('date error 1');
+        if(errorInfoDateElt.textContent === "")
+        {
+          addErrorInfoDate(errorInfoDateElt); 
+        }
+      }
+      if(dateToCheck == "" & typeToCheck0 === true | typeToCheck1 === true)
+      {
+        //console.log('date error 2');
+        if(errorInfoTypeElt.textContent != "")
+        {
+          errorInfoTypeElt.textContent = ""; 
+        }
+      }
+
+      if(typeToCheck0 === false & typeToCheck1 === false)
+      {
+        //console.log('type error 1');
+        if(errorInfoTypeElt.textContent === "")
+        {
+        addErrorInfoType(errorInfoTypeElt);
+        }    
+      }
+      if(dateToCheck != "" & typeToCheck0 === false & typeToCheck1 === false)
+      {
+        //console.log('type error 2');
+        if(errorInfoDateElt.textContent != "")
+        {
+          errorInfoDateElt.textContent = ""; 
+        }
+      }
+    }
+     
+      // console.log($errorInfoDateElt.textContent);   
+
+    e.preventDefault();
+    return false;
+
+  });
+
+  function addErrorInfoDate(errorInfoDateElt) {
+    var errorInfoDate = 'Veuillez selectionner une Date pour votre visite';
+    errorInfoDateElt.append(errorInfoDate);
+  }
+
+  function addErrorInfoType(errorInfoTypeElt) {
+    var errorInfoType = 'Veuillez selectionner la durée de votre visite';
+    errorInfoTypeElt.append(errorInfoType);
+  }
+
+
+
+
+
+// STEP TWO CONFIG AND TICKETS ENGINE
+
   // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
   var $container = $('div#surikat_bookingbundle_booking_tickets');
 
@@ -104,20 +227,7 @@ $(document).ready(function() {
     });
   }
 
-/*
-  // configure the bootstrap datepicker
-  $('.js-datepicker').datepicker({
-    startView: 2,
-    format: 'dd-mm-yyyy',
-    clearBtn: true,
-    language: "fr",
-    startDate: '01/01/1900',
-    endDate: '-1d',
-    startView: 3,
-    defaultViewDate: { year: 1980, month: 06, day: 15 },
-    autoclose: true,
-  })
-*/
+
 });
 
 

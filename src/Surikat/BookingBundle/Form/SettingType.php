@@ -81,7 +81,7 @@ class SettingType extends AbstractType
              'Jeudi' => 4,
              'Vendredi' => 5,
              'Samedi' => 6,
-             'Dimanche' => 7,
+             'Dimanche' => 0,
            ),
            'label'       => 'Jour de Fermeture dans la Semaine: ',
            'required'=>false,

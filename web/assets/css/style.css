@@ -103,6 +103,21 @@
   top: 5px;
 }
 
+
+
+
+/* STEP EFFECT
+*/
+
+#stepOne {
+
+
+}
+
+#stepTwo {
+
+  
+}
 /*
 *********  _Ticket Design
 */
@@ -178,6 +193,26 @@
   margin-top: 20px;
 
 }
+
+.modal-header {
+  padding-bottom: 5px;
+}
+
+.modal-footer {
+      padding: 0;
+  }
+    
+.modal-footer .btn-group button {
+  height:40px;
+  border-top-left-radius : 0;
+  border-top-right-radius : 0;
+  border: none;
+  border-right: 1px solid #ddd;
+}
+  
+.modal-footer .btn-group:last-child > button {
+  border-right: 0;
+}
 /*
 .dlk-radio input[type="radio"],
 .dlk-radio input[type="checkbox"] 
@@ -201,6 +236,46 @@
       max-width: 150px;
     }
 
+}
+
+.validate-box {
+    vertical-align: middle;  
+}
+.validate-box .btn {
+    border-radius:20px;
+    margin-top: -15px;
+    width: auto;
+}
+
+.mailInput {
+    margin-top: 15px;
+}
+
+@media (max-width: 768px) {
+  .mailInput {
+    margin-top: 30px;
+  }
+}
+
+
+.btn-validate{
+    text-transform: uppercase;
+    color: #DEFEDA;
+    border:2px solid #00E640;
+    font-size: 13px;
+    padding:25px 40px;
+    border-radius:50px;
+}
+
+.btn-validate:hover{
+    text-transform: uppercase;
+    text-decoration: bold;
+    color: #FFF;
+    border:2px solid #00E640;
+    font-size: 13px;
+    background:#00E640;
+    padding:25px 40px;
+    border-radius:50px;
 }
 /*
 *********  _ Alert
@@ -333,6 +408,9 @@
 *********  _ INPUT FORM
 */
 
+#surikat_bookingbundle_booking_email {
+  width: 97%;
+}
 .md-input {
   position: relative;
   margin-bottom: 30px;
@@ -345,7 +423,7 @@
   border: none;
   border-bottom: 2px solid #CACACA;
   box-shadow: none;
-  width: 100%;
+  width: 97%;
 }
 
 .md-input label {
@@ -438,6 +516,17 @@
 *********  _ Checkbox and Radio Button
 */
 
+.checkbox-div {
+
+  vertical-align: middle;
+  margin-bottom: 15px;
+}
+
+.checkbox-div:hover {
+
+  margin-bottom: 25px;
+  background-color: #DEFEDA;
+}
 
 .checkbox label:after,
 .radio label:after {

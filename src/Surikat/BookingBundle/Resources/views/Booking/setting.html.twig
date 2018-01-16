@@ -1,6 +1,27 @@
 {# src/Surikat/BookingBundle/Resources/views/Booking/new_booking.html.twig #}
 {% extends "SurikatBookingBundle::layout.html.twig" %}
 {% block title %}Nouvelle Réservation{% endblock %}
+
+
+{% form_theme form _self %}
+
+{% block checkbox_widget %}
+<div class="checkbox">
+  <label for="{{ id }}" style="font-size: 1em">
+    <input type="checkbox" 
+      {{ block('widget_attributes') }}
+        {% if value is defined %}
+         value="{{ value }}"
+        {% endif %}
+        {% if checked %}
+        checked="checked"
+        {% endif %}
+    />{{ label }}
+        <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+  </label>
+</div>
+{% endblock %}
+
 {% block body %}{{ parent() }}
   <div class="container ">
     <h3>Formulaire de Configuration</h3>
@@ -46,7 +67,7 @@
               <a href="#" id="add-another-date">Ajouter une date</a>
             </div>
             <div class="col-md-12">
-              {{ form_row(form.closedWeekDays) }}
+              {{ form_widget(form.closedWeekDays) }}
             </div>
 
             {{ form_row(form.valider) }}
