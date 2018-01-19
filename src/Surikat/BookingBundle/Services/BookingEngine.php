@@ -84,58 +84,94 @@ class BookingEngine
        if ($specialPrice === true) {
             $price = $config->getSpecialPrice();
         }
-
+        // Half Day TARIF
+        if ($type === "halfDay") {
+            $price = $price / 2;
+        }
         return $price;
     }
 
     public function validateBooking(Booking $booking)
     {
         // step One - ClosedDays and ClosesWeekDays ValidateBookingAction
-        $date = $booking->getBookingFor();
-        $date = $date->format(DATE_RFC2822);
-        $configManager = $this->configManager;
-        $bookingToValidate = $booking;
+      $date = $booking->getBookingFor();
+      $date->setTime(00, 00, 00);
+      $dateNow = new \DateTime();
+      $dateNow->setTime(00, 00, 00);
+      $configManager = $this->configManager;
+      $bookingToValidate = $booking;
+      $checkPastDay = '';
 
-        if ($closedDays = $configManager->checkIfClosedDay($date) || $closedWeekDays = $configManager->checkIfClosedWeekDay($date) ) {
-          $booking->setValidate(false);
-          $error = '- Code error_LI01 - Date non disponible à la réservation - Jour de fermeture';
-          $booking->setErrors($error);
-        //  dump($booking);
+      if ($date < $dateNow) {
+          $checkPastDay = true;
+      }
+      else
+      {
+        $checkPastDay = false;
+      }
+ 
+      $date = $date->format(DATE_RFC2822);
+      $dateNow = $dateNow->format(DATE_RFC2822);
+
+      if (($configManager->checkForDaylyHourLimit() And $date == $dateNow) || $checkPastDay == true) {
+            $booking->setValidate(false);
+            $error = '- Impossible de réserver pour un jour passé - Horraire limite atteinte ';
+            $booking->setErrors($error);
+          return $booking;
+      }
+      else
+      {
+        if ($booking->getType() == 'day' And $date == $dateNow And $configManager->checkForDayType()) {
+            $booking->setValidate(false);
+            $error = '- Type Journée non disponible - Horraire limite atteinte ';
+            $booking->setErrors($error);
           return $booking;
         }
-        else {
-
-          $this->loadPrices($booking);
-
-          if ($booking != $bookingToValidate) {
-            $booking->setValidate(false);
-            $error = '- Code error_PRI01 - Erreur dans la Validation des Prix
-            - Les prix fournis par la réservation sont erroné
-            - Ceci peut provenir d\'une mise à jour ou d\'une erreur de traitement';
-            $booking->setErrors($error);
-            return $booking;
-          }
-          else {
-            // On récupère les paramètres de disponibilité via Setting checkAvailability()
-            $availability =  $configManager->checkAvailability($date);
-            $ticketsCount= count($booking->getTickets());
-
-            if ($availability - $ticketsCount < 0) {
-
+        else 
+        {
+          if ($closedDays = $configManager->checkIfClosedDay($date) || $closedWeekDays = $configManager->checkIfClosedWeekDay($date) ) {
               $booking->setValidate(false);
-              $error = '- Code error_DISPO01
-              - Erreur dans la Disponibilité des Tickets
-              - La disponibilité actuelle est inférieure à votre demande. Il reste '.$availability.' tickets disponibles à la vente et vous en souhaitez '.$ticketsCount;
+              $error = '- Date non disponible à la réservation - Jour de fermeture';
+              $booking->setErrors($error);
+              //  dump($booking);
+              return $booking;
+          }
+          else 
+          {
+            $this->loadPrices($booking);
+
+            if ($booking != $bookingToValidate) {
+              $booking->setValidate(false);
+              $error = '- Erreur dans la Validation des Prix
+              - Les prix fournis par la réservation sont erronés
+              - Ceci peut provenir d\'une mise à jour ou d\'une erreur de traitement';
               $booking->setErrors($error);
               return $booking;
             }
-            else {
-              $booking->setValidate(true);
-              return $booking;
-            }
-          }
+            else 
+            {
+              // On récupère les paramètres de disponibilité via Setting checkAvailability()
+              $availability =  $configManager->checkAvailability($date);
+              $ticketsCount= count($booking->getTickets());
 
+              if ($availability - $ticketsCount < 0) {
+
+                $booking->setValidate(false);
+                $error = ' - Erreur dans la Disponibilité des Tickets
+                - La disponibilité actuelle est inférieure à votre demande. Il reste '.$availability.' tickets disponibles à la vente et vous en souhaitez '.$ticketsCount;
+                $booking->setErrors($error);
+                return $booking;
+              }
+              else 
+              {
+                $booking->setValidate(true);
+                return $booking;
+              }
+            }
+          }  
         }
+      }
+    
     }
 
 

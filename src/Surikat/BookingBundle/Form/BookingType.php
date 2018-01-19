@@ -26,7 +26,7 @@ class BookingType extends AbstractType
     {
         $builder->add('bookingFor',  DateType::class, array(
                   'widget'      => 'single_text',
-                  'format' => 'mm-dd-yyyy',
+                  'format' => 'dd-MM-yyyy',
                   // do not render as type="date", to avoid HTML5 date pickers
                   'html5'       => false,
                   // add a class that can be selected in JavaScript
@@ -35,8 +35,9 @@ class BookingType extends AbstractType
                 ))
                 ->add('type', ChoiceType::class, array(
                   'choices' => array('Demi-Journée' => 'halfDay', 'Journée' => 'day'),
-                               'expanded' => true,
-                               'multiple' => false
+                  'expanded' => true,
+                  'multiple' => false,
+                  'required'=>true,
                 ))
                 ->add('email',  EmailType::class, array(
                   'required'    => true

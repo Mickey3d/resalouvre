@@ -109,14 +109,70 @@
 /* STEP EFFECT
 */
 
+
 #stepOne {
+    display: none;
+    position: relative;
+    top: 10%;
+    left: 0px;
+    width: 100%;
+    padding-bottom: 10%;
+    padding-top: 15%;
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 1;
+}
 
+@media (max-width: 768px) {
+  #stepOne {
+    padding-top: 15%;
+  }
+}
 
+#surikat_bookingbundle_booking_bookingFor {
+    border-radius: 50px;
+    color : black;
+    text-align: center;
+    font-weight: bold;
+}
+
+@media (max-width: 350px) {
+  #surikat_bookingbundle_booking_bookingFor {
+    border-radius: 25px;
+    width: 85%;
+}
+}
+
+#stepOneForm {
+    position: relative;
+    top: 50%;
+    width: 100%;
+    color: rgb(255, 255, 255);
+    background: rgba(0, 0, 0, 0);
+    font-size: 20px;
+    font-weight: 300;
+    text-align: center;
+    border: 0px;
+    margin: 0px auto;
+    margin-top: -50px;
+    padding-left: 30px;
+    padding-right: 30px;
+    outline: none;
+}
+
+@media (max-width: 768px) {
+  #stepOneForm {
+    margin-top: -20px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
 }
 
 #stepTwo {
+  display: none;
+}
 
-  
+#configInfo {
+ display: none;
 }
 /*
 *********  _Ticket Design
@@ -588,6 +644,47 @@
 .checkbox label input[type="checkbox"]:disabled + .cr,
 .radio label input[type="radio"]:disabled + .cr {
     opacity: .5;
+}
+
+
+/*Panel tabs*/
+.panel-tabs {
+    position: relative;
+    bottom: 30px;
+    clear:both;
+    border-bottom: 1px solid transparent;
+}
+
+.panel-tabs > li {
+    float: left;
+    margin-bottom: -1px;
+}
+
+.panel-tabs > li > a {
+    margin-right: 2px;
+    margin-top: 4px;
+    line-height: .85;
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0 0;
+    color: #ffffff;
+}
+
+.panel-tabs > li > a:hover {
+    border-color: transparent;
+    color: #ffffff;
+    background-color: transparent;
+}
+
+.panel-tabs > li.active > a,
+.panel-tabs > li.active > a:hover,
+.panel-tabs > li.active > a:focus {
+    color: #fff;
+    cursor: default;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    background-color: rgba(255,255,255, .23);
+    border-bottom-color: transparent;
 }
 
 

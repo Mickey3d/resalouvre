@@ -39,7 +39,7 @@ class TicketType extends AbstractType
           'label_attr'  => array(
             'class'     => 'col-sm-3'),
           'widget'      => 'single_text',
-          'format' => 'dd-mm-yyyy',
+          'format' => 'dd-MM-yyyy',
           // do not render as type="date", to avoid HTML5 date pickers
           'html5'       => false,
           // add a class that can be selected in JavaScript

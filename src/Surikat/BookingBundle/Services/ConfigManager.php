@@ -35,7 +35,7 @@ class ConfigManager
           ->findOneByConfigName($configName);
           ;
 
-      return $config;
+        return $config;
     }
 
     public function saveConfig(Setting $config)
@@ -43,6 +43,58 @@ class ConfigManager
         $em = $this->em;
         $em->persist($config);
         $em->flush();
+    }
+
+    /**
+     * Vérifie si le type Journée est disponible pour le jour en cours
+     *
+     * @param date $date
+     * @return bool
+     */
+    public function checkForDayType()
+    {
+        $config = $this->em
+          ->getRepository('SurikatBookingBundle:Setting')
+          ->findOneByConfigName('config-louvre');
+          ;
+        $dayTicketHourLimit = $config->getDayTicketHourLimit();
+        $dayTicketHourLimit = $dayTicketHourLimit->format(DATE_RFC2822);
+        $timeLimit = date("H:i:s",strtotime($dayTicketHourLimit));
+        $timeNow = date("H:i:s");
+
+       // dump($timeLimit);die;
+        // On compare les horraires, si inferieur retourne true, sinon retourne false
+        if($timeNow >= $timeLimit)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+    }
+
+    public function checkForDaylyHourLimit()
+    {
+        $config = $this->em
+          ->getRepository('SurikatBookingBundle:Setting')
+          ->findOneByConfigName('config-louvre');
+          ;
+        $daylyHourLimit = $config->getDaylyHourLimit();
+        $daylyHourLimit = $daylyHourLimit->format(DATE_RFC2822);
+        $timeLimit = date("H:i:s",strtotime($daylyHourLimit));
+        $timeNow = date("H:i:s");
+
+       // dump($timeLimit);die;
+        // On compare les horraires, si superieur ou égale retourne true, sinon retourne false
+        if($timeNow >= $timeLimit)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
     }
 
     /**
@@ -58,6 +110,7 @@ class ConfigManager
       $booking = new Booking();
       $ticket = new Ticket();
       $date = new \Datetime($date);
+      $date->setTime(00, 00, 00);
       //  date->setFormat('yyyy-mm-dd');
       // On récupère la réservation correspondant à la date
       $bookings = $em
@@ -83,7 +136,6 @@ class ConfigManager
       $availability =  $dailyTicketsLimit - $ticketCount;
 
       return $availability;
-
     }
 
     /**

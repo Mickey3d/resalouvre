@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
   
 
@@ -29,21 +30,19 @@ $(document).ready(function() {
 
 // STEP ONE CONFIG
 
+  $('#stepOne').fadeIn(1500, 'swing');
 
   // configure the bootstrap datepicker
   $('.booking-datepicker').datepicker({
-    startView: 2,
-    format: 'dd-mm-yyyy',
+    startView: 1,
+    format: 'dd-MM-yyyy',
     clearBtn: true,
     language: "fr",
     startDate: 'today',
-   // endDate: '',
-    startView: 1,
-    defaultViewDate: { year: 1980, month: 06, day: 15 },
     autoclose: true,
   })
 
-  // Var Access for Step One to Step Two
+// Var Access for Step One to Step Two
   var stepOne = document.getElementById("stepOne");
   var stepTwo = document.getElementById("stepTwo");
   var dateBookingForElement = document.getElementById("surikat_bookingbundle_booking_bookingFor");
@@ -51,9 +50,9 @@ $(document).ready(function() {
   var bookingTypeHalfDayElt = document.getElementById("surikat_bookingbundle_booking_type_0");
   var bookingTypeDayElt = document.getElementById("surikat_bookingbundle_booking_type_1");
   var errorInfoTypeElt = document.getElementById("errorInfoType");
-
-  stepTwo.style.display = 'none';
-
+  var availabilityInfoElt = document.getElementById("availabilityInfo");
+  var availabilityInfo = '';
+// CHECK AVAILABILITY CLICK
   $('#checkAvailability').click(function(e) {
     
     var dateToCheck = dateBookingForElement.value;
@@ -63,9 +62,53 @@ $(document).ready(function() {
 
     if (dateToCheck != "" & (typeToCheck0 === true | typeToCheck1 === true))
     {
+      var dateSplit = dateToCheck.split("-");
 
+      switch (dateSplit[1]) {
+        case 'janvier':
+          dateSplit[1] = '01';
+        break;
+        case 'février':
+          dateSplit[1] = '02';
+        break;
+        case 'mars':
+          dateSplit[1] = '03';
+        break;
+        case 'avril':
+          dateSplit[1] = '04';
+        break;
+        case 'mai':
+          dateSplit[1] = '05';
+        break;
+        case 'juin':
+          dateSplit[1] = '06';
+        break;
+        case 'juillet':
+          dateSplit[1] = '07';
+        break;
+        case 'août':
+        dateSplit[1] = '08';
+        break;
+        case 'septembre':
+          dateSplit[1] = '09';
+        break;
+        case 'octobre':
+          dateSplit[1] = '10';
+        break;
+        case 'novembre':
+          dateSplit[1] = '11';
+        break;
+        case 'décembre':
+          dateSplit[1] = '12';
+        break;
+        default:
+          dateSplit[1] = 'null';
+      };
+
+      dateToCheck = dateSplit[0] + '-' + dateSplit[1] + '-' + dateSplit[2];
+      url = 'booking/check-availability/' + dateToCheck;
       console.log(url);
-      console.log('Date OK')
+
       $.get(url) 
         .done(function( data ) {
 
@@ -77,15 +120,24 @@ $(document).ready(function() {
 
           if(data.availability > 0)
           {
-            console.log('Disponibilité OK : ' + data.availability)
-            stepTwo.style.display = '';
+            console.log('Disponibilité OK : ' + data.availability);
+            availabilityInfo = 'Des places sont encore disponibles ! Vous pouvez commandez jusqu\'à ' + data.tickets_limit + ' Tickets.';
+            addAvailabilityInfo(availabilityInfoElt, availabilityInfo);
+            $('#stepOne').fadeOut(500, 'linear');
+            $('#configInfo').fadeIn(1000, 'linear');
+            $('#stepTwo').fadeIn(2000, 'swing');
+        
           }
           else
           {
-            console.log('Date indisponible : ' + data.errors)
+            console.log('Date indisponible : ' + data.errors);
+            availabilityInfo = 'Malheureusement cette date n\'est pas disponible. ' + data.errors;
+            addAvailabilityInfo(availabilityInfoElt, availabilityInfo);
+            $('#configInfo').slideDown(800, 'linear');
+            $('#stepTwo').fadeOut(1000, 'linear');
           }
 
-        alert( "Data Loaded: " + ' CONFIG: ' + data.config_name + ' DISPO: ' + data.availability + ' LIMITE TICKETS ' + data.tickets_limit + ' ERREUR: ' + data.errors + ' MESSAGE: ' + data.messages );
+     //   alert( "Data Loaded: " + ' CONFIG: ' + data.config_name + ' DISPO: ' + data.availability + ' LIMITE TICKETS ' + data.tickets_limit + ' ERREUR: ' + data.errors + ' MESSAGE: ' + data.messages );
       });
 
     }
@@ -143,7 +195,14 @@ $(document).ready(function() {
     errorInfoTypeElt.append(errorInfoType);
   }
 
+  function addAvailabilityInfo(availabilityInfoElt, availabilityInfo) {
+    if(availabilityInfoElt.textContent != "")
+        {
+          availabilityInfoElt.textContent = ""; 
+        }
 
+    availabilityInfoElt.append(availabilityInfo);
+  }
 
 
 
@@ -194,12 +253,11 @@ $(document).ready(function() {
     // configure the bootstrap datepicker
     $('.js-datepicker').datepicker({
       startView: 2,
-      format: 'dd-mm-yyyy',
+      format: 'dd-MM-yyyy',
       clearBtn: true,
       language: "fr",
       startDate: '01/01/1900',
       endDate: '-1d',
-      startView: 3,
       defaultViewDate: { year: 1980, month: 06, day: 15 },
       autoclose: true,
       })
@@ -229,5 +287,3 @@ $(document).ready(function() {
 
 
 });
-
-

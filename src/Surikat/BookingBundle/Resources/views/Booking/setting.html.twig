@@ -40,36 +40,66 @@
               <img src="{{ asset('assets/img/Louvre-LOGO.png') }}" class="img-responsive" alt="logo-louvre">
             </div>
           </div>
-          <hr>
-          <br>
-          <div class="info">
-            <div class="col-sm-4">
-              {{ form_row(form.configName) }}
-              {{ form_row(form.dailyTicketLimit) }}
-              {{ form_row(form.dayTicketHourLimit) }}
-              {{ form_row(form.specialPrice) }}
-            </div>
-            <div class="col-sm-4">
-              {{ form_row(form.discount) }}
-              {{ form_row(form.discountCondition) }}
-              {{ form_row(form.childPrice) }}
-              {{ form_row(form.childPriceCondition) }}
-            </div>
-            <div class="col-sm-4">
-              {{ form_row(form.normalPrice) }}
-              {{ form_row(form.normalPriceCondition) }}
-              {{ form_row(form.seniorPrice) }}
-              {{ form_row(form.seniorPriceCondition) }}
-            </div>
-            <div class="col-md-12">
-              {{ form_widget(form.closedDays) }}
-              <hr/>
-              <a href="#" id="add-another-date">Ajouter une date</a>
-            </div>
-            <div class="col-md-12">
-              {{ form_widget(form.closedWeekDays) }}
-            </div>
+            <hr>
+            <br>
+          <div class="container">
+              <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                  <div class="panel panel-primary">
+                    <div class="center panel-heading">
+                      <h3 class="panel-title">Paramètres</h3>
+                      </br>
+                      </br>
+                      </hr>
+                            <!-- Tabs -->
+                          <ul class="col-sm-12  nav panel-tabs">
+                            <li class="col-sm-3 col-xs-12 active"><a href="#tab1" data-toggle="tab">Générale</a></li>
+                            <li class='col-sm-3 col-xs-12'><a href="#tab2" data-toggle="tab">Tarification</a></li>
+                            <li class='col-sm-3 col-xs-12'><a href="#tab3" data-toggle="tab">Jour de Fermeture</a></li>
+                          </ul>
+                    </div>
+                    <div class="panel-body">
+                      <div class="tab-content">
+                        <div class="tab-pane active" id="tab1">
+                          {{ form_row(form.configName) }}
+                          {{ form_row(form.dailyTicketLimit) }}
+                          {{ form_row(form.dayTicketHourLimit) }}
+                          {{ form_row(form.daylyHourLimit) }} 
+                        </div>
+                        <div class="tab-pane" id="tab2">
+                        
+                          <div class="col-sm-5">
+                            {{ form_row(form.specialPrice) }}
+                            {{ form_row(form.discount) }}
+                            {{ form_row(form.discountCondition) }}
+                            {{ form_row(form.childPrice) }}
+                            {{ form_row(form.childPriceCondition) }}
+                          </div>
+                          <div class="col-sm-5">
+                            {{ form_row(form.normalPrice) }}
+                            {{ form_row(form.normalPriceCondition) }}
+                            {{ form_row(form.seniorPrice) }}
+                            {{ form_row(form.seniorPriceCondition) }}
+                          </div>
+                        </div>
+                        <div class="tab-pane" id="tab3">
+                          <div class="col-md-12">
+                            {{ form_widget(form.closedWeekDays) }}
+                          </div>
+                          <div class="col-md-12">
+                            {{ form_widget(form.closedDays, {'attr': {'class': 'col-sm-4'}}) }}
+                            <hr/>
+                            <a href="#" id="add-another-date">Ajouter une date</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
 
+          <div class="center">
             {{ form_row(form.valider) }}
           </div>
         </div>

@@ -8,10 +8,7 @@
 {% block date_widget %}
 	<input type="text" 
     {{ block('widget_attributes') }}
-    {% if value is defined %}
-    value="{{ value }}"
-    {% endif %}
-    />
+    />  <i class="glyphicon glyphicon-calendar"></i>
 {% endblock %}
 
 {% block checkbox_widget %}
@@ -28,13 +25,13 @@
 
 {% block radio_widget %}
 	<div class="radio">
-        <label style="font-size: 1.5em"> 
+        <label  
         {% if value is defined and value == 'halfDay' %}
-				Demi-Journée
+				style="font-size: 0,9em"> Demi-Journée 
 		{% else %}
-				Journée
+				style="font-size: 1.3em"> Journée
 		{% endif %}
-            <input type="radio" 
+            &nbsp;<input type="radio" 
             {{ block('widget_attributes') }}
             {% if value is defined %} 
             value="{{ value }}"{% endif %}
@@ -92,24 +89,34 @@
 
     <div id="appContent">
       {{ form_start(form, {'attr': {'class': 'form-inline'}}) }}
-
-      <div id="stepOne" class='col-md-12 well center'>        
-          <div class="col-md-4">
-          {{ form_row(form.bookingFor, {'label': 'Choisissez une date'}) }}
-          <h4 id="errorInfoDate" class="center"></h4>
-          </div>
-          <div class="col-md-4">
-          {{ form_row(form.type, {'label': 'Choisissez un type'}) }}
-          <h4 id="errorInfoType" class="center"></h4>
-          </div>
-          <div class="col-md-4">
-          	<button id="checkAvailability" type="button" class="btn btn-success"><span aria-hidden="true"></span>Vérifier la disponibilité</button>
-          </div>
-          <div class="col-md-12">
-          
-          </div>
+      
+      {# CONFIG INFO #}
+      <div id="configInfo" class="col-md-12 box">
+          <h4 id="availabilityInfo" class="center"></h4>
+      </div>
+      
+      {# STEP ONE #}
+      <div id="stepOne" class='col-md-12 center'>  
+      	<div>
+			<div id="stepOneForm">
+				<div class="col-md-5">
+					{{ form_label(form.bookingFor, 'Date de la Visite') }}
+					</br>
+          			{{ form_widget(form.bookingFor) }}
+          			<h4 id="errorInfoDate" class="center"></h4>
+          		</div>
+          		<div class="col-md-7">
+          			{{ form_row(form.type, {'label': ' Type '}) }}
+          			<h4 id="errorInfoType" class="center"></h4>
+          		</div>
+          		<div class="col-md-12">
+          			<button id="checkAvailability" type="button" class="btn btn-success"><span aria-hidden="true"></span>Vérifier la disponibilité</button>
+          		</div>
+  			</div>
+		</div>         
       </div>
 
+      {# STEP TWO #}
       <div id="stepTwo" class="container">
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

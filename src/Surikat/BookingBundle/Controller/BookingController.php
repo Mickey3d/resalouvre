@@ -67,18 +67,17 @@ class BookingController extends Controller
         $ticket = $bookingEngine->createTicket();
         // On crée l'objet form
         $form   = $this->createForm(BookingType::class, $booking);
-    //dump($form);die;
+
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
           {
             
             $em = $this->getDoctrine()->getManager();
             $booking =  $bookingEngine->loadPrices($booking);
             $booking =  $bookingEngine->validateBooking($booking);
-            // dump($booking);die;
+            dump($booking);die;
             if ($booking->getValidate() == true) {
               $request->getSession()->getFlashBag()->add('success', 'Validation de la Réservation.');
               $booking->setPaiementStatus('en Cours');
-              $request->getSession()->getFlashBag()->add('success', 'Enregistrement en cours.');
               $booking =   $bookingEngine->saveBooking($booking);
               $request->getSession()->getFlashBag()->add('success', 'Réservation bien enregistrée redirection vers la plateforme de paiement.');
             //   $booking = $this->get('jms_serializer')->serialize($booking, 'json');
@@ -88,12 +87,9 @@ class BookingController extends Controller
               $request->getSession()->getFlashBag()->add('warning', $booking->getErrors());
             }
           }
-        // On passe la méthode createView() du formulaire à la vue afin qu'elle puisse afficher le formulaire toute seule
         return $this->render('SurikatBookingBundle:Booking:booking.html.twig', array(
             'form' => $form->createView(),
         ));
-          /* TODO
-          */
     }
 
     /**
@@ -134,21 +130,11 @@ class BookingController extends Controller
               return $this->redirectToRoute('_new_booking', array('code' => $booking->getCode()));
               // The card has been declined
             }
-
         }
-
         return $this->render('SurikatBookingBundle:Booking:new_booking.html.twig', array(
             // ...
             'booking' => $booking
           ));
-
-
-
-
-
-          /*
-          TODO -> Affiche l'application SurikatBookingBundle-API
-          */
     }
 
     // @var string $code return $booking   => page test to find  a booking
@@ -194,14 +180,11 @@ class BookingController extends Controller
         ->getRepository('SurikatBookingBundle:Booking')
         ->findByCode($code);
       ;
-      // dump($booking);die;
       $data = $this->get('jms_serializer')->serialize($booking, 'json');
-
       $response = new Response($data);
       $response->headers->set('Content-Type', 'application/json');
 
       return $response;
-
     }
 
     public function ValidateBookingAction()
@@ -209,9 +192,6 @@ class BookingController extends Controller
         return $this->render('SurikatBookingBundle:Booking:show.html.twig', array('ticketsList'=>array()
             // ... Validation de la reservation et des ticket
         ));
-
-        /* TODO ->
-          */
     }
 
     public function SaveBookingAction(Request $request)
@@ -219,10 +199,7 @@ class BookingController extends Controller
       $data = $request->getContent();
       $booking = $this->get('jms_serializer')->deserialize($data, 'Surikat\BookingBundle\Entity\Booking', 'json');
 
-
       return new Response('OK for Test', Response::HTTP_CREATED);
-        /* TODO ->
-          */
     }
 
     public function DeleteBooking($code)
@@ -230,9 +207,6 @@ class BookingController extends Controller
         return $this->render('SurikatBookingBundle:Booking:show.html.twig', array('ticketsList'=>array()
             // ... Supprime une reservation de la base de donnée
         ));
-
-        /* TODO -> Affiche le formulaire de recherche de réservation ou de ticket (Option selectionnable)
-          */
     }
 
 

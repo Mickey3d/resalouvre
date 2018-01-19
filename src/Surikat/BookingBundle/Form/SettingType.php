@@ -32,6 +32,9 @@ class SettingType extends AbstractType
          ->add('dayTicketHourLimit', TimeType::class, array(
            'label'       => 'Demi-journée: A partir de '
          ))
+         ->add('daylyHourLimit', TimeType::class, array(
+           'label'       => 'Fin de disponibilité pour le jour même: '
+         ))
          ->add('discount', MoneyType::class, array(
            'label'       => 'Prix Discount: '
          ))

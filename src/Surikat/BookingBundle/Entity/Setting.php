@@ -39,6 +39,12 @@ class Setting
     private $dayTicketHourLimit;
 
     /**
+     * @var time
+     * @ORM\Column(name="daylyHourLimit", type="time", nullable=true)
+     */
+    private $daylyHourLimit;
+
+    /**
      * @var int
      * @ORM\Column(name="discount", type="integer")
      */
@@ -180,11 +186,35 @@ class Setting
     /**
      * Get dayTicketHourLimit.
      *
-     * @return int
+     * @return datetime
      */
     public function getDayTicketHourLimit()
     {
         return $this->dayTicketHourLimit;
+    }
+
+    /**
+     * Set daylyHourLimit.
+     *
+     * @param int $daylyHourLimit
+     *
+     * @return Setting
+     */
+    public function setDaylyHourLimit($daylyHourLimit)
+    {
+        $this->daylyHourLimit = $daylyHourLimit;
+
+        return $this;
+    }
+
+    /**
+     * Get daylyHourLimit.
+     *
+     * @return datetime
+     */
+    public function getDaylyHourLimit()
+    {
+        return $this->daylyHourLimit;
     }
 
     /**
