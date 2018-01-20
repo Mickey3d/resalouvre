@@ -28,6 +28,62 @@ $(document).ready(function() {
 
 
 
+
+// Var Access for Step One to Step Two
+  
+  var stepOne = document.getElementById("stepOne");
+  var stepTwo = document.getElementById("stepTwo");
+  var dateBookingForElement = document.getElementById("surikat_bookingbundle_booking_bookingFor");
+  var errorInfoDateElt = document.getElementById("errorInfoDate");
+  var bookingTypeHalfDayElt = document.getElementById("surikat_bookingbundle_booking_type_0");
+  var bookingTypeDayElt = document.getElementById("surikat_bookingbundle_booking_type_1");
+  var errorInfoTypeElt = document.getElementById("errorInfoType");
+  var messageInfoTypeElt = document.getElementById("messageInfoType");
+  var availabilityInfoElt = document.getElementById("availabilityInfo");
+  var availabilityInfo = '';
+
+  var dayTypeElt = bookingTypeDayElt.parentNode.parentNode;
+  var halfDayTypeElt = bookingTypeHalfDayElt;
+ 
+  var currentDay  =  currentDateFormater();
+  var currentTime =  currentTimeFormater();
+  currentTime = timeToNumber(currentTime);
+  dayTicketHourLimit = timeToNumber(dayTicketHourLimit);
+  dayTicketHourLimit = dayTicketHourLimit - 0;
+ 
+  var bookingFor = stepOne;
+   console.log(dateBookingForElement.value);
+  var ju = 'test';
+
+  bookingFor.addEventListener("mouseout", function (e) {
+
+    bookingForDate = dateBookingForElement.value;
+    var dateToSplit = bookingForDate.split("-");
+    var bookingForCurrentTextMonth = dateToSplit[1];
+    dateToSplit[1] = textMonthToNumberMonth(bookingForCurrentTextMonth); 
+    bookingForDate = dateToSplit[0] + '-' + dateToSplit[1] + '-' + dateToSplit[2];
+    
+    if (bookingForDate == currentDay & (currentTime > dayTicketHourLimit)) {
+      dayTypeElt.style.display = 'none';
+      halfDayTypeElt.checked = true;
+      messageInfoTypeElt.textContent = "Trop tard pour le Ticket Journée !";
+    }
+    else
+    {
+      dayTypeElt.style.display = 'inline';
+      messageInfoTypeElt.textContent = '';  
+    }      
+  });
+
+ 
+ 
+
+
+
+
+
+
+
 // STEP ONE CONFIG
 
   $('#stepOne').fadeIn(1500, 'swing');
@@ -40,73 +96,27 @@ $(document).ready(function() {
     language: "fr",
     startDate: 'today',
     autoclose: true,
+    immediateUpdates : false,
   })
 
-// Var Access for Step One to Step Two
-  var stepOne = document.getElementById("stepOne");
-  var stepTwo = document.getElementById("stepTwo");
-  var dateBookingForElement = document.getElementById("surikat_bookingbundle_booking_bookingFor");
-  var errorInfoDateElt = document.getElementById("errorInfoDate");
-  var bookingTypeHalfDayElt = document.getElementById("surikat_bookingbundle_booking_type_0");
-  var bookingTypeDayElt = document.getElementById("surikat_bookingbundle_booking_type_1");
-  var errorInfoTypeElt = document.getElementById("errorInfoType");
-  var availabilityInfoElt = document.getElementById("availabilityInfo");
-  var availabilityInfo = '';
+
+
 // CHECK AVAILABILITY CLICK
   $('#checkAvailability').click(function(e) {
     
     var dateToCheck = dateBookingForElement.value;
-    var url = 'booking/check-availability/' + dateToCheck;
+    var url = 'booking/check-availability/';
     var typeToCheck0 = bookingTypeHalfDayElt.checked;
     var typeToCheck1 = bookingTypeDayElt.checked;
 
     if (dateToCheck != "" & (typeToCheck0 === true | typeToCheck1 === true))
     {
       var dateSplit = dateToCheck.split("-");
-
-      switch (dateSplit[1]) {
-        case 'janvier':
-          dateSplit[1] = '01';
-        break;
-        case 'février':
-          dateSplit[1] = '02';
-        break;
-        case 'mars':
-          dateSplit[1] = '03';
-        break;
-        case 'avril':
-          dateSplit[1] = '04';
-        break;
-        case 'mai':
-          dateSplit[1] = '05';
-        break;
-        case 'juin':
-          dateSplit[1] = '06';
-        break;
-        case 'juillet':
-          dateSplit[1] = '07';
-        break;
-        case 'août':
-        dateSplit[1] = '08';
-        break;
-        case 'septembre':
-          dateSplit[1] = '09';
-        break;
-        case 'octobre':
-          dateSplit[1] = '10';
-        break;
-        case 'novembre':
-          dateSplit[1] = '11';
-        break;
-        case 'décembre':
-          dateSplit[1] = '12';
-        break;
-        default:
-          dateSplit[1] = 'null';
-      };
-
+      var currentTextMonth = dateSplit[1];
+      dateSplit[1] = textMonthToNumberMonth(currentTextMonth);
+      
       dateToCheck = dateSplit[0] + '-' + dateSplit[1] + '-' + dateSplit[2];
-      url = 'booking/check-availability/' + dateToCheck;
+      url = url + dateToCheck;
       console.log(url);
 
       $.get(url) 
@@ -185,6 +195,8 @@ $(document).ready(function() {
 
   });
 
+
+// FUNCTIONS
   function addErrorInfoDate(errorInfoDateElt) {
     var errorInfoDate = 'Veuillez selectionner une Date pour votre visite';
     errorInfoDateElt.append(errorInfoDate);
@@ -204,6 +216,90 @@ $(document).ready(function() {
     availabilityInfoElt.append(availabilityInfo);
   }
 
+  function textMonthToNumberMonth(textMonth) {
+    var numberMonth
+    switch (textMonth) {
+        case 'janvier':
+          numberMonth = '01';
+        break;
+        case 'février':
+          $numberMonth = '02';
+        break;
+        case 'mars':
+          numberMonth = '03';
+        break;
+        case 'avril':
+          numberMonth = '04';
+        break;
+        case 'mai':
+          numberMonth = '05';
+        break;
+        case 'juin':
+          numberMonth = '06';
+        break;
+        case 'juillet':
+          numberMonth = '07';
+        break;
+        case 'août':
+          numberMonth = '08';
+        break;
+        case 'septembre':
+          numberMonth = '09';
+        break;
+        case 'octobre':
+          numberMonth = '10';
+        break;
+        case 'novembre':
+          numberMonth = '11';
+        break;
+        case 'décembre':
+          numberMonth = '12';
+        break;
+        default:
+          numberMonth = 'null';
+      };
+
+      return numberMonth;
+  }
+
+  function currentDateFormater() {
+    var currentDay = new Date();
+    var dd = currentDay.getDate();
+    var mm = currentDay.getMonth()+1; //January is 0!
+    var yyyy = currentDay.getFullYear();
+
+    if(dd<10) {
+      dd = '0'+dd
+    } 
+
+    if(mm<10) {
+      mm = '0'+mm
+    } 
+
+    currentDay = dd + '-' + mm + '-' + yyyy;
+
+    return currentDay;
+  }
+
+  function currentTimeFormater() {
+    var currentTime = new Date();
+    var hh = currentTime.getHours();
+    var ii = currentTime.getMinutes();
+    var ss = currentTime.getSeconds();
+
+    currentTime = hh + ':' + ii + ':' + ss;
+
+    return currentTime;
+  }
+
+  function timeToNumber(timeNumber) {
+
+    timeNumber = timeNumber.split(":");
+
+    timeNumber = timeNumber[0] + timeNumber[1] + timeNumber[2];
+
+    return timeNumber;
+  }
 
 
 // STEP TWO CONFIG AND TICKETS ENGINE

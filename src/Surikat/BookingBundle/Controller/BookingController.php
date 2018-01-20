@@ -21,25 +21,19 @@ class BookingController extends Controller
     public function ConfigBookingAction(Request $request)
     {
       $configManager = $this->container->get('surikat_booking.configmanager');
-      // On récupère l'objet Setting correspondant a configName
       $configName = 'config-louvre';
       $setting = $configManager->loadConfigByName($configName);
-      // On crée l'objet form
       $form   = $this->createForm(SettingType::class, $setting);
 
       if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
         {
-          //  dump($form);die;
           $configManager->saveConfig($setting);
           $request->getSession()->getFlashBag()->add('success', 'Configuration bien enregistrée.');
           return $this->redirectToRoute('admin_booking_setting');
         }
-        // On passe la méthode createView() du formulaire à la vue afin qu'elle puisse afficher le formulaire toute seule
         return $this->render('SurikatBookingBundle:Booking:setting.html.twig', array(
           'form' => $form->createView(),
         ));
-      /* TODO ->
-      */
     }
 
     // @var DateTime $date return $config
@@ -61,6 +55,9 @@ class BookingController extends Controller
     // @param BookingManager $bookingManager
     public function BookingAction(Request $request)
     {
+
+        $configManager = $this->container->get('surikat_booking.configmanager');
+        $setting = $configManager->loadConfigByName('config-louvre');
         // On crée les objets Booking et tickets via bookingEngine
         $bookingEngine = $this->container->get('surikat_booking.bookingengine');
         $booking =  $bookingEngine->createBooking();
@@ -70,17 +67,15 @@ class BookingController extends Controller
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
           {
-            
             $em = $this->getDoctrine()->getManager();
             $booking =  $bookingEngine->loadPrices($booking);
             $booking =  $bookingEngine->validateBooking($booking);
             dump($booking);die;
             if ($booking->getValidate() == true) {
-              $request->getSession()->getFlashBag()->add('success', 'Validation de la Réservation.');
               $booking->setPaiementStatus('en Cours');
               $booking =   $bookingEngine->saveBooking($booking);
               $request->getSession()->getFlashBag()->add('success', 'Réservation bien enregistrée redirection vers la plateforme de paiement.');
-            //   $booking = $this->get('jms_serializer')->serialize($booking, 'json');
+
               return $this->redirectToRoute('_new_booking', array('code' => $booking->getCode()));
             }
             else {
@@ -89,6 +84,7 @@ class BookingController extends Controller
           }
         return $this->render('SurikatBookingBundle:Booking:booking.html.twig', array(
             'form' => $form->createView(),
+            'setting' => $setting,
         ));
     }
 

@@ -36,3 +36,10 @@
   </ul>
 {% endif %}
 {% endblock %}
+
+
+  {% block javascripts %}{{ parent() }}
+  
+   <script src="{{ asset('assets/js/script.js') }}"></script>
+
+  {% endblock %}
