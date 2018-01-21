@@ -28,7 +28,7 @@ $(document).ready(function() {
 
 
 
-
+console.log(closedDays);
 // Var Access for Step One to Step Two
   
   var stepOne = document.getElementById("stepOne");
@@ -41,20 +41,15 @@ $(document).ready(function() {
   var messageInfoTypeElt = document.getElementById("messageInfoType");
   var availabilityInfoElt = document.getElementById("availabilityInfo");
   var availabilityInfo = '';
-
   var dayTypeElt = bookingTypeDayElt.parentNode.parentNode;
   var halfDayTypeElt = bookingTypeHalfDayElt;
- 
   var currentDay  =  currentDateFormater();
   var currentTime =  currentTimeFormater();
   currentTime = timeToNumber(currentTime);
   dayTicketHourLimit = timeToNumber(dayTicketHourLimit);
   dayTicketHourLimit = dayTicketHourLimit - 0;
- 
   var bookingFor = stepOne;
-   console.log(dateBookingForElement.value);
-  var ju = 'test';
-
+  
   bookingFor.addEventListener("mouseout", function (e) {
 
     bookingForDate = dateBookingForElement.value;
@@ -72,16 +67,10 @@ $(document).ready(function() {
     {
       dayTypeElt.style.display = 'inline';
       messageInfoTypeElt.textContent = '';  
-    }      
+    }     
+
   });
-
- 
- 
-
-
-
-
-
+    
 
 
 // STEP ONE CONFIG
@@ -94,11 +83,14 @@ $(document).ready(function() {
     format: 'dd-MM-yyyy',
     clearBtn: true,
     language: "fr",
-    startDate: 'today',
+    startDate: startDatePicker,
+    endDate: "+24m",
+    daysOfWeekDisabled: closedWeekDays,
+    datesDisabled: disaDate,
+    orientation: 'bottom',
     autoclose: true,
     immediateUpdates : false,
   })
-
 
 
 // CHECK AVAILABILITY CLICK

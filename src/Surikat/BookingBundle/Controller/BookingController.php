@@ -58,13 +58,14 @@ class BookingController extends Controller
 
         $configManager = $this->container->get('surikat_booking.configmanager');
         $setting = $configManager->loadConfigByName('config-louvre');
+        $dailyHourLimit = $configManager->checkForDaylyHourLimit();
         // On crée les objets Booking et tickets via bookingEngine
         $bookingEngine = $this->container->get('surikat_booking.bookingengine');
         $booking =  $bookingEngine->createBooking();
         $ticket = $bookingEngine->createTicket();
         // On crée l'objet form
         $form   = $this->createForm(BookingType::class, $booking);
-
+//dump($dailyHourLimit);die;
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
           {
             $em = $this->getDoctrine()->getManager();
@@ -85,6 +86,7 @@ class BookingController extends Controller
         return $this->render('SurikatBookingBundle:Booking:booking.html.twig', array(
             'form' => $form->createView(),
             'setting' => $setting,
+            'dailyHourLimit' => $dailyHourLimit,
         ));
     }
 

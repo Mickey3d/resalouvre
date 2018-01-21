@@ -87,6 +87,9 @@
 
 {% block body %}{{ parent() }}
 
+<div>
+
+</div>
     <div id="appContent">
       {{ form_start(form, {'attr': {'class': 'form-inline'}}) }}
       
@@ -228,6 +231,34 @@
   	<script type="text/javascript">
 
   		var dayTicketHourLimit = '{{ setting.dayTicketHourLimit|date('H:i:s') }}';
+  		var dailyHourLimit = '{{ setting.daylyHourLimit|date('H:i:s') }}';
+
+  		var closedWeekDays = {{ setting.closedWeekDays|json_encode()|raw}};
+  		var closedDays = {{ setting.closedDays|json_encode()|raw}};
+
+  		var disaDate = [];
+    	var closedDay = '';
+    	for (var k in closedDays){
+    		if (typeof closedDays[k] !== 'function') {
+         		closedDay = closedDaysFormater(closedDays[k])
+         		disaDate.push(closedDay);
+    		}
+    	}
+
+    	function closedDaysFormater(closedDay) {
+
+    		closedDay = closedDay.split("-");
+
+    		closedDay = closedDay[2] + "-" + closedDay[1] + "-" + closedDay[0];
+
+    		return closedDay;
+  		}
+
+  		{% if dailyHourLimit == true %}
+    	var startDatePicker =  '+1d';
+		{% else %}
+  		var startDatePicker =  'today';	
+		{% endif %}
 	</script>
 	
 	 <script src="{{ asset('assets/js/script.js') }}"></script>
