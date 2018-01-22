@@ -23,19 +23,19 @@ class BookingEngine
       $this->configManager = $configManager;
     }
 
-    public function createBooking()
+  public function createBooking()
     {
         $booking = new Booking();
         return $booking;
     }
 
-    public function createTicket()
+  public function createTicket()
     {
         $ticket = new Ticket();
         return $ticket;
     }
 
-    public function loadPrices(Booking $booking)
+  public function loadPrices(Booking $booking)
     {
         $totalPrice = 0;
         $tickets = $booking->getTickets();
@@ -56,7 +56,8 @@ class BookingEngine
      * @param bool $specialPrice
      * @return float|null
      */
-    public function priceCalculator($type, $birthdate, $specialPrice)
+
+  public function priceCalculator($type, $birthdate, $specialPrice)
     {
 
       $config = $this->em
@@ -91,7 +92,7 @@ class BookingEngine
         return $price;
     }
 
-    public function validateBooking(Booking $booking)
+  public function validateBooking(Booking $booking)
     {
         // step One - ClosedDays and ClosesWeekDays ValidateBookingAction
       $date = $booking->getBookingFor();
@@ -175,7 +176,7 @@ class BookingEngine
     }
 
 
-    public function saveBooking(Booking $booking)
+  public function saveBooking(Booking $booking)
     {
         $random = random_int(1, 9999999999999);
         $em = $this->em;

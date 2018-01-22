@@ -5,11 +5,42 @@
 {% block title %}Ma Réservation{% endblock %}
 
 {% block body %}{{ parent() }}
-<h1>Welcome to the Booking:Show page</h1>
 
-  <ul>
-      <li>Recherche de Réservation</li>
-  </ul>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="box">
+                <div class="box-icon">
+                    <span class="fa fa-4x fa-ticket"></span>
+                </div>
+                <h4 class="text-center">Recherche de Réservation</h4>
+                <div class="info">
+                  <div class="col-md-4 col-md-offset-4">
+    					
+			  		<div class="panel-body">
+			    		<form  method="post" accept-charset="UTF-8" role="form">
+                    		<fieldset>
+			    	  		<div class="form-group">
+			    		    	<input class="form-control" placeholder="E-mail" name="email" type="text" required>
+			    			</div>
+			    			<div class="form-group">
+			    				<input class="form-control" placeholder="Code Réservation" name="code" type="text" value="" required>
+			    			</div>
+			    			<div class="form-group">
+			    			<input class="btn btn-lg btn-success btn-block" type="submit" value="Rechercher">
+			    			</div>
+			    			</fieldset>
+			      		</form>
+			    	</div>
+			      </div>
+				</div>
+			</div>
+        </div>
+	</div>
+</div>
+
+
+
 
 {% endblock %}
 

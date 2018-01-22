@@ -70,7 +70,7 @@ class BookingController extends Controller
             $em = $this->getDoctrine()->getManager();
             $booking =  $bookingEngine->loadPrices($booking);
             $booking =  $bookingEngine->validateBooking($booking);
-            dump($booking);die;
+            //dump($booking);die;
             if ($booking->getValidate() == true) {
               $booking->setPaiementStatus('en Cours');
               $booking =   $bookingEngine->saveBooking($booking);
@@ -138,12 +138,29 @@ class BookingController extends Controller
     public function ShowAction(Request $request)
     {
         $bookingEngine = $this->container->get('surikat_booking.bookingengine');
-        $booking =  $bookingEngine->createBooking();
-        $ticket = $bookingEngine->createTicket();
-        // On crée l'objet form
-        $form   = $this->createForm(ShowBookingType::class, $booking);
+
+        if ($request->isMethod('POST'))
+          {
+            $email = $request->request->get('email');
+            $code = $request->request->get('code');
+            $em = $this->getDoctrine()->getManager();
+            $booking = $em
+                ->getRepository('SurikatBookingBundle:Booking')
+                ->findOneByCode($code);
+                ;
+             //dump($code);die;
+            if (isset($booking) && $booking->getEmail() == $email) {
+              $request->getSession()->getFlashBag()->add('success', 'Votre Réservation a été trouvé.');
+
+              return $this->redirectToRoute('_new_booking', array('code' => $booking->getCode()));
+            }
+            else {
+              $request->getSession()->getFlashBag()->add('warning', 'Aucune correspondance en base de donnée. Vérifiez votre code ou le mail fourni pour la réservation');
+            }
+          }
+
         return $this->render('SurikatBookingBundle:Booking:show.html.twig', array(
-          'form' => $form->createView(),
+
             
         ));
 
