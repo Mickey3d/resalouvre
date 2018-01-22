@@ -15,4 +15,9 @@ class HomeController extends Controller
 
     return new Response($content);
   }
+
+  public function legalsAction()
+  {
+    return $this->render('SurikatBookingBundle:Default:legals.html.twig', array( ));
+  }
 }

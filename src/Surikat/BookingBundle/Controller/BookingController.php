@@ -65,7 +65,6 @@ class BookingController extends Controller
         $ticket = $bookingEngine->createTicket();
         // On crée l'objet form
         $form   = $this->createForm(BookingType::class, $booking);
-//dump($dailyHourLimit);die;
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid())
           {
             $em = $this->getDoctrine()->getManager();
@@ -136,37 +135,18 @@ class BookingController extends Controller
     }
 
     // @var string $code return $booking   => page test to find  a booking
-    public function ShowAction()
+    public function ShowAction(Request $request)
     {
-        return $this->render('SurikatBookingBundle:Booking:show.html.twig', array('ticketsList'=>array()
-            // ... Affichage du moteur de recherche la réservation et des tickets
+        $bookingEngine = $this->container->get('surikat_booking.bookingengine');
+        $booking =  $bookingEngine->createBooking();
+        $ticket = $bookingEngine->createTicket();
+        // On crée l'objet form
+        $form   = $this->createForm(ShowBookingType::class, $booking);
+        return $this->render('SurikatBookingBundle:Booking:show.html.twig', array(
+          'form' => $form->createView(),
+            
         ));
 
-        /* TODO -> Affiche le formulaire de recherche de réservation ou de ticket (Option selectionnable)
-
-        SI $POST->isValid
-        $searchType = Type de la recherche -> 2 options : Réservation ou Ticket
-        $content = Contenu de la page
-
-        Si $searchType = Réservation
-        Si $bookingCode->isValid     &   identifiants (nom, prénom) -> OK
-        Confirmation
-        $content = Reservation sélectionnée
-
-        return $this->render('SurikatBookingBundle:Booking:show_booking.html.twig', array(
-
-        ));
-
-        Si $searchType = Ticket
-        Si $ticketCode->isValid     &   identifiants (nom, prénom,date de naissance) -> OK
-        Confirmation
-        $content = Ticket sélectionné
-
-        return $this->render('SurikatBookingBundle:Booking:show_ticket.html.twig', array(
-
-        ));
-
-          */
     }
 
     // @var string $code return $booking
@@ -185,20 +165,6 @@ class BookingController extends Controller
       return $response;
     }
 
-    public function ValidateBookingAction()
-    {
-        return $this->render('SurikatBookingBundle:Booking:show.html.twig', array('ticketsList'=>array()
-            // ... Validation de la reservation et des ticket
-        ));
-    }
-
-    public function SaveBookingAction(Request $request)
-    {
-      $data = $request->getContent();
-      $booking = $this->get('jms_serializer')->deserialize($data, 'Surikat\BookingBundle\Entity\Booking', 'json');
-
-      return new Response('OK for Test', Response::HTTP_CREATED);
-    }
 
     public function DeleteBooking($code)
     {

@@ -2,11 +2,90 @@
 
 {% extends "SurikatBookingBundle::layout.html.twig" %}
 
-{% block title %}Home Sweat Home{% endblock %}
+{% block title %}Billeterie du Louvre - Accueil{% endblock %}
 
 {% block body %}{{ parent( )}}
-<h1>Welcome to the Home Page</h1>
+<div class="container col-sm-12">
+    <div class="row col-sm-12>
+        <div class="col-sm-12">
+            <div id="carousel-homepage" class="carousel slide" data-ride="carousel">
+        <!--        
+        		<ol class="carousel-indicators">
+                    <li data-target="#carousel-homepage" data-slide-to="0" class="active"></li>
+                    <li data-target="#carousel-homepage" data-slide-to="1"></li>
+                    <li data-target="#carousel-homepage" data-slide-to="2"></li>
+                </ol>
+        -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="{{ asset('assets/img/louvre-galerie-2.jpg') }}" alt="First slide">
+                        <div class="carousel-caption">
+                            
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="{{ asset('assets/img/egyptian-scribe-Louvre-1.jpg') }}" alt="Second slide">
+                        <div class="carousel-caption">
+                            
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="{{ asset('assets/img/louvre-exterieur-1.jpg') }}" alt="Third slide">
+                        <div class="carousel-caption">
+                            
+                        </div>
+                    </div>
+                </div>
+                <a class="left carousel-control" href="#carousel-homepage" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span></a><a class="right carousel-control"
+                        href="#carousel-homepage" data-slide="next"><span class="glyphicon glyphicon-chevron-right">
+                        </span></a>
+            </div>
+            <div id="main-text-homepage" class="col-xs-offset-1 main-text center">
+                <div id="homepage-text" class="col-md-10 col-md-offset-1 text-center">
+                    <h1>
+                        Bienvenue sur la billeterie du Musée du Louvre</h1>
+                    <h3>
+                        Préparez votre visite. Commandez vos billets en ligne... évitez les files d'attente !
+                    </h3>
+                    <div class="">
+                        <a class="btn btn-clear btn-sm btn-min-block" href="{{ path('_booking')}}">Accéder à la Billeterie</a><a class="btn btn-clear btn-sm btn-min-block"
+                            href="{{ path('_show')}}">Rechercher ma Réservation</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!--
+<div class="center">
+<p><em><strong>* Afin de bénéficier du tarif réduit, vous devez justifier de votre statut : étudiant, militaire, employé du musée, rattaché au Ministère de la Culture</strong></em>
+</div>
+	<div class="row blocks">
+
+		<div id="grille-tarifs" class="col-md-4 col-xs-offset-2">
+			<h3><span class="glyphicon glyphicon-euro" aria-hidden="true"></span> Les tarifs du Musée</h3>
+			<p>
+				<strong>Normal</strong> à partir de 12 ans : <strong>16 €</strong><br>
+				<strong>Enfant</strong> entre 4 ans et 12 ans : <strong>8 €</strong><br>
+				<strong>Senior</strong> à partir de 60 ans : <strong>12 €</strong><br>
+				<strong>Reduit</strong> sous conditions : <strong>10 €</strong><br>
+			</p>
+		</div>
+		<div class = "col-xs-2 col-md-1">
+		</div>
+		<div id="info-musee" class="col-md-4 col-xs-10">
+			<h3><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Les infos du Musée</h3>
+			<p>
+				<strong>Horaires d'ouverture: </strong></br>
+				<em>Ouvert tous les jours, exepté le MARDI et le DIMANCHE</em></br>
+				<strong>09h00 à 22h00</strong>.<br>
+				<em>Fermé les jours fériés</em>
+			</p>
+		</div>
+	</div>
+
+-->
 
 
 {% endblock %}

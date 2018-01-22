@@ -10,14 +10,6 @@ _new_booking:
     path:     /booking/new/{code}
     defaults: { _controller: SurikatBookingBundle:Booking:NewBooking }
 
-_new_booking_validate:
-    path:     /booking/new/validate
-    defaults: { _controller: SurikatBookingBundle:Booking:ValidateBooking }
-
-_new_booking_save:
-    path:     /booking/new/save
-    defaults: { _controller: SurikatBookingBundle:Booking:SaveBooking }
-
 _show:
     path:     /booking/show
     defaults: { _controller: SurikatBookingBundle:Booking:Show }
@@ -30,6 +22,9 @@ _booking_availability_on:
     path:     /booking/check-availability/{date}
     defaults: { _controller: SurikatBookingBundle:Booking:CheckForAvailabiliy }
 
+_legals:
+    path:     /legals
+    defaults: { _controller: SurikatBookingBundle:Home:Legals }
 
 admin_booking_delete:
     path:     /admin/booking/{code}

@@ -22,6 +22,33 @@
 
   {% block body %} {% endblock%}
 
+{% block footer %}
+<div id="mainFooter">
+<div class="footer-left">
+<a class="vertical-logo-container" href="http://www.louvre.fr/">
+<img class="vertical-logo" src="{{ asset('assets/img/Louvre-icon.png') }}">
+</a>
+<div>
+<a href="{{ path('admin_booking_setting')}}"><span class="glyphicon glyphicon-lock"></span></a>
+</div>
+</div>
+<div class="footer-right">
+<ul class="social-nav">
+<li>Suivez Le Louvre sur les Réseaux Sociaux</li>
+<li class="icon-bubble"><a href="https://www.facebook.com/museedulouvre/" target="_blank"><i class="fa fa-facebook"></i><span class="hidden">Le Louvre on Facebook</span></a></li>
+<li class="icon-bubble"><a href="https://twitter.com/museelouvre" target="_blank"><i class="fa fa-twitter"></i><span class="hidden">Netflix on Twitter</span></a></li>
+<li class="icon-bubble"><a href="https://instagram.com/museelouvre" target="_blank"><i class="fa fa-instagram"></i><span class="hidden">Le Louvre on Instagram</span></a></li>
+</ul>
+<ul class="legal-nav">
+<li><a href="https://www.louvre.fr/missions-et-projets">Le Louvre</a></li>
+<li><a href="https://www.louvre.fr/contacts" target="_blank">Contact</a></li>
+<li><a href="{{ path('_legals')}}" target="_self">Mentions Légales et CGU</a></li>
+<li>© 2018 Musée du Louvre</li>
+</ul>
+</div>
+</div>
+{% endblock %}
+
   <!-- JavaScripts Loadings -->
   {% block javascripts %}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
