@@ -10,4 +10,22 @@ namespace Surikat\BookingBundle\Repository;
  */
 class BookingRepository extends \Doctrine\ORM\EntityRepository
 {
+
+  public function getBookingBefore($date) {
+    $booking = new Booking();
+    $beforeDate = $date = new \Datetime($date);
+    $date->setTime(00, 00, 00);
+
+    $queryBuilder  = $this->_em->createQueryBuilder()
+            ->select('b')
+            ->from($this->_entityName, 'b')
+            ->where('b.bookingFor < :date')
+            ->setParameter('date', $date)
+            ;
+    $booking = $queryBuilder->getQuery()->getResult();
+
+    return $booking;
+
+  }
+
 }

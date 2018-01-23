@@ -16,6 +16,11 @@ services:
         arguments:
           - "@doctrine.orm.entity_manager"
 
+    surikat_booking.stripemanager:
+        class: Surikat\BookingBundle\Services\StripeManager
+        arguments:
+          - "@doctrine.orm.entity_manager"
+
     surikat_booking.mailsenderengine:
         class: Surikat\BookingBundle\Services\MailSenderService
         arguments:

@@ -23,8 +23,12 @@ class SettingType extends AbstractType
      public function buildForm(FormBuilderInterface $builder, array $options)
      {
          $builder
-         ->add('configName',  TextType::class, array(
+      /*   ->add('configName',  TextType::class, array(
            'label' => 'Nom de la Configuration: '
+         ))
+      */
+         ->add('stripeApiKey',  TextType::class, array(
+           'label' => 'Stripe API Key: '
          ))
          ->add('dailyTicketLimit',  NumberType::class, array(
            'label' => 'Limite Journalière: '

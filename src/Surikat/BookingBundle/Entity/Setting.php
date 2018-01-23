@@ -134,6 +134,11 @@ class Setting
      */
     private $errors;
 
+    /**
+     * @var string|null
+     * @ORM\Column(name="stripeApiKey", type="string", nullable=true)
+     */
+    private $stripeApiKey;
 
     /**
      * Get id.
@@ -601,4 +606,28 @@ class Setting
         return $this->configName;
     }
 
+
+    /**
+     * Set stripeApiKey.
+     *
+     * @param string|null $stripeApiKey
+     *
+     * @return Setting
+     */
+    public function setStripeApiKey($stripeApiKey = null)
+    {
+        $this->stripeApiKey = $stripeApiKey;
+
+        return $this;
+    }
+
+    /**
+     * Get stripeApiKey.
+     *
+     * @return string|null
+     */
+    public function getStripeApiKey()
+    {
+        return $this->stripeApiKey;
+    }
 }

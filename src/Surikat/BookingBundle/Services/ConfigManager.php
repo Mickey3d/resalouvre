@@ -127,8 +127,13 @@ class ConfigManager
 
       foreach ($bookings as $booking) {
           $tickets = $booking->getTickets();
-          $count = count($tickets);
-          $ticketCount = $ticketCount + $count;
+          if ($booking->getPaiementStatus() != 'erreur') {
+            $count = count($tickets);
+            $ticketCount = $ticketCount + $count;
+          }
+          else {
+            $ticketCount = $ticketCount;
+          }
       }
 
       $dailyTicketsLimit = $config->getDailyTicketLimit();
@@ -203,8 +208,7 @@ class ConfigManager
           $config->setTicketsLimit(0);
           $config->setAvailability(0);
           $config->setDailyTicketLimit(0);
-          $error = '- Code error_LI01
-          - Date non disponible à la réservation
+          $error = ' Date non disponible à la réservation
           - Jour de fermeture';
           $config->setErrors($error);
           return $config;
@@ -219,40 +223,35 @@ class ConfigManager
         if ($availability <= 0)
           {
               $config->setTicketsLimit(0);
-              $error = 'Code error_LI02
-              - Date non disponible à la réservation
+              $error = ' Malheureusement cette Date n\'est pas disponible à la réservation
               - Aucune disponibilité pour ce jour';
               $config->setErrors($error);
           }
           elseif ($availability < 10)
           {
             $config->setTicketsLimit(1);
-            $message = 'Code LI04
-            - Limitation du nombre de tickets réservables à 1 par réservation
+            $message = ' Limitation du nombre de tickets réservables à 1 par réservation
             - Disponibilité réduite pour  ce jour : moins de 10 tickets encore disponible';
             $config->setMessages($message);
           }
           elseif ($availability < 20)
           {
             $config->setTicketsLimit(2);
-            $message = 'Code LI03
-            - Limitation du nombre de tickets réservables à 2 par réservation
+            $message = ' Limitation du nombre de tickets réservables à 2 par réservation
             - Disponibilité réduite pour  ce jour : moins de 20 tickets encore disponible';
             $config->setMessages($message);
           }
           elseif ($availability < 50)
           {
             $config->setTicketsLimit(5);
-            $message = 'Code LI02
-            - Limitation du nombre de tickets réservables à 5 par réservation
+            $message = ' Limitation du nombre de tickets réservables à 5 par réservation
             - Disponibilité réduite pour  ce jour : moins de 50 tickets encore disponible';
             $config->setMessages($message);
           }
           else
           {
             $config->setTicketsLimit(30);
-            $message = 'Code LI01
-            - Limitation du nombre de tickets réservables à 30 par réservation
+            $message = ' Limitation du nombre de tickets réservables à 30 par réservation
             - Disponibilité maximal pour une réservation';
             $config->setMessages($message);
           }
@@ -261,14 +260,36 @@ class ConfigManager
     }
 
   /**
-   * Vérifie si ...
    *
-   * @param string $var
-   * @return bool
+   * @param string $status
    */
-  public function function($var)
+  public function bookingPurgeByStatus($status)
   {
-
+    $booking = new Booking();
+    $bookings = $this->em
+      ->getRepository('SurikatBookingBundle:Booking')
+      ->findByPaiementStatus($status);
+    ;
+    foreach ($bookings as $booking) {
+      $this->em->remove($booking);
+      $this->em->flush();
+    }
   }
+
+  public function bookingPurgeByDate($date)
+  {
+    $repository = $this->em
+      ->getDoctrine()
+      ->getManager()
+      ->getRepository('SurikatBookingBundle:Booking')
+    ;
+    $bookings = $repository->getBookingBefore($date);
+
+    foreach ($bookings as $booking) {
+      $this->em->remove($booking);
+      $this->em->flush();
+    }
+  }
+
 
 }

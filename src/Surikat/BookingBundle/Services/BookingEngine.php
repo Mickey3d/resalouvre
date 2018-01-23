@@ -110,7 +110,7 @@ class BookingEngine
       {
         $checkPastDay = false;
       }
- 
+
       $date = $date->format(DATE_RFC2822);
       $dateNow = $dateNow->format(DATE_RFC2822);
 
@@ -128,7 +128,7 @@ class BookingEngine
             $booking->setErrors($error);
           return $booking;
         }
-        else 
+        else
         {
           if ($closedDays = $configManager->checkIfClosedDay($date) || $closedWeekDays = $configManager->checkIfClosedWeekDay($date) ) {
               $booking->setValidate(false);
@@ -137,7 +137,7 @@ class BookingEngine
               //  dump($booking);
               return $booking;
           }
-          else 
+          else
           {
             $this->loadPrices($booking);
 
@@ -149,7 +149,7 @@ class BookingEngine
               $booking->setErrors($error);
               return $booking;
             }
-            else 
+            else
             {
               // On récupère les paramètres de disponibilité via Setting checkAvailability()
               $availability =  $configManager->checkAvailability($date);
@@ -163,16 +163,16 @@ class BookingEngine
                 $booking->setErrors($error);
                 return $booking;
               }
-              else 
+              else
               {
                 $booking->setValidate(true);
                 return $booking;
               }
             }
-          }  
+          }
         }
       }
-    
+
     }
 
 
