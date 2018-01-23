@@ -426,7 +426,7 @@ FOOTER
 .modal-footer {
       padding: 0;
   }
-    
+
 .modal-footer .btn-group button {
   height:40px;
   border-top-left-radius : 0;
@@ -434,13 +434,13 @@ FOOTER
   border: none;
   border-right: 1px solid #ddd;
 }
-  
+
 .modal-footer .btn-group:last-child > button {
   border-right: 0;
 }
 /*
 .dlk-radio input[type="radio"],
-.dlk-radio input[type="checkbox"] 
+.dlk-radio input[type="checkbox"]
 {
   margin-left:-99999px;
   display:none;
@@ -456,7 +456,7 @@ FOOTER
 */
 
 @media screen and (min-width: 768px) {
-    
+
     .country-input {
       max-width: 150px;
     }
@@ -464,7 +464,7 @@ FOOTER
 }
 
 .validate-box {
-    vertical-align: middle;  
+    vertical-align: middle;
 }
 .validate-box .btn {
     border-radius:20px;
@@ -872,3 +872,15 @@ FOOTER
 *********  GENERAL
 */
 
+#cancelBooking {
+  margin-left: -20px;
+  padding-bottom: 10px;
+}
+.fontCandara {
+    font-family: Candara;
+    text-transform: uppercase;
+}
+
+.ds-btn li{ list-style:none; float:left; padding:10px; }
+.ds-btn li a span{padding-left:15px;padding-right:5px;width:100%;display:inline-block; text-align:left;}
+.ds-btn li a span small{width:100%; display:inline-block; text-align:left;}

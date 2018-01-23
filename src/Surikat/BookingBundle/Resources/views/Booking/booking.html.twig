@@ -1,4 +1,4 @@
-{# src/Surikat/BookingBundle/Resources/views/Booking/new_booking.html.twig #}
+{# src/Surikat/BookingBundle/Resources/views/Booking/booking.html.twig #}
 {% extends "SurikatBookingBundle::layout.html.twig" %}
 
 {% block title %}Nouvelle Réservation{% endblock %}
@@ -6,13 +6,13 @@
 {% form_theme form _self %}
 
 {% block date_widget %}
-	<input type="text" 
+  <input type="text"
     {{ block('widget_attributes') }}
     />  <i class="glyphicon glyphicon-calendar"></i>
 {% endblock %}
 
 {% block checkbox_widget %}
-    <input type="checkbox" 
+    <input type="checkbox"
     {{ block('widget_attributes') }}
     {% if value is defined %}
     value="{{ value }}"
@@ -24,18 +24,18 @@
 {% endblock %}
 
 {% block radio_widget %}
-	<div class="radio">
-        <label  
+  <div class="radio">
+        <label
         {% if value is defined and value == 'halfDay' %}
-				style="font-size: 0,9em"> Demi-Journée 
-		{% else %}
-				style="font-size: 1.3em"> Journée
-		{% endif %}
-            &nbsp;<input type="radio" 
+        style="font-size: 0,9em"> Demi-Journée
+    {% else %}
+        style="font-size: 1.3em"> Journée
+    {% endif %}
+            &nbsp;<input type="radio"
             {{ block('widget_attributes') }}
-            {% if value is defined %} 
+            {% if value is defined %}
             value="{{ value }}"{% endif %}
-            {% if checked %} 
+            {% if checked %}
             checked="checked"
             {% endif %} />
             <span class="cr"><i class="cr-icon fa fa-circle"></i></span>
@@ -73,13 +73,13 @@
     <div class="col-sm-3 checkbox-div">
       <div class="checkbox center col-sm-8">
         <label style="font-size: 1em">
-      		{{ form_widget(form.specialPrice) }}
-      		<span class="cr"><i class="cr-icon fa fa-check"></i></span>
-      	TARIF REDUIT 
-      	</label>
+          {{ form_widget(form.specialPrice) }}
+          <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+        TARIF REDUIT
+        </label>
       </div>
       <div class="col-sm-2">
-      	<button data-toggle="modal" data-target="#specialTarifInfoModal" class="btn btn-info center-block btn-xs" ><span class="glyphicon glyphicon-question-sign"></span></button>
+        <button data-toggle="modal" data-target="#specialTarifInfoModal" class="btn btn-info center-block btn-xs" ><span class="glyphicon glyphicon-question-sign"></span></button>
       </div>
     </div>
   </div>
@@ -92,42 +92,42 @@
 </div>
     <div id="appContent">
       {{ form_start(form, {'attr': {'class': 'form-inline'}}) }}
-      
+
       {# CONFIG INFO #}
       <div id="configInfo" class="col-md-12 box">
           <h4 id="availabilityInfo" class="center"></h4>
       </div>
 
       {# STEP ONE #}
-      <div id="stepOne" class='col-md-12 center'>  
-      	<div>
-			<div id="stepOneForm">
-				<div class="col-md-5">
-					{{ form_label(form.bookingFor, 'Date de la Visite') }}
-					</br>
-          			{{ form_widget(form.bookingFor) }}
-          			<h4 id="errorInfoDate" class="center"></h4>
-          		</div>
-          		<div class="col-md-7">
-          			{{ form_row(form.type, {'label': ' Type '}) }}
-          			<h4 id="errorInfoType" class="center"></h4>
-          			<h4 id="messageInfoType" class="center"></h4>
-          		</div>
-          		<div class="col-md-12">
-          			<button id="checkAvailability" type="button" class="btn btn-success"><span aria-hidden="true"></span>Vérifier la disponibilité</button>
-          		</div>
-  			</div>
-		</div>         
+      <div id="stepOne" class='col-md-12 center'>
+        <div>
+      <div id="stepOneForm">
+        <div class="col-md-5">
+          {{ form_label(form.bookingFor, 'Date de la Visite') }}
+          </br>
+                {{ form_widget(form.bookingFor) }}
+                <h4 id="errorInfoDate" class="center"></h4>
+              </div>
+              <div class="col-md-7">
+                {{ form_row(form.type, {'label': ' Type '}) }}
+                <h4 id="errorInfoType" class="center"></h4>
+                <h4 id="messageInfoType" class="center"></h4>
+              </div>
+              <div class="col-md-12">
+                <button id="checkAvailability" type="button" class="btn btn-success"><span aria-hidden="true"></span>Vérifier la disponibilité</button>
+              </div>
+        </div>
+    </div>
       </div>
 
       {# STEP TWO #}
       <div id="stepTwo" class="container">
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          	<div id="formErrors">
-          		{# Les erreurs générales du formulaire. #}
-        		{{ form_errors(form) }}
-        	</div>
+            <div id="formErrors">
+              {# Les erreurs générales du formulaire. #}
+            {{ form_errors(form) }}
+          </div>
             <div class="box">
               <div>
                 <div class="box-icon col-lg-2">
@@ -141,42 +141,43 @@
                   <hr>
                 </div>
               </div>
-				
+
               <div id="container-ticket">
- 				{{ form_widget(form.tickets) }}
-              	{{ form_label(form.tickets, 'TICKETS', {
-       				'label_attr': {'class': 'll'}
-					}) 
-				}}  
+        {{ form_widget(form.tickets) }}
+                {{ form_label(form.tickets, 'TICKETS', {
+              'label_attr': {'class': 'll'}
+          })
+        }}
               {# Fin container-ticket #}
               </div>
               {# Fin box #}
             </div>
-            
-			<div id="option-menu" class="row">
-        		<div class="col-xs-12">
-           			 <ul class="nav nav-pills nav-justified thumbnail">
-                		<li><a href="#" id="add_ticket">
-                		    <h4 class="list-group-item-heading">Ajouter un Ticket</h4>
-                		    <br>
-                   			<p class="list-group-item-text">Ajouter un ticket à votre commande</p>
-                			</a>	
-                		</li>
-                		<li>
-                			<div class="mailInput md-input">
-                				{{ form_widget(form.email, {'attr': {'class': 'md-form-control'}}) }}
-      							<span class="highlight"></span>
-      							<span class="bar"></span>
-      							<label>Email de confirmation</label>
-          					</div>
-                			<div class="validate-box center">
-                    		{{ form_widget(form.valider, {'attr': {'class': 'btn-validate btn-success'}}) }}
-                    		</div>
-                		</li>
-            		</ul>
-        		</div>
-			</div>
-		  {# Fin col #}	
+
+      <div id="option-menu" class="row">
+            <div class="col-xs-12">
+                 <ul class="nav nav-pills nav-justified thumbnail">
+                    <li>
+                      <a href="#" id="add_ticket">
+                        <h4 class="list-group-item-heading">Ajouter un Ticket</h4>
+                        <br>
+                        <p class="list-group-item-text">Ajouter un ticket à votre commande</p>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="mailInput md-input">
+                        {{ form_widget(form.email, {'attr': {'class': 'md-form-control'}}) }}
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>Email de confirmation</label>
+                    </div>
+                      <div class="validate-box center">
+                        {{ form_widget(form.valider, {'attr': {'class': 'btn-validate btn-success'}}) }}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+      </div>
+      {# Fin col #}
           </div>
          {# Fin row #}
         </div>
@@ -184,41 +185,41 @@
       </div>
 
       {# Génération automatique des champs pas encore écrits. Champ CSRF (géré automatiquement par Symfony !) et tous les champs cachés (type « hidden »). #}
-	  {{ form_rest(form) }}
+    {{ form_rest(form) }}
       {# Fermeture de la balise <form> du formulaire HTML #}
       {{ form_end(form) }}
-    
+
       {# Special Price Info modal #}
-	  <div class="modal fade" id="specialTarifInfoModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-  		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-					<h3 class="modal-title" id="lineModalLabel">Informations sur les tarifs</h3>
-				</div>
-				<div class="modal-body">
-            		{# content #}
-            		<h3 class="center"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"> Tarifs du Musée</span></h3>
-  					<div class=" center col-md-12 col-sm-6">
-       					<div class="col-md-3"><strong>Normal : 16 €</strong></br><em>à partir de 12 ans</em></div>
-       					<div class="col-md-3"><strong>Enfant : 8 €</strong></br><em>entre 4 ans et 12 ans</em></div>
-   						<div class="col-md-3"><strong>Senior : 12 €</strong></br><em>à partir de 60 ans</em></div>
-   						<div class="col-md-3"><strong>Reduit : 10 €</strong></br><em>sous conditions <strong>*</strong></em></div>
-					</div>
-					<div class="center col-md-12 col-sm-6">
-						<p></br><em><strong>* Afin de bénéficier du tarif réduit, vous devez justifier de votre statut : étudiant, militaire, employé du musée, rattaché au Ministère de la Culture</strong></em></p>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<div class="btn-group btn-group-justified" role="group" aria-label="group button">
-						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-default" data-dismiss="modal"  role="button">Revenir à la commande</button>
-						</div>
-					</div>
-				</div>
-			</div>
-  		</div>
-	  </div>
+    <div class="modal fade" id="specialTarifInfoModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+          <h3 class="modal-title" id="lineModalLabel">Informations sur les tarifs</h3>
+        </div>
+        <div class="modal-body">
+                {# content #}
+                <h3 class="center"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"> Tarifs du Musée</span></h3>
+            <div class=" center col-md-12 col-sm-6">
+                <div class="col-md-3"><strong>Normal : 16 €</strong></br><em>à partir de 12 ans</em></div>
+                <div class="col-md-3"><strong>Enfant : 8 €</strong></br><em>entre 4 ans et 12 ans</em></div>
+              <div class="col-md-3"><strong>Senior : 12 €</strong></br><em>à partir de 60 ans</em></div>
+              <div class="col-md-3"><strong>Reduit : 10 €</strong></br><em>sous conditions <strong>*</strong></em></div>
+          </div>
+          <div class="center col-md-12 col-sm-6">
+            <p></br><em><strong>* Afin de bénéficier du tarif réduit, vous devez justifier de votre statut : étudiant, militaire, employé du musée, rattaché au Ministère de la Culture</strong></em></p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="btn-group btn-group-justified" role="group" aria-label="group button">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default" data-dismiss="modal"  role="button">Revenir à la commande</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
 
     </div>
     {# Fin appContent #}
@@ -228,41 +229,31 @@
 
   {% block javascripts %}{{ parent() }}
 
-  	<script type="text/javascript">
+    <script type="text/javascript">
+      var dayTicketHourLimit = '{{ setting.dayTicketHourLimit|date('H:i:s') }}';
+      var dailyHourLimit = '{{ setting.daylyHourLimit|date('H:i:s') }}';
+      var closedWeekDays = {{ setting.closedWeekDays|json_encode()|raw}};
+      var closedDays = {{ setting.closedDays|json_encode()|raw}};
+      var disaDate = [];
+      var closedDay = '';
+      for (var k in closedDays){
+        if (typeof closedDays[k] !== 'function') {
+            closedDay = closedDaysFormater(closedDays[k]);
+            disaDate.push(closedDay);
+        }
+      }
+      function closedDaysFormater(closedDay) {
+        closedDay = closedDay.split("-");
+        closedDay = closedDay[2] + "-" + closedDay[1] + "-" + closedDay[0];
+        return closedDay;
+      }
+      {% if dailyHourLimit == true %}
+      var startDatePicker =  '+1d';
+    {% else %}
+      var startDatePicker =  'today';
+    {% endif %}
+  </script>
 
-  		var dayTicketHourLimit = '{{ setting.dayTicketHourLimit|date('H:i:s') }}';
-  		var dailyHourLimit = '{{ setting.daylyHourLimit|date('H:i:s') }}';
-
-  		var closedWeekDays = {{ setting.closedWeekDays|json_encode()|raw}};
-  		var closedDays = {{ setting.closedDays|json_encode()|raw}};
-
-  		var disaDate = [];
-    	var closedDay = '';
-    	for (var k in closedDays){
-    		if (typeof closedDays[k] !== 'function') {
-         		closedDay = closedDaysFormater(closedDays[k]);
-         		disaDate.push(closedDay);
-    		}
-    	}
-
-    	function closedDaysFormater(closedDay) {
-
-    		closedDay = closedDay.split("-");
-
-    		closedDay = closedDay[2] + "-" + closedDay[1] + "-" + closedDay[0];
-
-    		return closedDay;
-  		}
-
-  		{% if dailyHourLimit == true %}
-    	var startDatePicker =  '+1d';
-		{% else %}
-  		var startDatePicker =  'today';	
-		{% endif %}
-	</script>
-	
-	 <script src="{{ asset('assets/js/script.js') }}"></script>
+   <script src="{{ asset('assets/js/script.js') }}"></script>
 
   {% endblock %}
-
-

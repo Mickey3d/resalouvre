@@ -26,8 +26,8 @@ _legals:
     path:     /legals
     defaults: { _controller: SurikatBookingBundle:Home:Legals }
 
-admin_booking_delete:
-    path:     /admin/booking/{code}
+booking_delete:
+    path:     /booking/delete/{code}
     defaults: { _controller: SurikatBookingBundle:Booking:DeleteBooking }
 
 admin_booking_setting:

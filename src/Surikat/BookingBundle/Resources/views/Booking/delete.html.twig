@@ -1,0 +1,49 @@
+{# src/Surikat/BookingBundle/Resources/views/Booking/new_booking.html.twig #}
+{% extends "SurikatBookingBundle::layout.html.twig" %}
+{% block title %}Annuler la Réservation{% endblock %}
+
+
+{% block body %}{{ parent() }}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="box">
+                <div class="box-icon">
+                    <span class="fa fa-4x fa-ticket"></span>
+                </div>
+                <h4 class="text-center fontCandara">Annuler la Réservation</h4>
+                <div class="info">
+                  <h2 class="fontCandara center">
+                      Etes-vous certain d'annuler votre Réservation pour le "{{ booking.bookingFor|date('d-m-Y')}}" ?
+                  </h2>
+                  <div class="col-md-6 col-md-offset-3">
+
+			  		<div class="center panel-body">
+
+              <form action="{{ path('booking_delete', {'code': booking.code}) }}" method="post">
+                  <a href="{{ path('_new_booking', {'code': booking.code}) }}" class="btn btn-default">
+                    <i class="glyphicon glyphicon-chevron-left"></i>
+                    Retour au paiement
+                  </a>
+                  {# Ici j'ai écrit le bouton de soumission à la main #}
+                  <input type="submit" value="Annuler la Réservation" class="btn btn-danger" />
+                  {# Ceci va générer le champ CSRF #}
+                  {{ form_rest(form) }}
+              </form>
+
+			    	</div>
+			      </div>
+				</div>
+			</div>
+        </div>
+	</div>
+</div>
+
+{% endblock %}
+
+	{% block javascripts %}{{ parent() }}
+
+   	<script src="{{ asset('assets/js/script.js') }}"></script>
+
+  	{% endblock %}

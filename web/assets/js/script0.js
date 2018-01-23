@@ -1,6 +1,6 @@
 
 $(document).ready(function() {
-
+  
 
   $('#menu-topo').hide();
   var menuaberto = false;
@@ -28,7 +28,7 @@ $(document).ready(function() {
 
 
 // Var Access for Step One to Step Two
-
+  
   var stepOne = document.getElementById("stepOne");
   var stepTwo = document.getElementById("stepTwo");
   var dateBookingForElement = document.getElementById("surikat_bookingbundle_booking_bookingFor");
@@ -47,16 +47,15 @@ $(document).ready(function() {
   dayTicketHourLimit = timeToNumber(dayTicketHourLimit);
   dayTicketHourLimit = dayTicketHourLimit - 0;
   var bookingFor = stepOne;
-  var ticketsLimit = 1;
-
+  
   bookingFor.addEventListener("mouseout", function (e) {
 
     bookingForDate = dateBookingForElement.value;
     var dateToSplit = bookingForDate.split("-");
     var bookingForCurrentTextMonth = dateToSplit[1];
-    dateToSplit[1] = textMonthToNumberMonth(bookingForCurrentTextMonth);
+    dateToSplit[1] = textMonthToNumberMonth(bookingForCurrentTextMonth); 
     bookingForDate = dateToSplit[0] + '-' + dateToSplit[1] + '-' + dateToSplit[2];
-
+    
     if (bookingForDate == currentDay & (currentTime > dayTicketHourLimit)) {
       dayTypeElt.style.display = 'none';
       halfDayTypeElt.checked = true;
@@ -65,11 +64,11 @@ $(document).ready(function() {
     else
     {
       dayTypeElt.style.display = 'inline';
-      messageInfoTypeElt.textContent = '';
-    }
+      messageInfoTypeElt.textContent = '';  
+    }     
 
   });
-
+    
 
 
 // STEP ONE CONFIG
@@ -94,7 +93,7 @@ $(document).ready(function() {
 
 // CHECK AVAILABILITY CLICK
   $('#checkAvailability').click(function(e) {
-
+    
     var dateToCheck = dateBookingForElement.value;
     var url = 'booking/check-availability/';
     var typeToCheck0 = bookingTypeHalfDayElt.checked;
@@ -105,16 +104,13 @@ $(document).ready(function() {
       var dateSplit = dateToCheck.split("-");
       var currentTextMonth = dateSplit[1];
       dateSplit[1] = textMonthToNumberMonth(currentTextMonth);
-
+      
       dateToCheck = dateSplit[0] + '-' + dateSplit[1] + '-' + dateSplit[2];
       url = url + dateToCheck;
       console.log(url);
 
-      $.get(url)
+      $.get(url) 
         .done(function( data ) {
-
-          ticketsLimit = data.tickets_limit;
-          console.log(ticketsLimit);
 
           if(errorInfoDateElt.textContent != "" | errorInfoTypeElt.textContent != "")
           {
@@ -130,7 +126,7 @@ $(document).ready(function() {
             $('#stepOne').fadeOut(500, 'linear');
             $('#configInfo').fadeIn(1000, 'linear');
             $('#stepTwo').fadeIn(2000, 'swing');
-
+        
           }
           else
           {
@@ -152,7 +148,7 @@ $(document).ready(function() {
         //console.log('date error 1');
         if(errorInfoDateElt.textContent === "")
         {
-          addErrorInfoDate(errorInfoDateElt);
+          addErrorInfoDate(errorInfoDateElt); 
         }
       }
       if(dateToCheck == "" & typeToCheck0 === true | typeToCheck1 === true)
@@ -160,7 +156,7 @@ $(document).ready(function() {
         //console.log('date error 2');
         if(errorInfoTypeElt.textContent != "")
         {
-          errorInfoTypeElt.textContent = "";
+          errorInfoTypeElt.textContent = ""; 
         }
       }
 
@@ -170,19 +166,19 @@ $(document).ready(function() {
         if(errorInfoTypeElt.textContent === "")
         {
         addErrorInfoType(errorInfoTypeElt);
-        }
+        }    
       }
       if(dateToCheck != "" & typeToCheck0 === false & typeToCheck1 === false)
       {
         //console.log('type error 2');
         if(errorInfoDateElt.textContent != "")
         {
-          errorInfoDateElt.textContent = "";
+          errorInfoDateElt.textContent = ""; 
         }
       }
     }
-
-      // console.log($errorInfoDateElt.textContent);
+     
+      // console.log($errorInfoDateElt.textContent);   
 
     e.preventDefault();
     return false;
@@ -204,7 +200,7 @@ $(document).ready(function() {
   function addAvailabilityInfo(availabilityInfoElt, availabilityInfo) {
     if(availabilityInfoElt.textContent != "")
         {
-          availabilityInfoElt.textContent = "";
+          availabilityInfoElt.textContent = ""; 
         }
 
     availabilityInfoElt.append(availabilityInfo);
@@ -264,11 +260,11 @@ $(document).ready(function() {
 
     if(dd<10) {
       dd = '0'+dd
-    }
+    } 
 
     if(mm<10) {
       mm = '0'+mm
-    }
+    } 
 
     currentDay = dd + '-' + mm + '-' + yyyy;
 
@@ -306,14 +302,7 @@ $(document).ready(function() {
 
   // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
   $('#add_ticket').click(function(e) {
-    var addTicketButton = document.getElementById("add_ticket");
-    if (($('div#surikat_bookingbundle_booking_tickets > div').length) < ticketsLimit) {
-      addTicketButton.innerHTML = "<h4 class='list-group-item-heading'>Ajouter un Ticket</h4><br><p class='list-group-item-text'>Ajouter un ticket à votre commande</p>"
     addTicket($container);
-  }else {
-    addTicketButton.innerHTML = "<h4 class='list-group-item-heading'>Limite atteinte</h4><br><p class='list-group-item-text'>Vous pouvez commander " + ticketsLimit + " tickets maximum</p>";
-  }
-
 
     e.preventDefault(); // évite qu'un # apparaisse dans l'URL
     return false;
@@ -374,16 +363,8 @@ $(document).ready(function() {
     }
     // Ajout du listener sur le clic du lien pour effectivement supprimer le ticket
     $deleteLink.click(function(e) {
-
-      var addTicketButton2 = document.getElementById("add_ticket");
-      if (($('div#surikat_bookingbundle_booking_tickets > div').length) <= ticketsLimit) {
-        addTicketButton2.innerHTML = "<h4 class='list-group-item-heading'>Ajouter un Ticket</h4><br><p class='list-group-item-text'>Ajouter un ticket à votre commande</p>";
-      }else {
-      addTicketButton2.innerHTML = "<h4 class='list-group-item-heading'>Limite atteinte</h4><br><p class='list-group-item-text'>Vous pouvez commander " + ticketsLimit + " tickets maximum</p>";
-      }
-
       if (($('div#surikat_bookingbundle_booking_tickets > div').length) > 1) {
-                $prototype.remove();
+                $prototype.remove();          
     }
       e.preventDefault(); // évite qu'un # apparaisse dans l'URL
       return false;

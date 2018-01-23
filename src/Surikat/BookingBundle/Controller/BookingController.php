@@ -161,7 +161,7 @@ class BookingController extends Controller
 
         return $this->render('SurikatBookingBundle:Booking:show.html.twig', array(
 
-            
+
         ));
 
     }
@@ -183,11 +183,22 @@ class BookingController extends Controller
     }
 
 
-    public function DeleteBooking($code)
+    public function DeleteBookingAction(Request $request, Booking $booking)
     {
-        return $this->render('SurikatBookingBundle:Booking:show.html.twig', array('ticketsList'=>array()
-            // ... Supprime une reservation de la base de donnée
-        ));
+      $em = $this->getDoctrine()->getManager();
+    $form = $this->get('form.factory')->create();
+    if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+      $em->remove($booking);
+      $em->flush();
+      $request->getSession()->getFlashBag()->add('info', "La Réservation a bien été annulée.");
+      return $this->redirectToRoute('surikat_booking_homepage');
+    }
+
+    return $this->render('SurikatBookingBundle:Booking:delete.html.twig', array(
+      'booking' => $booking,
+      'form'   => $form->createView(),
+    ));
+
     }
 
 

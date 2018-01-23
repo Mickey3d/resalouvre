@@ -1,0 +1,56 @@
+{# app/Ressources/TwigBundle/views/Exception/error.html.twig #}
+
+{% extends "SurikatBookingBundle::layout.html.twig" %}
+
+{% block title %}Billeterie du Louvre - Page d'Erreur {{ status_text }}{% endblock %}
+
+{% block body %}{{ parent( )}}
+
+<div class="container">
+	<div class="row">
+    <h1 class="center">Oops! Quelque chose ne semble pas fonctionner</h1>
+    <h2 class="center">Réponse du Serveur: "{{ status_code }} {{ status_text }}".</h2>
+    </br>
+    <ul class="center col-md-12 ds-btn">
+        <li class="center col-md-4">
+             <a class="btn btn-lg btn-primary" href="{{ path('surikat_booking_homepage')}}">
+          <i class="glyphicon glyphicon-home pull-left"></i><span>SITE<br><small>ACCUEIL</small></span></a>
+            </a>
+        </li>
+        <li class="center col-md-4">
+             <a class="btn btn-lg btn-success " href="{{ path('_booking')}}">
+         <i class="glyphicon glyphicon-bookmark pull-left"></i><span>BILLETERIE<br><small>COMMANDE DE TICKETS</small></span></a>
+            </a>
+        </li>
+        <li class="center col-md-4">
+             <a class="btn btn-lg btn-danger" target="_blank" href="http://www.louvre.fr/">
+         <i class="glyphicon glyphicon-eject pull-left"></i><span>LE MUSEE DU LOUVRE<br><small>LE SITE</small></span></a>
+            </a>
+        </li>
+    </ul>
+
+	</div>
+  <div class="col-lg-12 center">
+    <div class="col-lg-2 center">
+      <img src="{{ asset('assets/img/momie1.gif') }}" class="img-responsive" alt="momie-gif">
+    </div>
+    <div class="col-lg-2 center">
+      <img src="{{ asset('assets/img/badge-vous-etes-ici.png') }}" class="img-responsive" alt="vous-etes-ici">
+    </div>
+    <div class="col-lg-4 center">
+      <img src="{{ asset('assets/img/404.png') }}" class="img-responsive" alt="404 not found">
+    </div>
+    <div class="col-lg-2 center">
+      <img src="{{ asset('assets/img/giphy.gif') }}" class="img-responsive" alt="egypt-gif">
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% block javascripts %}{{ parent() }}
+
+    	 <script src="{{ asset('assets/js/script.js') }}"></script>
+
+{% endblock %}
