@@ -30,6 +30,17 @@ booking_delete:
     path:     /booking/delete/{code}
     defaults: { _controller: SurikatBookingBundle:Booking:DeleteBooking }
 
+login:
+    path: /login
+    defaults:
+        _controller: SurikatUserBundle:Security:login
+
+login_check:
+    path: /login_check
+
+logout:
+    path: /logout
+
 admin_booking_setting:
-    path:     /booking/setting
+    path:     /admin/setting
     defaults: { _controller: SurikatBookingBundle:Booking:ConfigBooking }

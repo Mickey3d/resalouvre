@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response as Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 
 class BookingController extends Controller
@@ -21,6 +22,11 @@ class BookingController extends Controller
     // Configuration de l'application
     public function ConfigBookingAction(Request $request)
     {
+      // On vérifie que l'utilisateur dispose bien du rôle ROLE_AUTEUR
+      if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+        // Sinon on déclenche une exception « Accès interdit »
+        throw new AccessDeniedException('Accès limité aux Administrateur.');
+      }
       $configManager = $this->container->get('surikat_booking.configmanager');
       $setting = $configManager->loadConfigByName('config-louvre');
       $form   = $this->createForm(SettingType::class, $setting);

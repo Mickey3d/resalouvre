@@ -17,6 +17,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Surikat\BookingBundle\SurikatBookingBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Surikat\UserBundle\SurikatUserBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

@@ -5,11 +5,11 @@
 {% block title %}Billeterie du Louvre - Accueil{% endblock %}
 
 {% block body %}{{ parent( )}}
-<div class="container col-sm-12">
-    <div class="row col-sm-12>
-        <div class="col-sm-12">
+<div id="carousselContainer" class="container col-xs-12">
+    <div>
+        <div >
             <div id="carousel-homepage" class="carousel slide" data-ride="carousel">
-        <!--        
+        <!--
         		<ol class="carousel-indicators">
                     <li data-target="#carousel-homepage" data-slide-to="0" class="active"></li>
                     <li data-target="#carousel-homepage" data-slide-to="1"></li>
@@ -20,19 +20,19 @@
                     <div class="item active">
                         <img src="{{ asset('assets/img/louvre-galerie-2.jpg') }}" alt="First slide">
                         <div class="carousel-caption">
-                            
+
                         </div>
                     </div>
                     <div class="item">
                         <img src="{{ asset('assets/img/egyptian-scribe-Louvre-1.jpg') }}" alt="Second slide">
                         <div class="carousel-caption">
-                            
+
                         </div>
                     </div>
                     <div class="item">
                         <img src="{{ asset('assets/img/louvre-exterieur-1.jpg') }}" alt="Third slide">
                         <div class="carousel-caption">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -43,11 +43,8 @@
             </div>
             <div id="main-text-homepage" class="col-xs-offset-1 main-text center">
                 <div id="homepage-text" class="col-md-10 col-md-offset-1 text-center">
-                    <h1>
-                        Bienvenue sur la billeterie du Musée du Louvre</h1>
-                    <h3>
-                        Préparez votre visite. Commandez vos billets en ligne... évitez les files d'attente !
-                    </h3>
+                    <h1>Bienvenue sur la billeterie du Musée du Louvre</h1>
+                    <h3>Préparez votre visite. Commandez vos billets en ligne... évitez les files d'attente !</h3>
                     <div class="">
                         <a class="btn btn-clear btn-sm btn-min-block" href="{{ path('_booking')}}">Accéder à la Billeterie</a><a class="btn btn-clear btn-sm btn-min-block"
                             href="{{ path('_show')}}">Rechercher ma Réservation</a></div>
@@ -58,23 +55,56 @@
 </div>
 
 
-<div class="center">
+<div class="col-xs-10 col-xs-offset-1 center">
 <p><em><strong>* Afin de bénéficier du tarif réduit, vous devez justifier de votre statut : étudiant, militaire, employé du musée, rattaché au Ministère de la Culture</strong></em>
 </div>
-	<div class="row blocks">
-
-		<div id="grille-tarifs" class="col-md-4 col-xs-offset-2">
-			<h3><span class="glyphicon glyphicon-euro" aria-hidden="true"></span> Les tarifs du Musée</h3>
-			<p>
-				<strong>Normal</strong> à partir de 12 ans : <strong>16 €</strong><br>
-				<strong>Enfant</strong> entre 4 ans et 12 ans : <strong>8 €</strong><br>
-				<strong>Senior</strong> à partir de 60 ans : <strong>12 €</strong><br>
-				<strong>Reduit</strong> sous conditions : <strong>10 €</strong><br>
-			</p>
-		</div>
+<div class="container blocks">
+    <div class="row col-md-5 col-xs-10 col-xs-offset-1 custyle">
+      <h3><span class="glyphicon glyphicon-euro" aria-hidden="true"></span> Les tarifs du Musée</h3>
+      <table class="table table-striped custab">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Condition</th>
+            <th>Journée</th>
+            <th>Demi-journée</th>
+          </tr>
+        </thead>
+            <tr>
+                <td>Gratuit</td>
+                <td>pour les moins de 4 ans</td>
+                <td>/</td>
+                <td>/</td>
+            </tr>
+            <tr>
+                <td>Réduit</td>
+                <td>sous conditions *</td>
+                <td>10 €</td>
+                <td>5 €</td>
+            </tr>
+            <tr>
+                <td>Normal</td>
+                <td>à partir de 12 ans</td>
+                <td>16 €</td>
+                <td>8 €</td>
+            </tr>
+            <tr>
+                <td>Enfant</td>
+                <td>entre 4 ans et 12 ans</td>
+                <td>8 €</td>
+                <td>4 €</td>
+            </tr>
+            <tr>
+                <td>Senior</td>
+                <td>à partir de 60 ans</td>
+                <td>12 €</td>
+                <td>6 €</td>
+            </tr>
+        </table>
+    </div>
 		<div class = "col-xs-2 col-md-1">
 		</div>
-		<div id="info-musee" class="col-md-4 col-xs-10">
+		<div id="info-musee" class="col-md-4 col-xs-11 col-xs-offset-1">
 			<h3><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Les infos du Musée</h3>
 			<p>
 				<strong>Horaires d'ouverture: </strong></br>
@@ -82,15 +112,18 @@
 				<strong>09h00 à 22h00</strong>.<br>
 				<em>Fermé les jours fériés</em>
 			</p>
+      <div id="gMap">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.8739172814853!2d2.3354553150723563!3d48.86061460850506!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e671d877937b0f%3A0xb975fcfa192f84d4!2sMus%C3%A9e+du+Louvre!5e0!3m2!1sfr!2sfr!4v1516724028766" width="320" height="200" frameborder="0" style="border:0" allowfullscreen></iframe>
+      </div>
 		</div>
-	</div>
+</div>
 
 
 
 {% endblock %}
 
   {% block javascripts %}{{ parent() }}
-	
+
 	 <script src="{{ asset('assets/js/script.js') }}"></script>
 
   {% endblock %}
