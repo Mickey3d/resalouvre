@@ -30,7 +30,13 @@
             <div class="container">
               <div class="container col-sm-11">
                 <div class="row">
-                  <h3 class="fontCandara center">VOTRE RÉSERVATION</h3>
+                  <h3 class="fontCandara center">VOTRE RÉSERVATION -
+                  {% if booking.type !='day' %}
+                  {{ "Journée"|trans }}
+                  {% else %}
+                  {{ "Demi-Journée"|trans }}
+                  {% endif %}
+                  </h3>
                   <div class="box">
                     <h3 class="center fontCandara">
                       <strong>Date de la visite :</br>
@@ -95,14 +101,6 @@
 
                 <div class="panel panel-default clearfix">
                   <div class="col-xs-12 toggle-header">
-                    <div class="col-xs-4">
-                      <button type="button" class="btn btn-primary btn-sm hidden-xs" data-toggle="collapse" data-target="#feature-1">
-                        <i class="glyphicon glyphicon-resize-vertical"></i>TICKETS
-                      </button>
-                      <button type="button" class="btn btn-primary btn-xs visible-xs" data-toggle="collapse" data-target="#feature-1">
-                        <i class="glyphicon glyphicon-resize-vertical"></i>Tickets
-                      </button>
-                    </div>
                     <div class="col-xs-2 text-center">
                       <span class="hidden-xs">{{ "Nom"|trans }}</span>
                       <span class="visible-xs">{{ "Nom"|trans }}</span>
@@ -119,6 +117,14 @@
                       <span class="hidden-xs">{{ "Tarif"|trans }}</span>
                       <span class="visible-xs">{{ "Tarif"|trans }}</span>
                     </div>
+                    <div class="col-xs-4">
+                      <button type="button" class="btn btn-primary btn-sm hidden-xs" data-toggle="collapse" data-target="#feature-1">
+                        <i class="glyphicon glyphicon-resize-vertical"></i>TICKETS
+                      </button>
+                      <button type="button" class="btn btn-primary btn-xs visible-xs" data-toggle="collapse" data-target="#feature-1">
+                        <i class="glyphicon glyphicon-resize-vertical"></i>Tickets
+                      </button>
+                    </div>
                   </div>
                   <div id="feature-1" class="collapse in">
                     {% if booking.tickets == null %}
@@ -129,10 +135,6 @@
                         {#{{ ticket.id }}#}
                         <div class="panel-body">
                           <div class="row">
-                            <div class="col-xs-4">
-                              <strong>Code Ticket :
-                              </strong>
-                            </div>
                             <div class="col-xs-2 text-center">
                               {{ ticket.name }}
                             </div>
@@ -145,9 +147,6 @@
                             <div class="col-xs-2 text-center">
                               {{ ticket.price }}
                               €
-                            </div>
-                            <div class="col-xs-2 text-center">
-                              {{ ticket.code }}
                             </div>
                           </div>
                         </div>

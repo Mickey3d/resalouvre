@@ -34,7 +34,7 @@ class MailSenderService
         $this->mailer->send($mail);
     }
     public function sendMail(Booking $booking, $totalPrice){
-        $subject = "Reservation " . $booking->getCode() . " confirmation";
+        $subject = "Billeterie du Louvre - Confirmation Reservation " . $booking->getCode() . " .";
       //  $to = $booking->getEmail();
         $to = 'mickey.welensky@gmail.com';
         $this->sendMessage($to, $subject, $booking, $totalPrice);

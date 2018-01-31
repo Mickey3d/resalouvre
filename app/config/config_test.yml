@@ -14,4 +14,4 @@ web_profiler:
 
 swiftmailer:
     delivery_addresses: ['mickey.welensky@gmail.com']
-#    disable_delivery: true
+    disable_delivery: true

@@ -75,7 +75,7 @@ class BookingController extends Controller
             $booking =  $bookingEngine->validateBooking($booking);
             if ($booking->getValidate() == true) {
               $booking->setPaiementStatus('en Cours');
-              $booking =   $bookingEngine->saveBooking($booking);
+              $booking =   $bookingEngine->saveBooking($booking, 1);
               $request->getSession()->getFlashBag()->add('success', 'Réservation bien enregistrée redirection vers la plateforme de paiement.');
               return $this->redirectToRoute('_new_booking', array('code' => $booking->getCode()));
             }
@@ -104,16 +104,20 @@ class BookingController extends Controller
       if($request->isMethod('POST')) {
         $totalPrice = $booking->getTotalPrice();
         $token = $request->get('stripeToken');
+
+  //      dump($booking);die;
         $booking = $stripeManager->stripeBookingCharge($booking, $totalPrice, $token);
+  //      dump($booking);die;
 
         if ($booking->getPaiementStatus() == "confirmé") {
-          $booking =   $bookingEngine->saveBooking($booking);
+          $booking =   $bookingEngine->saveBooking($booking, 0);
+    //    dump($booking);die;
           $this->get('surikat_booking.mailsenderengine')->sendMail($booking, $totalPrice);
           $this->addFlash("success","Paiement validé, Réservation confirmé !");
           return $this->redirectToRoute('_new_booking', array('code' => $booking->getCode()));
         }else {
           $this->addFlash("warning","Erreur lors de la transaction");
-          $booking =   $bookingEngine->saveBooking($booking);
+          $booking =   $bookingEngine->saveBooking($booking, 0);
           return $this->redirectToRoute('_new_booking', array('code' => $booking->getCode()));
         }
       }

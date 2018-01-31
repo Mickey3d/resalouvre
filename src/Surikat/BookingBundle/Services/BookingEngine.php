@@ -176,9 +176,9 @@ class BookingEngine
     }
 
 
-  public function saveBooking(Booking $booking)
+  public function saveBooking(Booking $booking, $addTicket = 1)
     {
-        $random = random_int(1, 9999999999999);
+        $random = md5(uniqid(rand(), true));
         $em = $this->em;
         $booking->setBookedAt(new \DateTime());
         // Génération code de réservation
@@ -190,16 +190,21 @@ class BookingEngine
         // $booking->setPaiementStatus("en cours");
         $em->persist($booking);
         // Enregistrement des Tickets liés à la réservation
-        $tickets =  $booking->getTickets();
-        foreach ($tickets as $ticket)
-        {
-          if ($ticket->getCode() == null)
+        if ($addTicket == 1) {
+          $tickets =  $booking->getTickets();
+          foreach ($tickets as $ticket)
           {
-          $ticket->setCode('TICK'.$random);
+            $randomCode = md5(uniqid(rand(), true));
+            if ($ticket->getCode() == null)
+            {
+            $ticket->setCode('TICK'.$randomCode);
+            }
+            $booking->addTicket($ticket);
+            $em->persist($ticket);
           }
-          $booking->addTicket($ticket);
-          $em->persist($ticket);
         }
+
+
 
         $em->flush();
 
