@@ -104,14 +104,10 @@ class BookingController extends Controller
       if($request->isMethod('POST')) {
         $totalPrice = $booking->getTotalPrice();
         $token = $request->get('stripeToken');
-
-  //      dump($booking);die;
         $booking = $stripeManager->stripeBookingCharge($booking, $totalPrice, $token);
-  //      dump($booking);die;
 
         if ($booking->getPaiementStatus() == "confirmé") {
           $booking =   $bookingEngine->saveBooking($booking, 0);
-    //    dump($booking);die;
           $this->get('surikat_booking.mailsenderengine')->sendMail($booking, $totalPrice);
           $this->addFlash("success","Paiement validé, Réservation confirmé !");
           return $this->redirectToRoute('_new_booking', array('code' => $booking->getCode()));

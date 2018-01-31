@@ -191,7 +191,9 @@ class BookingEngine
         $em->persist($booking);
         // Enregistrement des Tickets liés à la réservation
         if ($addTicket == 1) {
+
           $tickets =  $booking->getTickets();
+
           foreach ($tickets as $ticket)
           {
             $randomCode = md5(uniqid(rand(), true));
@@ -203,8 +205,6 @@ class BookingEngine
             $em->persist($ticket);
           }
         }
-
-
 
         $em->flush();
 
