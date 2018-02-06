@@ -1,0 +1,30 @@
+
+
+
+UTILISER LA CONSOLE SYMFONY POUR CHARGER LES TESTS
+
+
+php bin/console cache:clear
+
+POUR LES TEST UNITAIRES ET GENERALE ->>
+
+php vendor/phpunit/phpunit/phpunit tests
+
+php vendor/phpunit/phpunit/phpunit tests -v
+
+php bin/console server:run
+
+
+POUR LES TEST FONCTIONNELS ->>
+
+php vendor/phpunit/phpunit/phpunit --filter=testIndexAction > web/resultTest.html
+
+php vendor/phpunit/phpunit/phpunit --filter=testLegalsAction > web/resultTest.html
+
+php vendor/phpunit/phpunit/phpunit --filter=testBookingAction > web/resultTest.html
+
+php vendor/phpunit/phpunit/phpunit --filter=testNewBookingAction > web/resultTest.html
+
+php vendor/phpunit/phpunit/phpunit --filter=testShowAction > web/resultTest.html
+
+__________

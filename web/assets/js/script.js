@@ -54,7 +54,12 @@ $(document).ready(function() {
     bookingForDate = dateBookingForElement.value;
     var dateToSplit = bookingForDate.split("-");
     var bookingForCurrentTextMonth = dateToSplit[1];
+//    console.log(bookingForDate);
+    var monthFebr = dateToSplit[1];
     dateToSplit[1] = textMonthToNumberMonth(bookingForCurrentTextMonth);
+    if (monthFebr == 'février') {
+      dateToSplit[1] = "02";
+    }
     bookingForDate = dateToSplit[0] + '-' + dateToSplit[1] + '-' + dateToSplit[2];
 
     if (bookingForDate == currentDay & (currentTime > dayTicketHourLimit)) {
@@ -104,9 +109,14 @@ $(document).ready(function() {
     {
       var dateSplit = dateToCheck.split("-");
       var currentTextMonth = dateSplit[1];
+      var monthFeb = dateSplit[1];
       dateSplit[1] = textMonthToNumberMonth(currentTextMonth);
+      if (monthFeb == 'février') {
+        dateSplit[1] = "02";
+      }
 
       dateToCheck = dateSplit[0] + '-' + dateSplit[1] + '-' + dateSplit[2];
+//      console.log(dateSplit[1]);
       url = url + dateToCheck;
       console.log(url);
 
@@ -217,6 +227,9 @@ $(document).ready(function() {
           numberMonth = '01';
         break;
         case 'février':
+          $numberMonth = '02';
+        break;
+        case 'fevrier':
           $numberMonth = '02';
         break;
         case 'mars':

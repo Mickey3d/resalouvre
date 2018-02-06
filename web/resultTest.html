@@ -1,16 +1,25 @@
 PHPUnit 5.7.26 by Sebastian Bergmann and contributors.
 
-E                                                                   1 / 1 (100%)
+E                                                                   1 / 1 (100%)<br /> <strong>- PROCEDURE DE TEST DE LA PAGE BILLETERIE : <br / /> => Methode : GET  <br / /> => Locacation : /booking </strong> <br /><br /> - Test Controlleur : CONNEXION AU CONTROLLEUR Surikat\BookingBundle\Controller\BookingController::BookingAction = OK <br /><br /> - Test Routing.yml : ROUTE MATCHES _booking = /booking <br /><br /> - Test Response : HTTP STATUS 200 = OK <br /><br /><br /> <strong>Fin de la PROCEDURE DE TEST DE LA PAGE RESERVER (/booking)</strong><br /><br />
 
-Time: 1.2 seconds, Memory: 22.00MB
+Time: 745 ms, Memory: 24.00MB
 
 There was 1 error:
 
 1) Tests\Surikat\BookingBundle\Controller\BookingControllerTest::testBookingAction
-InvalidArgumentException: The current node list is empty.
+Object of class DateTime could not be converted to string
 
-C:\wamp64\www\resalouvre\vendor\symfony\symfony\src\Symfony\Component\DomCrawler\Crawler.php:849
-C:\wamp64\www\resalouvre\tests\Surikat\BookingBundle\Controller\BookingControllerTest.php:26
+C:\wamp64\www\resalouvre\vendor\symfony\phpunit-bridge\DeprecationErrorHandler.php:108
+C:\wamp64\www\resalouvre\vendor\symfony\symfony\src\Symfony\Component\DomCrawler\Field\FormField.php:109
+C:\wamp64\www\resalouvre\vendor\symfony\symfony\src\Symfony\Component\DomCrawler\FormFieldRegistry.php:122
+C:\wamp64\www\resalouvre\vendor\symfony\symfony\src\Symfony\Component\DomCrawler\Form.php:343
+C:\wamp64\www\resalouvre\tests\Surikat\BookingBundle\Controller\BookingControllerTest.php:57
 
 ERRORS!
-Tests: 1, Assertions: 0, Errors: 1.
+Tests: 1, Assertions: 3, Errors: 1.
+
+Remaining deprecation notices (1)
+
+  1x: Call Form::isValid() with an unsubmitted form is deprecated since Symfony 3.2 and will throw an exception in 4.0. Use Form::isSubmitted() before Form::isValid() instead.
+    1x in BookingControllerTest::testBookingAction from Tests\Surikat\BookingBundle\Controller
+
