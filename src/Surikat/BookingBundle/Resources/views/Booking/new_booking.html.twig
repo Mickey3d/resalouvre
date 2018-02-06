@@ -31,7 +31,7 @@
               <div class="container col-sm-11">
                 <div class="row">
                   <h3 class="fontCandara center">VOTRE RÉSERVATION -
-                  {% if booking.type !='day' %}
+                  {% if booking.type =='day' %}
                   {{ "Journée"|trans }}
                   {% else %}
                   {{ "Demi-Journée"|trans }}
